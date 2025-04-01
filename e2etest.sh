@@ -1,5 +1,5 @@
 #!/bin/bash
-version="v1.3.1"
+version="v1.3.2"
 author="Filip Vujic"
 last_updated="01-Apr-2025"
 repo_owner="filipvujic-p44"
@@ -380,7 +380,7 @@ check_installation() {
         ((cnt_missing++))
     fi
         
-    if [ -d ~/e2etest ] && [ -f ~/e2etest/main/e2etest.sh ] && [ -f ~/e2etest/util/e2etest_autocomplete.sh ]; then
+    if [ -d ~/e2etest ] && [ -f ~/e2etest/main/e2etest.sh ] && [ -f ~/e2etest/util/autocomplete_e2etest.sh ]; then
         echo "Info: ~/e2etest/ ------------- OK."
     else
         echo "Error: ~/e2etest/ ------------ NOT OK."
@@ -388,7 +388,7 @@ check_installation() {
     fi
 
     if grep -q "# e2etest script" ~/.bashrc && grep -q 'export PATH=$PATH:~/e2etest/main' ~/.bashrc &&
-        grep -q "source ~/e2etest/util/e2etest_autocomplete.sh" ~/.bashrc; then
+        grep -q "source ~/e2etest/util/autocomplete_e2etest.sh" ~/.bashrc; then
         echo "Info: ~/.bashrc -------------- OK."
     else
         echo "Error: ~/.bashrc ------------- NOT OK."
@@ -462,9 +462,9 @@ install_script() {
         install_dependencies
     fi
     # Check if script already installed
-    if [ -d ~/e2etest ] && [ -f ~/e2etest/main/e2etest.sh ] && [ -f ~/e2etest/util/e2etest_autocomplete.sh ] &&
+    if [ -d ~/e2etest ] && [ -f ~/e2etest/main/e2etest.sh ] && [ -f ~/e2etest/util/autocomplete_e2etest.sh ] &&
     grep -q "# e2etest script" ~/.bashrc && grep -q 'export PATH=$PATH:~/e2etest/main' ~/.bashrc &&
-    grep -q "source ~/e2etest/util/e2etest_autocomplete.sh" ~/.bashrc; then
+    grep -q "source ~/e2etest/util/autocomplete_e2etest.sh" ~/.bashrc; then
         echo "Info: Script already installed at '~/e2etest' folder."
         echo "Q: Do you want to reinstall e2etest? (Y/n):"
         read do_reinstall
@@ -488,7 +488,7 @@ install_script() {
     echo "Info: Adding paths to '~/.bashrc'..."
     echo "# e2etest script" >> ~/.bashrc
     echo 'export PATH=$PATH:~/e2etest/main' >> ~/.bashrc
-    echo "source ~/e2etest/util/e2etest_autocomplete.sh" >> ~/.bashrc
+    echo "source ~/e2etest/util/autocomplete_e2etest.sh" >> ~/.bashrc
     echo "Info: Paths added to '~/.bashrc'."
     # Print success message
     echo "Info: Success. Script installed in '~/e2etest/' folder."
@@ -601,7 +601,7 @@ clean_up_installation() {
     fi
     sed -i "/# e2etest script/d" ~/.bashrc
     sed -i '/export PATH=$PATH:~\/e2etest\/main/d' ~/.bashrc
-    sed -i "/source ~\/e2etest\/util\/e2etest_autocomplete.sh/d" ~/.bashrc
+    sed -i "/source ~\/e2etest\/util\/autocomplete_e2etest.sh/d" ~/.bashrc
     echo "Info: Cleanup completed."
 }
 
@@ -644,11 +644,11 @@ install_updates() {
 
 # Generates autocomplete script in install folder
 generate_autocomplete_script() {
-    echo "Info: Generating 'e2etest_autocomplete.sh' script..."
+    echo "Info: Generating 'autocomplete_e2etest.sh' script..."
     completion_text=$(cat <<EOL
 #!/bin/bash
 
-autocomplete() {
+autocomplete_e2etest() {
     local cur prev words cword
     _init_completion || return
 
@@ -668,12 +668,12 @@ autocomplete() {
     return 0
 }
 
-complete -F autocomplete e2etest.sh
+complete -F autocomplete_e2etest e2etest.sh
 EOL
 )
-    echo "$completion_text" >> ~/e2etest/util/e2etest_autocomplete.sh
-    chmod +x ~/e2etest/util/e2etest_autocomplete.sh
-    echo "Info: Generated 'e2etest_autocomplete.sh' script."
+    echo "$completion_text" >> ~/e2etest/util/autocomplete_e2etest.sh
+    chmod +x ~/e2etest/util/autocomplete_e2etest.sh
+    echo "Info: Generated 'autocomplete_e2etest.sh' script."
 }
 
 
