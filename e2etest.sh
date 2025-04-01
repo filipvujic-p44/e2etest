@@ -1,5 +1,5 @@
 #!/bin/bash
-version="v1.3.0"
+version="v1.3.1"
 author="Filip Vujic"
 last_updated="01-Apr-2025"
 repo_owner="filipvujic-p44"
@@ -616,6 +616,31 @@ uninstall_script() {
     exit 0
 }
 
+# Download and install updates
+# $1 - remote version
+install_updates() {
+    # Check arg count and npe, assign values
+    check_args 1 "$@"
+    local remote_version=$1
+    # Function logic
+    update_url="https://github.com/$repo_owner/$repo_name/archive/refs/tags/v$remote_version.tar.gz"
+    tmp_folder="tmp_e2etest_$remote_version"
+    if [ -d "tmp_folder" ]; then
+        rm -r "$tmp_folder"
+    fi
+    echo "Info: Downloading latest version..."
+    wget -q -P "$tmp_folder" "$update_url"
+    echo "Info: Download completed."
+    echo "Info: Extracting..."
+    cd "$tmp_folder"
+    tar -xzf "v$remote_version.tar.gz"
+    rm "v$remote_version.tar.gz"
+    echo "Info: Extraction completed."
+    cd "e2etest-$remote_version"
+    ./e2etest.sh --install
+    cd ../..
+    rm -r "$tmp_folder"
+}
 
 # Generates autocomplete script in install folder
 generate_autocomplete_script() {
