@@ -2,11 +2,16 @@
 version="v1.3.0"
 author="Filip Vujic"
 last_updated="01-Apr-2025"
+repo_owner="filipvujic-p44"
+repo_name="e2etest"
+repo="https://github.com/$repo_owner/$repo_name"
 
 do_install=false
 do_install_y=false
 do_uninstall=false
 do_chk_install_=false
+# ref_chk_for_updates (do not change comment)
+flg_chk_for_updates=false
 
 flg_args_passed=false
 flg_use_silent_mode=false
@@ -52,6 +57,7 @@ Info:
     version: $version
     author: $author
     last updated: $last_updated
+	github: $repo
 
     This script is a tool for easier test calls for ltl.
 
@@ -133,7 +139,7 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
             echo "e2etest version: $version"
             echo "author: $author"
             echo "last updated: $last_updated"
-            # echo "github: $repo"
+            echo "github: $repo"
             exit 0
             ;;
         -h | --help)
@@ -151,6 +157,27 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
             ;;
         --chk-install)
             do_chk_install=true
+            ;;
+		--chk-for-updates)
+            flg_chk_for_updates=true
+            ;;
+        --auto-chk-for-updates-off)
+            ref_line_number=$(grep -n "ref_chk_for_updates*" "$0" | head -n1 | cut -d':' -f1)
+            line_number=$(grep -n "flg_chk_for_updates=" "$0" | head -n1 | cut -d':' -f1)
+            if [ "$((line_number - ref_line_number))" -eq 1 ]; then
+                sed -i "${line_number}s/flg_chk_for_updates=true/flg_chk_for_updates=false/" "$0"
+                echo "Info: Auto check for updates turned off."	
+            fi
+            exit 0
+            ;;
+        --auto-chk-for-updates-on)
+            ref_line_number=$(grep -n "ref_chk_for_updates*" "$0" | head -n1 | cut -d':' -f1)
+            line_number=$(grep -n "flg_chk_for_updates=" "$0" | head -n1 | cut -d':' -f1)
+            if [ "$((line_number - ref_line_number))" -eq 1 ]; then
+                sed -i "${line_number}s/flg_chk_for_updates=false/flg_chk_for_updates=true/" "$0"
+                echo "Info: Auto check for updates turned on."
+            fi
+            exit 0
             ;;
         -t | --token)
             ref_line_number=$(grep -n "ref_token*" "$0" | head -n1 | cut -d':' -f1)
@@ -626,6 +653,62 @@ EOL
 
 
 
+# Check if there is a new release on e2etest GitHub repo
+check_for_updates() {
+    # Local script version
+    local local_version=$(echo "$version" | sed 's/^v//')
+    # Latest release text
+    local latest_text=$(curl -s "https://api.github.com/repos/$repo_owner/$repo_name/releases/latest")
+    # Latest remote version
+    local remote_version=$(echo "$latest_text" | grep "tag_name" | sed 's/.*"v\([0-9.]*\)".*/\1/' | cat)
+    # Check if versions are different
+    local version_result=$(
+        awk -v v1="$local_version" -v v2="$remote_version" '
+            BEGIN {
+                if (v1 == v2) {
+                    result = 0;
+                    exit;
+                }
+                split(v1, a, ".");
+                split(v2, b, ".");
+                for (i = 1; i <= length(a); i++) {
+                    if (a[i] < b[i]) {
+                        result = 1;
+                        exit;
+                    } else if (a[i] > b[i]) {
+                        result = 2;
+                        exit;
+                    }
+                }
+                result = 0;
+                exit;
+            }
+            END {
+                print result
+            }'
+    )   
+    if [ "$version_result" -eq 0 ]; then
+        echo "Info: You already have the latest script version ($version)."
+    elif [ "$version_result" -eq 1 ]; then
+        local release_notes=$(echo "$latest_text" | grep "body" | sed -n 's/.*"body": "\([^"]*\)".*/\1/p' | sed 's/\\r\\n/\n/g' | cat)
+        echo "Info: New version available (v$remote_version). Your version is (v$local_version)."
+        echo "Info: Release notes:"
+        echo "$release_notes"
+        echo "Info: Visit '$repo/releases' for more info."
+        echo "Q: Do you want to download and install updates? (Y/n):"
+        read do_update
+        if [ "${do_update,,}" == "y" ] || [ -z "$do_update" ]; then
+            install_updates "$remote_version"
+        else
+            echo "Info: Update canceled."
+        fi
+    elif [ "$version_result" -eq 2 ]; then
+        echo "Info: You somehow have a version that hasn't been released yet ;)"
+        echo "Info: Latest release is (v$remote_version). Your version is (v$local_version)."
+    fi
+}
+
+
 
 
 ###########################################################################################################################
@@ -642,10 +725,10 @@ fi
 # General option calls
 
 # # Check for updates
-# if [ "$flg_chk_for_updates" == "true" ]; then
-#     check_for_updates
-#     # exit 0
-# fi
+if [ "$flg_chk_for_updates" == "true" ]; then
+    check_for_updates
+    # exit 0
+fi
 
 # Install
 if [ "$do_install" == "true" ] || [ "$do_install_y" == "true" ]; then
@@ -659,7 +742,7 @@ if [ "$do_uninstall" == "true" ]; then
     exit 0
 fi
 
-# Install GCloud CLI
+# Check installation
 if [ "$do_chk_install" == "true" ]; then
     check_installation
     exit 0
