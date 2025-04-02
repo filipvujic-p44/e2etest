@@ -58,21 +58,21 @@ Info:
     version: $version
     author: $author
     last updated: $last_updated
-	github: $repo
+    github: $repo
 
     This script is a tool for easier test calls for ltl.
 
 Options:
 --------
     fh-test.sh [-h | --help] [-t | --token] [-s | --scac] [-g | --group] 
-	           [--unit] [--acc-code]
+               [--unit] [--acc-code]
                [-n | --refnum] [--pro] [--bol] [-c | --config] [-q | --quiet] [-a | --all]
                [-r] [-x] [--custom] [--rating] [--dispatch] [--tracking]
 
 Options (details):
 ------------------
     general:
-		-v | --version              Display script version and author.
+        -v | --version              Display script version and author.
         -h | --help                 Display help and usage info.
         -t | --token                Update token value.
         -s | --scac                 Update scac value.
@@ -88,10 +88,10 @@ Options (details):
         -c | --config               Display set parameters.
         -q | --quiet                Display only curl status code (for custom scenario only).
         -a | --all                  Run all scenarios (skip custom scenario).
-		-x                          Exclude specified scenarios.
-		-r                          Run specified scenarios.
-		-o                          Generate output folder with curls.
-		--custom                    Run only custom scenario.
+        -x                          Exclude specified scenarios.
+        -r                          Run specified scenarios.
+        -o                          Generate output folder with curls.
+        --custom                    Run only custom scenario.
         --rating                    Run custom or all rating scenarios.
         --dispatch                  Run custom or all dispatch scenarios.
         --tracking                  Run custom or all tracking scenarios.
