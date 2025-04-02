@@ -1,10 +1,84 @@
 #!/bin/bash
-version="v1.3.3"
+version="v1.3.4"
 author="Filip Vujic"
 last_updated="02-Apr-2025"
 repo_owner="filipvujic-p44"
 repo_name="e2etest"
 repo="https://github.com/$repo_owner/$repo_name"
+
+
+
+###########################################################################################
+###################################### Info and help ######################################
+###########################################################################################
+
+
+
+# Help text
+help_text=$(cat <<EOL
+HELP:
+-------------
+
+Info:
+-----
+    version: $version
+    author: $author
+    last updated: $last_updated
+    github: $repo
+
+    This script is a tool for easier test calls for ltl.
+
+Options:
+--------
+    fh-test.sh [-v | --version] [-h | --help] [--install] [--install-y] [--uninstall] [--chk-install]
+	           [--chk-for-updates] [--auto-chk-for-updates-off] [--auto-chk-for-updates-on]
+	           [-t | --token] [-s | --scac] [-g | --group] [--unit] [--acc-code]
+               [-n | --refnum] [--pro] [--bol] [-c | --config] [-q | --quiet] [-a | --all]
+               [-r] [-x] [--rating] [--dispatch] [--tracking]
+
+Options (details):
+------------------
+    general:
+        -v | --version                    Display script version and author.
+        -h | --help                       Display help and usage info.
+        --install                         Install script to use from anywhere in terminal.
+        --install-y                       Install with preapproved dependencies and run 'gcloud auth login' after installation.
+        --uninstall                       Remove changes made during install (except dependencies).
+        --chk-install                     Check if script and dependencies are installed correctly.
+        --chk-for-updates                 Check for new script versions.
+        --auto-chk-for-updates-off        Turn off automatic check for updates (default state).
+        --auto-chk-for-updates-on         Turn on automatic check for updates (checks on every run).
+        --generate-env-file               Generate '.env_e2etest' in current folder.
+        -t | --token                      Update token value.
+        -s | --scac                       Update scac value.
+        -g | --group                      Update group value.
+        -n | --refnum                     Update reference number (identifier).
+        --unit                            Update handling unit supported.
+        --acc-code                        Update accessorial code used for testing charge codes.
+        --pronum                          Update pro number (identifier).
+        --bolnum                          Update bill of lading number (identifier).
+        --ponum                           Update purchase order number (identifier).
+        --pro                             Set identifier type to pro.
+        --bol                             Set identifier type to bill of lading.
+        -c | --config                     Display set parameters.
+        -q | --quiet                      Display only curl status code.
+        -a | --all                        Run all scenarios.
+        -x                                Exclude specified scenarios.
+        -r                                Run specified scenarios.
+        -o                                Generate output folder with curls.
+        --rating                          Run all rating scenarios.
+        --dispatch                        Run all dispatch scenarios.
+        --tracking                        Run all tracking scenarios.
+EOL
+)
+
+
+
+############################################################################################
+###################################### Vars and flags ######################################
+############################################################################################
+
+
 
 do_install=false
 do_install_y=false
@@ -12,8 +86,10 @@ do_uninstall=false
 do_chk_install_=false
 # ref_chk_for_updates (do not change comment)
 flg_chk_for_updates=false
+flg_generate_env_file=false
 
 flg_args_passed=false
+
 flg_use_quiet_mode=false
 flg_custom=false
 flg_all=false
@@ -46,58 +122,102 @@ helper_doc_file_name=helper_doc.txt
 
 scenarios_to_run=()
 scenarios_to_exclude=()
-# pronums = [440376743, 003381632]
 
-# Help text
-help_text=$(cat <<EOL
-HELP:
--------------
 
-Info:
------
-    version: $version
-    author: $author
-    last updated: $last_updated
-    github: $repo
 
-    This script is a tool for easier test calls for ltl.
+# Load local .env_e2etest file
+if [ -e ".env_e2etest" ]; then
+    flg_args_passed=true
+    source .env_e2etest
 
-Options:
---------
-    fh-test.sh [-h | --help] [-t | --token] [-s | --scac] [-g | --group] 
-               [--unit] [--acc-code]
-               [-n | --refnum] [--pro] [--bol] [-c | --config] [-q | --quiet] [-a | --all]
-               [-r] [-x] [--custom] [--rating] [--dispatch] [--tracking]
+    echo "Info: Loading values from .env_e2etest file."
 
-Options (details):
-------------------
-    general:
-        -v | --version              Display script version and author.
-        -h | --help                 Display help and usage info.
-        -t | --token                Update token value.
-        -s | --scac                 Update scac value.
-        -g | --group                Update group value.
-        -n | --refnum               Update reference number (identifier).
-        --unit                      Update handling unit supported.
-        --acc-code                  Update accessorial code used for testing charge codes.
-        --pronum                    Update pro number (identifier).
-        --bolnum                    Update bill of lading number (identifier).
-        --ponum                     Update purchase order number (identifier).
-        --pro                       Set identifier type to pro.
-        --bol                       Set identifier type to bill of lading.
-        -c | --config               Display set parameters.
-        -q | --quiet                Display only curl status code (for custom scenario only).
-        -a | --all                  Run all scenarios (skip custom scenario).
-        -x                          Exclude specified scenarios.
-        -r                          Run specified scenarios.
-        -o                          Generate output folder with curls.
-        --custom                    Run only custom scenario.
-        --rating                    Run custom or all rating scenarios.
-        --dispatch                  Run custom or all dispatch scenarios.
-        --tracking                  Run custom or all tracking scenarios.
-EOL
-)
+    # Load use quiet mode value
+    if [ ! -z "$USE_QUIET_MODE" ]; then
+        flg_use_quiet_mode="$USE_QUIET_MODE"
+    fi
 
+    # Load run all value
+    if [ ! -z "$RUN_ALL" ]; then
+        flg_all="$RUN_ALL"
+    fi
+
+    # Load run rating value
+    if [ ! -z "$RUN_RATING" ]; then
+        flg_run_rating="$RUN_RATING"
+    fi
+
+    # Load run dispatch value
+    if [ ! -z "$RUN_DISPATCH" ]; then
+        flg_run_dispatch="$RUN_DISPATCH"
+    fi
+
+    # Load run tracking value
+    if [ ! -z "$RUN_TRACKING" ]; then
+        flg_run_tracking="$RUN_TRACKING"
+    fi
+
+    # Load generate output value
+    if [ ! -z "$GENERATE_OUTPUT" ]; then
+        flg_generate_output="$GENERATE_OUTPUT"
+    fi
+
+	# Load token value
+    if [ ! -z "$TOKEN" ]; then
+        token="$TOKEN"
+    fi
+
+	# Load scac value
+    if [ ! -z "$SCAC" ]; then
+        scac="$SCAC"
+    fi
+
+	# Load account group value
+    if [ ! -z "$ACCOUNT_GROUP" ]; then
+        account_group="$ACCOUNT_GROUP"
+    fi
+
+	# Load unit supported value
+    if [ ! -z "$UNIT_SUPPORTED" ]; then
+        flg_unit_supported="$UNIT_SUPPORTED"
+    fi
+
+	# Load acc code value
+    if [ ! -z "$ACC_CODE" ]; then
+        acc_code="$ACC_CODE"
+    fi
+
+	# Load identifier type value
+    if [ ! -z "$IDENTIFIER_TYPE" ]; then
+        identifier_type="$IDENTIFIER_TYPE"
+    fi
+
+	# Load ref num value
+    if [ ! -z "$REF_NUM" ]; then
+        ref_num="$REF_NUM"
+    fi
+
+	# Load pro num value
+    if [ ! -z "$PRO_NUM" ]; then
+        pro_num="$PRO_NUM"
+    fi
+
+	# Load bol num value
+    if [ ! -z "$BOL_NUM" ]; then
+        bol_num="$BOL_NUM"
+    fi
+
+	# Load po num value
+    if [ ! -z "$PO_NUM" ]; then
+        po_num="$PO_NUM"
+    fi
+
+	# Load helper doc file name value
+    if [ ! -z "$HELPER_DOC_FILE_NAME" ]; then
+        helper_doc_file_name="$HELPER_DOC_FILE_NAME"
+    fi
+
+fi
 
 
 
@@ -117,10 +237,6 @@ print_error() {
     local err_msg=$1
     echo -e "\e[31mError: $err_msg\e[0m"  # Red for non-2xx
 }
-
-
-
-
 
 
 
@@ -181,6 +297,9 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
                 echo "Info: Auto check for updates turned on."
             fi
             exit 0
+            ;;
+		--generate-env-file)
+            flg_generate_env_file=true
             ;;
         -t | --token)
             ref_line_number=$(grep -n "ref_token*" "$0" | head -n1 | cut -d':' -f1)
@@ -318,9 +437,6 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
 		-o)
 			flg_generate_output=true
 			;;
-		--custom)
-			flg_custom=true
-			;;
         --rating)
         	flg_run_rating=true
         	;;
@@ -337,11 +453,6 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
     # Since this default shift exists, all flag handling shifts are decreased by 1
     shift
 done
-
-#fvdbg
-echo "Run scenarios: ${scenarios_to_run[*]}"
-echo "Exclude scenarios: ${scenarios_to_exclude[*]}"
-# exit 0
 
 
 # Check if curl is installed
@@ -676,7 +787,7 @@ autocomplete_e2etest() {
     options+="--help -h --install --install-y --uninstall "
     options+="--chk-install "
     options+="-t --token -s --scac -g --group -n --refnum --unit --acc-code --pronum --bolnum --ponum --pro --bol "
-    options+="-c --config -q --quiet -a --all -o --custom --rating --dispatch --tracking"
+    options+="-c --config -q --quiet -a --all -r -x -o --rating --dispatch --tracking"
 
     if [[ "\${COMP_WORDS[*]}" =~ " --unit " ]]; then
         local unit_options=("true" "false")
@@ -755,6 +866,44 @@ check_for_updates() {
 
 
 
+# Generates .env_e2etest file in current folder
+generate_env_file() {
+    echo "Info: Generating '.env_e2etest' file..."
+    if [ -f "./.env_e2etest" ]; then
+        rm ./.env_e2etest
+    fi
+    env_text=$(cat <<EOL
+#!/bin/bash
+# version="$version"
+# author="$author"
+# last_updated="$last_updated"
+# github="$repo"
+
+USE_QUIET_MODE=false
+RUN_ALL=false
+RUN_RATING=false
+RUN_DISPATCH=false
+RUN_TRACKING=false
+GENERATE_OUTPUT=false
+TOKEN=""
+SCAC=""
+ACCOUNT_GROUP="Default"
+UNIT_SUPPORTED=false
+ACC_CODE="INPU"
+IDENTIFIER_TYPE="PRO"
+REF_NUM=""
+PRO_NUM=""
+BOL_NUM=""
+PO_NUM=""
+HELPER_DOC_FILE_NAME=helper_doc.txt
+
+EOL
+)
+    echo "$env_text" >> ./.env_e2etest
+    echo "Info: Generated '.env_e2etest' file."
+}
+
+
 
 ###########################################################################################################################
 ############################################ Flags checks and function calls ##############################################
@@ -793,7 +942,11 @@ if [ "$do_chk_install" == "true" ]; then
     exit 0
 fi
 
-
+# Generate env file
+if [ "$flg_generate_env_file" == "true" ]; then
+    generate_env_file
+    exit 0
+fi
 
 
 # Set up curl opts
@@ -830,7 +983,7 @@ fi
 
 
 
-# Start executing custom or all calls for services
+# Start executing calls for services
 
 
 
@@ -862,96 +1015,7 @@ if [ "$flg_run_rating" == "true" ]; then
 	EOF
 	)
 
-	# if [[ "$flg_all" == "false" && "$flg_custom" == "true" ]]; then
-	# 	# Custom scenario
-	# 	scenario_name="Custom Scenario"
-	# 	request_data=$(cat <<-EOF
-	# 		{
-	# 			"originAddress": {
-	# 				"postalCode": "60010",
-	# 				"addressLines": [],
-	# 				"city": "BARRINGTON $scenario_name",
-	# 				"state": "IL",
-	# 				"country": "US"
-	# 			},
-	# 			"destinationAddress": {
-	# 				"postalCode": "90210",
-	# 				"addressLines": [],
-	# 				"city": "BEVERLY HILLS $scenario_name",
-	# 				"state": "CA",
-	# 				"country": "US"
-	# 			},
-	# 			"lineItems": [
-	# 				{
-	# 					"totalWeight": "100",
-	# 					"packageDimensions": {
-	# 						"length": "12",
-	# 						"width": "12",
-	# 						"height": "12"
-	# 					},
-	# 					"packageType": "PLT",
-	# 					"totalPackages": 1,
-	# 					"totalPieces": 1,
-	# 					"freightClass": "50",
-	# 					"description": "$scenario_name"
-	# 				}
-	# 			],
-	# 			"capacityProviderAccountGroup": {
-	# 				"code": "$account_group",
-	# 				"accounts": [
-	# 					{
-	# 						"code": "$scac"
-	# 					}
-	# 				]
-	# 			},
-	# 			"accessorialServices": [],
-	# 			"pickupWindow": {
-	# 				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-	# 				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-	# 				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-	# 			},
-	# 			"deliveryWindow":{
-	# 			"date": "$(date -d '2 days' +'%Y-%m-%d')",
-	# 			"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-	# 			"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-	# 			}
-	# 		"preferredCurrency": "USD",
-	# 			"totalLinearFeet": null,
-	# 			"linearFeetVisualizationIdentifier": null,
-	# 			"weightUnit": "LB",
-	# 			"lengthUnit": "IN",
-	# 			"apiConfiguration": {
-	# 				"enableUnitConversion": true,
-	# 				"accessorialServiceConfiguration": {
-	# 					"fetchAllServiceLevels": true,
-	# 					"allowUnacceptedAccessorials": false
-	# 				}
-	# 			}
-	# 		}
-	# 	EOF
-	# 	)
-
-	# 	curl_call=$(cat <<-EOF
-	# 		$curl_template '$request_data'
-	# 	EOF
-	# 	)
-		
-
-	# 	if [ "$flg_generate_output" == "true" ]; then
-	# 		echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_custom_scenario.txt"
-	# 	fi
-	# 	response=$(eval "$curl_call" | jq)
-
-	# 	if [[ "$flg_use_quiet_mode" == true ]]; then
-	# 	    echo "Custom scenario -- Status code: $response"
-	# 	else
-	# 		echo "$response" | jq
-	# 	fi
-	# 	echo "Logs: $logs_url"
-	# 	exit 0
-	# fi
-
-
+	
 
 	scenario_number="01-1"
 	scenario_name="Scenario $scenario_number"
@@ -10818,106 +10882,6 @@ if [ "$flg_run_tracking" == "true" ]; then
 		--data
 	EOF
 	)
-
-	# if [[ "$flg_all" == "false" && "$flg_custom" == "true" ]]; then
-	# 	# Custom scenario
-	# 	scenario_name="Custom Scenario"
-	# 	request_data=$(cat <<-EOF
-	# 		{
-	# 	    "capacityProviderAccountGroup": {
-	# 	        "code": "$account_group",
-	# 	        "accounts": [
-	# 	            {
-	# 	                "code": "$scac"
-	# 	            }
-	# 	        ]
-	# 	    },
-	# 	    "shipmentIdentifiers": [
-	# 	        {
-	# 	            "type": "$identifier_type",
-	# 	            "value": "$ref_num"
-	# 	        }
-	# 	    ],
-	# 	    "shipmentStops": [
-	# 	        {
-	# 	            "stopType": "ORIGIN",
-	# 	            "location": {
-	# 	                "address": {
-	# 	                    "postalCode": "60555",
-	# 	                    "addressLines": [
-	# 	                        "29W600 Winchester Cir $scenario_name"
-	# 	                    ],
-	# 	                    "city": "Warrenville $scenario_name",
-	# 	                    "state": "IL",
-	# 	                    "country": "US"
-	# 	                },
-	# 	                "contact": {
-	# 	                    "companyName": "Test Company $scenario_name"
-	# 	                }
-	# 	            },
-	# 	            "appointmentWindow": {
-	# 					"startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
-	#     	            "endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
-	# 	            }
-	# 	        },
-
-	# 	        {
-	# 	            "stopType": "DESTINATION",
-	# 	            "location": {
-	# 	                "address": {
-	# 	                    "postalCode": "08831",
-	# 	                    "addressLines": [
-	# 	                        "2 Hitching Post Place $scenario_name"
-	# 	                    ],
-	# 	                    "city": "Monroe Township $scenario_name",
-	# 	                    "state": "NJ",
-	# 	                    "country": "US"
-	# 	                },
-	# 	                "contact": {
-	# 	                    "companyName": "Test Company $scenario_name"
-	# 	                }
-	# 	            },
-	# 	            "appointmentWindow": {
-	# 					"startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
-	#     	            "endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
-	# 	            }
-	# 	        }
-	# 	    ],
-	# 	    "apiConfiguration": {
-	# 	        "fallBackToDefaultAccountGroup": false
-	# 	    },
-	# 	    "shipmentAttributes": [
-	# 	        {
-	# 	            "name": "SyntheticLTLTest",
-	# 	            "values": [
-	# 	                "12345",
-	# 	                "56789"
-	# 	            ]
-	# 	        }
-	# 	    ]
-	# 	}
-	# 	EOF
-	# 	)
-
-	# 	curl_call=$(cat <<-EOF
-	# 		$curl_template '$request_data'
-	# 	EOF
-	# 	)
-		
-	# 	if [ "$flg_generate_output" == "true" ]; then
-	# 		echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_custom_scenario.txt"
-	# 	fi
-	# 	response=$(eval "$curl_call" | jq)
-
-	# 	if [[ "$flg_use_quiet_mode" == true ]]; then
-	# 	    echo "$scenario_name -- Status code: $response"
-	# 	else
-	# 		echo "$response" | jq
-	# 	fi
-	# 	echo "Logs: $logs_url"
-	# 	exit 0
-	# fi
-
 
 
 
