@@ -66,9 +66,9 @@ Options (details):
         -x                                Exclude specified scenarios.
         -r                                Run specified scenarios.
         -o                                Generate output folder with curls.
-        --rating                          Run all rating scenarios.
-        --dispatch                        Run all dispatch scenarios.
-        --tracking                        Run all tracking scenarios.
+        --rating                          Run rating scenarios.
+        --dispatch                        Run dispatch scenarios.
+        --tracking                        Run tracking scenarios.
 EOL
 )
 
