@@ -1,6 +1,6 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.3.5"
+version="v1.3.6"
 author="Filip Vujic"
 last_updated="03-Apr-2025"
 repo_owner="filipvujic-p44"
@@ -66,9 +66,9 @@ Options (details):
         -x                                Exclude specified scenarios.
         -r                                Run specified scenarios.
         -o                                Generate output folder with curls.
-        --rating                          Run all rating scenarios.
-        --dispatch                        Run all dispatch scenarios.
-        --tracking                        Run all tracking scenarios.
+        --rating                          Run rating scenarios.
+        --dispatch                        Run dispatch scenarios.
+        --tracking                        Run tracking scenarios.
 EOL
 )
 
@@ -702,13 +702,11 @@ install_dependencies() {
 # Cleans up existing installation and leftover files/changes
 clean_up_installation() {
     echo "Info: Cleaning up existing files/changes..."
-    if [ -d ~/e2etest ]; then
-        rm  ~/e2etest/main/*
-        rm  ~/e2etest/util/*
-        rmdir ~/e2etest/main
-        rmdir ~/e2etest/util
-        rmdir ~/e2etest
-    fi
+	if [ -d "$HOME/e2etest" ]; then
+		rm -rf "$HOME/e2etest/main"
+		rm -rf "$HOME/e2etest/util"
+		rmdir "$HOME/e2etest" 2>/dev/null || true  # Ignore error if non-empty
+	fi
     if [ -f ~/.bashrc.bak ]; then
         rm ~/.bashrc.bak
         cp ~/.bashrc ~/.bashrc.bak
@@ -768,7 +766,7 @@ autocomplete_e2etest() {
 
     local options="--version -v --chk-for-updates --auto-chk-for-updates-off --auto-chk-for-updates-on "
     options+="--help -h --install --install-y --uninstall "
-    options+="--chk-install "
+    options+="--chk-install --generate-env-file "
     options+="-t --token -s --scac -g --group -n --unit --acc-code --pronum --bolnum --ponum --pro --bol "
     options+="-c --config -q --quiet -a --all -r -x -o --rating --dispatch --tracking"
 
