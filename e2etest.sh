@@ -34,7 +34,7 @@ Options:
     fh-test.sh [-v | --version] [-h | --help] [--install] [--install-y] [--uninstall] [--chk-install]
 	           [--chk-for-updates] [--auto-chk-for-updates-off] [--auto-chk-for-updates-on]
 	           [-t | --token] [-s | --scac] [-g | --group] [--unit] [--acc-code]
-               [-n | --refnum] [--pro] [--bol] [-c | --config] [-q | --quiet] [-a | --all]
+               [--pro] [--bol] [-c | --config] [-q | --quiet] [-a | --all]
                [-r] [-x] [--rating] [--dispatch] [--tracking]
 
 Options (details):
@@ -53,7 +53,6 @@ Options (details):
         -t | --token                      Update token value.
         -s | --scac                       Update scac value.
         -g | --group                      Update group value.
-        -n | --refnum                     Update reference number (identifier).
         --unit                            Update handling unit supported.
         --acc-code                        Update accessorial code used for testing charge codes.
         --pronum                          Update pro number (identifier).
@@ -770,7 +769,7 @@ autocomplete_e2etest() {
     local options="--version -v --chk-for-updates --auto-chk-for-updates-off --auto-chk-for-updates-on "
     options+="--help -h --install --install-y --uninstall "
     options+="--chk-install "
-    options+="-t --token -s --scac -g --group -n --refnum --unit --acc-code --pronum --bolnum --ponum --pro --bol "
+    options+="-t --token -s --scac -g --group -n --unit --acc-code --pronum --bolnum --ponum --pro --bol "
     options+="-c --config -q --quiet -a --all -r -x -o --rating --dispatch --tracking"
 
     if [[ "\${COMP_WORDS[*]}" =~ " --unit " ]]; then
