@@ -55,9 +55,9 @@ Options (details):
         -g | --group                      Update group value.
         --unit                            Update handling unit supported.
         --acc-code                        Update accessorial code used for testing charge codes.
-        --pronum                          Update pro number (identifier).
-        --bolnum                          Update bill of lading number (identifier).
-        --ponum                           Update purchase order number (identifier).
+        --pronum                          Update pro number. Used in tracking scenarios as default.
+        --bolnum                          Update bill of lading number. Used in tracking scenario 02.
+        --ponum                           Update purchase order number. Used in tracking scenario 03.
         --pro                             Set identifier type to pro.
         --bol                             Set identifier type to bill of lading.
         -c | --config                     Display set parameters.
