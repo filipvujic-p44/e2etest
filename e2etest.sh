@@ -1,8 +1,8 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.3.4"
+version="v1.3.5"
 author="Filip Vujic"
-last_updated="02-Apr-2025"
+last_updated="03-Apr-2025"
 repo_owner="filipvujic-p44"
 repo_name="e2etest"
 repo="https://github.com/$repo_owner/$repo_name"
