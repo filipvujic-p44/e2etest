@@ -1,4 +1,5 @@
 #!/bin/bash
+script_name="e2etest"
 version="v1.3.4"
 author="Filip Vujic"
 last_updated="02-Apr-2025"
@@ -110,8 +111,6 @@ flg_unit_supported=false
 acc_code="INPU"
 #ref_identifier_type
 identifier_type="PRO"
-#ref_ref_num
-ref_num="003381632"
 #ref_pro_num
 pro_num="003381632"
 #ref_bol_num
@@ -190,11 +189,6 @@ if [ -e ".env_e2etest" ]; then
 	# Load identifier type value
     if [ ! -z "$IDENTIFIER_TYPE" ]; then
         identifier_type="$IDENTIFIER_TYPE"
-    fi
-
-	# Load ref num value
-    if [ ! -z "$REF_NUM" ]; then
-        ref_num="$REF_NUM"
     fi
 
 	# Load pro num value
@@ -328,15 +322,6 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
 			shift 1
             fi
             ;;
-        -n | --refnum)
-            ref_line_number=$(grep -n "ref_ref_num*" "$0" | head -n1 | cut -d':' -f1)
-            line_number=$(grep -n "ref_num=" "$0" | head -n1 | cut -d':' -f1)
-            if [ "$((line_number - ref_line_number))" -eq 1 ]; then
-                sed -i "${line_number}s/^ref_num=.*/ref_num=\"$2\"/" "$0"
-                echo "Info: Reference number updated."	
-			shift 1
-            fi
-          	;;
         --unit)
             ref_line_number=$(grep -n "ref_unit_supported*" "$0" | head -n1 | cut -d':' -f1)
             line_number=$(grep -n "flg_unit_supported=" "$0" | head -n1 | cut -d':' -f1)
@@ -405,7 +390,6 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
 			echo "Unit handling ----------- $flg_unit_supported"
 			echo "Accessorial code -------- $acc_code"
 			echo "Identifier type --------- $identifier_type"
-			echo "Reference number -------- $ref_num"
 			echo "Pro number -------------- $pro_num"
 			echo "Bill of lading number --- $bol_num"
 			echo "Purchase order number --- $po_num"
@@ -891,7 +875,6 @@ ACCOUNT_GROUP="Default"
 UNIT_SUPPORTED=false
 ACC_CODE="INPU"
 IDENTIFIER_TYPE="PRO"
-REF_NUM=""
 PRO_NUM=""
 BOL_NUM=""
 PO_NUM=""
