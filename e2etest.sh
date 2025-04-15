@@ -1,8 +1,8 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.3.6"
+version="v1.3.7"
 author="Filip Vujic"
-last_updated="03-Apr-2025"
+last_updated="15-Apr-2025"
 repo_owner="filipvujic-p44"
 repo_name="e2etest"
 repo="https://github.com/$repo_owner/$repo_name"
@@ -5787,6 +5787,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -5925,6 +5933,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -6065,6 +6081,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -6203,6 +6227,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -6340,6 +6372,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -6480,6 +6520,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -6617,6 +6665,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -6756,6 +6812,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -6894,6 +6958,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -7031,6 +7103,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -7172,6 +7252,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -7311,6 +7399,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -7448,6 +7544,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -7588,6 +7692,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -7726,6 +7838,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -7866,6 +7986,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -8003,6 +8131,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -8144,6 +8280,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -8282,6 +8426,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -8422,6 +8574,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -8561,6 +8721,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -8699,6 +8867,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -8841,6 +9017,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -8985,6 +9169,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -9127,6 +9319,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -9271,6 +9471,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -9414,6 +9622,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -9556,6 +9772,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -9751,6 +9975,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -10017,6 +10249,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -10225,6 +10465,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
@@ -10435,6 +10683,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -10644,6 +10900,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
 				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
 				},
@@ -10782,6 +11046,14 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"carrierCode": "$scac",
 			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
 				{
 					"type": "CUSTOMER_REFERENCE",
 					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
