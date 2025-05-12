@@ -1,8 +1,8 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.3.7"
+version="v1.3.8"
 author="Filip Vujic"
-last_updated="15-Apr-2025"
+last_updated="12-May-2025"
 repo_owner="filipvujic-p44"
 repo_name="e2etest"
 repo="https://github.com/$repo_owner/$repo_name"
@@ -11241,6 +11241,14 @@ if [ "$flg_run_tracking" == "true" ]; then
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -11347,6 +11355,14 @@ if [ "$flg_run_tracking" == "true" ]; then
 			else
 				echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 			fi	
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -11455,6 +11471,14 @@ if [ "$flg_run_tracking" == "true" ]; then
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 	scenario_number="04"
@@ -11554,6 +11578,15 @@ if [ "$flg_run_tracking" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			startDate=$(grep -o '"startDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			endDate=$(grep -o '"endDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | tail -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "startDate: $startDate" >> "$output_folder/$helper_doc_file_name"
+			echo "endDate: $endDate" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -11656,6 +11689,15 @@ if [ "$flg_run_tracking" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			startDate=$(grep -o '"startDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			endDate=$(grep -o '"endDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | tail -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "startDate: $startDate" >> "$output_folder/$helper_doc_file_name"
+			echo "endDate: $endDate" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 	
 
@@ -11756,6 +11798,15 @@ if [ "$flg_run_tracking" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			startDate=$(grep -o '"startDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			endDate=$(grep -o '"endDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | tail -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "startDate: $startDate" >> "$output_folder/$helper_doc_file_name"
+			echo "endDate: $endDate" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -11859,6 +11910,12 @@ if [ "$flg_run_tracking" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Status codes: Check movement" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -11960,6 +12017,12 @@ if [ "$flg_run_tracking" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Status descriptions: Check movement" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -12063,6 +12126,14 @@ if [ "$flg_run_tracking" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -12165,13 +12236,21 @@ if [ "$flg_run_tracking" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 	# Create helper doc
-	if [ "$flg_generate_output" == "true" ]; then
-		grep -R -E 'type|value' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
-		grep -R -E 'startDate|endDate' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
-	fi
+	# if [ "$flg_generate_output" == "true" ]; then
+	# 	grep -R -E 'type|value' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
+	# 	grep -R -E 'startDate|endDate' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
+	# fi
 	
 
 	echo "Logs: $logs_url"
