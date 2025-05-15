@@ -1,8 +1,8 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.3.8"
+version="v1.3.9"
 author="Filip Vujic"
-last_updated="12-May-2025"
+last_updated="15-May-2025"
 repo_owner="filipvujic-p44"
 repo_name="e2etest"
 repo="https://github.com/$repo_owner/$repo_name"
@@ -1083,6 +1083,21 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+			else
+				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+			fi
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -1173,6 +1188,21 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+			else
+				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+			fi
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -1262,6 +1292,21 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+			else
+				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+			fi
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -1354,6 +1399,19 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+			else
+				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+			fi
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -1444,6 +1502,19 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+			else
+				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+			fi
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 	scenario_number="02-3"
@@ -1532,6 +1603,19 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+			else
+				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+			fi
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -1623,6 +1707,19 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+			else
+				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+			fi
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 	scenario_number="03-1"
@@ -1711,6 +1808,13 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -1803,6 +1907,13 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 	scenario_number="03-3"
@@ -1891,6 +2002,13 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -1982,6 +2100,13 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -2072,6 +2197,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "2 Pallets" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -2161,6 +2292,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "3 Cartons" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -2253,6 +2390,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "1 Skid" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -2342,6 +2485,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "1 Package" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -2434,6 +2583,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "5 Packages" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -2523,6 +2678,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "10 Packages" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -2617,6 +2778,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Package Type = Bag" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -2708,6 +2875,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Package Type = Box" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -2801,6 +2974,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Package Type = Skid" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -2893,6 +3072,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Package Type = null" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -3080,6 +3265,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
 			echo "$scenario_name $scenario_desc $dashes $(print_error "Handling unit not supported!")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Handling Unit = Pallet" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -3262,6 +3453,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
 			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
 			echo "$scenario_name $scenario_desc $dashes $(print_error "Handling unit not supported!")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Handling Unit = Carton" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -3447,6 +3644,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
 			echo "$scenario_name $scenario_desc $dashes $(print_error "Handling unit not supported!")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Handling Unit = Tote" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -3543,6 +3746,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Hazmat Material = HAZM" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -3641,6 +3850,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Hazmat Material = POISON" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -3737,6 +3952,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Service Level = CNVPU" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -3835,6 +4056,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Service Level = INPU" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -3931,6 +4158,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Accessorial Code = LTDPU" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -4029,6 +4262,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Accessorial Code = LTDDEL" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -4126,6 +4365,13 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			charge_code=$(grep -o '"accessorialServices": *\[[^]]*\]' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | grep -o '"[^"]*"' | tr -d '"' | paste -sd, -)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Charge Code = ${charge_code:-null}" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -4217,6 +4463,13 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			charge_code=$(grep -o '"accessorialServices": *\[[^]]*\]' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | grep -o '"[^"]*"' | tr -d '"' | paste -sd, -)
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Charge Code = ${charge_code:-null}" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -4310,6 +4563,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "1 Line Item" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -4455,6 +4714,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "5 Line Items" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -4664,6 +4929,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "10 Line Items" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -4785,6 +5056,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Stackable = true" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -4908,6 +5185,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Stackable = false" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -4998,6 +5281,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Item Description = null" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -5094,6 +5383,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Payment Terms = Shipper/Prepaid" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -5187,6 +5482,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Payment Terms = Consignee/Collect" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -5276,6 +5577,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Pickup Date = Past Date" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -5367,6 +5674,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Pickup Date = Future Date" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -5456,6 +5769,12 @@ if [ "$flg_run_rating" == "true" ]; then
 			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Zip Code Pair = 90210 to 10001" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
 		fi
 	fi
 
@@ -5547,6 +5866,12 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Weight = 20000" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
@@ -5637,14 +5962,20 @@ if [ "$flg_run_rating" == "true" ]; then
 		else
 			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
 		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "Length = 19 feet" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+		fi
 	fi
 
 
 	# Create helper doc
-	if [ "$flg_generate_output" == "true" ]; then
-		grep -R -E 'type|value' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
-		grep -R -E 'startDate|endDate' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
-	fi
+	# if [ "$flg_generate_output" == "true" ]; then
+	# 	grep -R -E 'type|value' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
+	# 	grep -R -E 'startDate|endDate' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
+	# fi
 
 	echo "Logs: $logs_url"
 fi
