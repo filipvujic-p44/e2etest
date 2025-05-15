@@ -117,6 +117,7 @@ bol_num="003381632"
 #ref_po_num
 po_num="003381632"
 helper_doc_file_name=helper_doc.txt
+helper_sheet_file_name=helper_sheet.csv
 
 scenarios_to_run=()
 scenarios_to_exclude=()
@@ -208,6 +209,11 @@ if [ -e ".env_e2etest" ]; then
 	# Load helper doc file name value
     if [ ! -z "$HELPER_DOC_FILE_NAME" ]; then
         helper_doc_file_name="$HELPER_DOC_FILE_NAME"
+    fi
+
+	# Load helper sheet file name value
+    if [ ! -z "$HELPER_SHEET_FILE_NAME" ]; then
+        helper_sheet_file_name="$HELPER_SHEET_FILE_NAME"
     fi
 
 fi
@@ -876,6 +882,7 @@ PRO_NUM=""
 BOL_NUM=""
 PO_NUM=""
 HELPER_DOC_FILE_NAME=helper_doc.txt
+HELPER_SHEET_FILE_NAME=helper_sheet.csv
 
 EOL
 )
@@ -1085,18 +1092,26 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+			# Set details
+			details=""
+			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			details+=$'\n'
 			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
-				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = ${length}x${width}x${height}"
 			else
-				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
 			fi
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -1190,18 +1205,26 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+			# Set details
+			details=""
+			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			details+=$'\n'
 			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
-				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = ${length}x${width}x${height}"
 			else
-				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
 			fi
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -1295,18 +1318,26 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+			# Set details
+			details=""
+			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			details+=$'\n'
 			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
-				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = ${length}x${width}x${height}"
 			else
-				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
 			fi
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -1401,16 +1432,23 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			# Set details
+			details=""
 			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
-				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = ${length}x${width}x${height}"
 			else
-				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
 			fi
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -1504,16 +1542,23 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			# Set details
+			details=""
 			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
-				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = ${length}x${width}x${height}"
 			else
-				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
 			fi
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -1606,16 +1651,23 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			# Set details
+			details=""
 			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
-				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = ${length}x${width}x${height}"
 			else
-				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
 			fi
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -1709,16 +1761,23 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			# Set details
+			details=""
 			if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
-				echo "Dimensions = ${length}x${width}x${height}" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = ${length}x${width}x${height}"
 			else
-				echo "Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+				details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
 			fi
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -1811,10 +1870,17 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			# Set details
+			details=""
+			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -1909,10 +1975,17 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			# Set details
+			details=""
+			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -2005,10 +2078,17 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			# Set details
+			details=""
+			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -2199,9 +2279,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="2 Pallets"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "2 Pallets" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -2295,9 +2380,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="3 Cartons"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "3 Cartons" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -2392,9 +2482,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="1 Skid"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "1 Skid" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -2488,9 +2583,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="1 Package"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "1 Package" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -2585,9 +2685,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="5 Packages"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "5 Packages" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -2681,9 +2786,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="10 Packages"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "10 Packages" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -2780,9 +2890,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Package Type = Bag"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Package Type = Bag" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -2878,9 +2993,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Package Type = Box"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Package Type = Box" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -2976,9 +3096,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Package Type = Skid"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Package Type = Skid" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -3075,9 +3200,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Package Type = null"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Package Type = null" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -3267,9 +3397,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Handling Unit = Pallet"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Handling Unit = Pallet" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -3456,9 +3591,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Handling Unit = Carton"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Handling Unit = Carton" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -3646,9 +3786,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Handling Unit = Tote"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Handling Unit = Tote" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -3658,7 +3803,7 @@ if [ "$flg_run_rating" == "true" ]; then
 
 	scenario_number="08-1"
 	scenario_name="Scenario $scenario_number"
-	scenario_desc="(accessorial code: HAZM)"
+	scenario_desc="(hazmat material: HAZM)"
 	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
 		# Scenario 08-1 (accessorial code: HAZM)
 		request_data=$(cat <<-EOF
@@ -3749,9 +3894,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Hazmat Material = HAZM"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Hazmat Material = HAZM" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -3761,7 +3911,7 @@ if [ "$flg_run_rating" == "true" ]; then
 
 	scenario_number="08-2"
 	scenario_name="Scenario $scenario_number"
-	scenario_desc="(accessorial code: POISON)"
+	scenario_desc="(hazmat material: POISON)"
 	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
 		# Scenario 08-2 (accessorial code: POISON)
 		request_data=$(cat <<-EOF
@@ -3852,9 +4002,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Hazmat Material = Poison"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Hazmat Material = POISON" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -3955,9 +4110,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Service Level = CNVPU"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Service Level = CNVPU" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -4058,9 +4218,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Service Level = INPU"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Service Level = INPU" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -4161,9 +4326,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Accessorial Code = LTDPU"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Accessorial Code = LTDPU" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -4264,9 +4434,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Accessorial Code = LTDDEL"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Accessorial Code = LTDDEL" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -4367,10 +4542,16 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			charge_code=$(grep -o '"accessorialServices": *\[[^]]*\]' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | grep -o '"[^"]*"' | tr -d '"' | paste -sd, -)
+			# Set details
+			details="Charge Code = ${charge_code:-null}"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Charge Code = ${charge_code:-null}" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -4466,10 +4647,16 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			charge_code=$(grep -o '"accessorialServices": *\[[^]]*\]' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | grep -o '"[^"]*"' | tr -d '"' | paste -sd, -)
+			# Set details
+			details="Charge Code = ${charge_code:-null}"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Charge Code = ${charge_code:-null}" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -4566,9 +4753,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="1 Line Item"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "1 Line Item" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -4717,9 +4909,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="5 Line Items"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "5 Line Items" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -4931,9 +5128,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="10 Line Items"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "10 Line Items" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -5059,9 +5261,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Stackable = true"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Stackable = true" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -5187,9 +5394,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Stackable = false"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Stackable = false" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -5284,9 +5496,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Item Description = null"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Item Description = null" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -5385,9 +5602,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Payment Terms = Shipper/Prepaid" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -5484,9 +5706,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Consignee/Collect"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Payment Terms = Consignee/Collect" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -5580,9 +5807,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Pickup Date = Past Date"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Pickup Date = Past Date" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -5676,9 +5908,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Pickup Date = Future Date"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Pickup Date = Future Date" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -5772,10 +6009,15 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Zip Code Pair = 90210 to 10001"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Zip Code Pair = 90210 to 10001" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
-		fi
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi		
 	fi
 
 
@@ -5868,9 +6110,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Weight = 20000 lbs"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Weight = 20000" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -5964,9 +6211,14 @@ if [ "$flg_run_rating" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Length = 19 feet"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Length = 19 feet" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -11574,11 +11826,17 @@ if [ "$flg_run_tracking" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			# Set details
+			details="Reference Number = $type $value"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -11689,11 +11947,17 @@ if [ "$flg_run_tracking" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			# Set details
+			details="Reference Number = $type $value"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -11804,11 +12068,17 @@ if [ "$flg_run_tracking" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			# Set details
+			details="Reference Number = $type $value"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -11912,12 +12182,20 @@ if [ "$flg_run_tracking" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			startDate=$(grep -o '"startDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			endDate=$(grep -o '"endDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | tail -1 | cut -d'"' -f4)
+			# Set details
+			details=""
+			details+="Start Date = $startDate"
+			details+=$'\n'
+			details+="End Date = $endDate"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "startDate: $startDate" >> "$output_folder/$helper_doc_file_name"
-			echo "endDate: $endDate" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -12022,12 +12300,20 @@ if [ "$flg_run_tracking" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			startDate=$(grep -o '"startDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			endDate=$(grep -o '"endDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | tail -1 | cut -d'"' -f4)
+			# Set details
+			details=""
+			details+="Start Date = $startDate"
+			details+=$'\n'
+			details+="End Date = $endDate"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "startDate: $startDate" >> "$output_folder/$helper_doc_file_name"
-			echo "endDate: $endDate" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 	
@@ -12132,12 +12418,20 @@ if [ "$flg_run_tracking" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			startDate=$(grep -o '"startDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			endDate=$(grep -o '"endDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | tail -1 | cut -d'"' -f4)
+			# Set details
+			details=""
+			details+="Start Date = $startDate"
+			details+=$'\n'
+			details+="End Date = $endDate"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "startDate: $startDate" >> "$output_folder/$helper_doc_file_name"
-			echo "endDate: $endDate" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -12243,9 +12537,14 @@ if [ "$flg_run_tracking" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Status Codes = Check Movement"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Status codes: Check movement" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -12351,9 +12650,14 @@ if [ "$flg_run_tracking" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Status Descriptions = Check Movement"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Status descriptions: Check movement" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -12459,11 +12763,17 @@ if [ "$flg_run_tracking" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			# Set details
+			details="Reference Number = $type $value"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -12569,11 +12879,17 @@ if [ "$flg_run_tracking" == "true" ]; then
 		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
+			# Get values
 			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+			# Set details
+			details="Reference Number = $type $value"
+			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
