@@ -1,8 +1,8 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.4.0"
+version="v1.4.2"
 author="Filip Vujic"
-last_updated="15-May-2025"
+last_updated="16-May-2025"
 repo_owner="filipvujic-p44"
 repo_name="e2etest"
 repo="https://github.com/$repo_owner/$repo_name"
@@ -1079,7 +1079,7 @@ curl_call_scenario_file_prefix="curl_call_scenario"
 # Set up curl template
 curl_opts=""
 
-if [[ "$flg_use_quiet_mode" == "true" || "$flg_all" == "true" ]]; then
+if [[ "$flg_use_quiet_mode" == "true" ]]; then
 	curl_opts="-s -o /dev/null -w \"%{http_code}\""
 fi
 
@@ -8162,7 +8162,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			# Set details
-			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			details="Weight = ${weight:-null}${weight:+ lbs}"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -8322,7 +8322,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			# Set details
-			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			details="Weight = ${weight:-null}${weight:+ lbs}"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -8481,7 +8481,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			# Set details
-			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			details="Weight = ${weight:-null}${weight:+ lbs}"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -8641,7 +8641,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			# Set details
-			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			details="Weight = ${weight:-null}${weight:+ lbs}"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
