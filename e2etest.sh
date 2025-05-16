@@ -8162,7 +8162,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			# Set details
-			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			details="Weight = ${weight:-null}${weight:+ lbs}"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -8322,7 +8322,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			# Set details
-			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			details="Weight = ${weight:-null}${weight:+ lbs}"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -8481,7 +8481,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			# Set details
-			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			details="Weight = ${weight:-null}${weight:+ lbs}"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -8641,7 +8641,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			# Get values
 			weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
 			# Set details
-			details+="Weight = ${weight:-null}${weight:+ lbs}"
+			details="Weight = ${weight:-null}${weight:+ lbs}"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
