@@ -1,6 +1,6 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.4.1"
+version="v1.4.2"
 author="Filip Vujic"
 last_updated="16-May-2025"
 repo_owner="filipvujic-p44"
@@ -1079,7 +1079,7 @@ curl_call_scenario_file_prefix="curl_call_scenario"
 # Set up curl template
 curl_opts=""
 
-if [[ "$flg_use_quiet_mode" == "true" || "$flg_all" == "true" ]]; then
+if [[ "$flg_use_quiet_mode" == "true" ]]; then
 	curl_opts="-s -o /dev/null -w \"%{http_code}\""
 fi
 
