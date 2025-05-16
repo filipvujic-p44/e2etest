@@ -1,8 +1,8 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.3.8"
+version="v1.4.0"
 author="Filip Vujic"
-last_updated="12-May-2025"
+last_updated="15-May-2025"
 repo_owner="filipvujic-p44"
 repo_name="e2etest"
 repo="https://github.com/$repo_owner/$repo_name"
@@ -32,10 +32,11 @@ Info:
 Options:
 --------
     fh-test.sh [-v | --version] [-h | --help] [--install] [--install-y] [--uninstall] [--chk-install]
-	           [--chk-for-updates] [--auto-chk-for-updates-off] [--auto-chk-for-updates-on]
-	           [-t | --token] [-s | --scac] [-g | --group] [--unit] [--acc-code]
+               [--chk-for-updates] [--auto-chk-for-updates-off] [--auto-chk-for-updates-on]
+               [-t | --token] [-s | --scac] [-g | --group] [--unit] [--acc-code]
                [--pro] [--bol] [-c | --config] [-q | --quiet] [-a | --all]
                [-r] [-x] [--rating] [--dispatch] [--tracking]
+               [--list-rating-scenarios] [--list-dispatch-scenarios] [--list-tracking-scenarios]
 
 Options (details):
 ------------------
@@ -69,6 +70,122 @@ Options (details):
         --rating                          Run rating scenarios.
         --dispatch                        Run dispatch scenarios.
         --tracking                        Run tracking scenarios.
+        --list-rating-scenarios           List rating scenarios.
+        --list-dispatch-scenarios         List dispatch scenarios.
+        --list-tracking-scenarios         List tracking scenarios.
+EOL
+)
+
+
+# Rating scenarios
+rating_scenarios_list=$(cat <<EOL
+    
+Rating scenarios:
+
+    Scenario 01-1 (weight: 100 lbs, dimensions: 12x12x12)
+    Scenario 01-2 (weight: 5000 lbs, dimensions: 96x48x48)
+    Scenario 01-3 (weight: 0 lbs, dimensions: 0x0x0)
+    Scenario 02-1 (dimensions: 10x10x10)
+    Scenario 02-2 (dimensions: 0x0x0)
+    Scenario 02-3 (dimensions: 500x500x500)
+    Scenario 02-4 (dimensions: null)
+    Scenario 03-1 (weight: 1000 lbs)
+    Scenario 03-2 (weight: 0 lbs)
+    Scenario 03-3 (weight: 5000 lbs)
+    Scenario 03-4 (weight: null)
+    Scenario 04-1 (2 pallets)
+    Scenario 04-2 (3 cartons)
+    Scenario 04-3 (1 skid)
+    Scenario 05-1 (1 package)
+    Scenario 05-2 (5 packages)
+    Scenario 05-3 (10 packages)
+    Scenario 06-1 (package type: BAG)
+    Scenario 06-2 (package type: BOX)
+    Scenario 06-3 (package type: SKID)
+    Scenario 06-4 (package type: null)
+    Scenario 07-1 (unit type: PLT)
+    Scenario 07-2 (unit type: CARTON)
+    Scenario 07-3 (unit type: TOTE)
+    Scenario 08-1 (hazmat material: HAZM)
+    Scenario 08-2 (accessorial code: POISON)
+    Scenario 09-1 (service level: CNVPU)
+    Scenario 09-2 (service level: INPU)
+    Scenario 10-1 (accessorial code: LTDPU)
+    Scenario 10-2 (accessorial code: LTDDEL)
+    Scenario 11-1 (charge code: valid)
+    Scenario 11-2 (charge code: invalid)
+    Scenario 12-1 (1 line item)
+    Scenario 12-2 (5 line items)
+    Scenario 12-3 (10 line items)
+    Scenario 13-1 (stackable: true)
+    Scenario 13-2 (stackable: false)
+    Scenario 14 (item description: null)
+    Scenario 15-1 (payment terms: SHIPPER/PREPAID)
+    Scenario 15-2 (payment terms: CONSIGNEE/COLLECT)
+    Scenario 16-1 (pickup date: past)
+    Scenario 16-2 (pickup date: future)
+    Scenario 17 (zip codes valid: 90210 to 10001)
+    Scenario 18-1 (weight: 20000)
+    Scenario 18-2 (dimensions: 29 ft)
+EOL
+)
+
+# Dispatch scenarios
+dispatch_scenarios_list=$(cat <<EOL
+    
+Dispatch scenarios:
+
+    Scenario 01-1 (payment terms: SHIPPER/PREPAID)
+    Scenario 01-2 (payment terms: CONSIGNEE/COLLECT)
+    Scenario 01-3 (payment terms: PREPAID/THIRD_PARTY)
+    Scenario 02-1 (date: past)
+    Scenario 02-2 (date: future)
+    Scenario 02-3 (date: same day)
+    Scenario 03 (dimensions: 10x10x10)
+    Scenario 04 (dimensions: 0x0x0)
+    Scenario 05 (dimensions: 500x500x500)
+    Scenario 06 (dimensions: null)
+    Scenario 07 (weight: 1000 lbs)
+    Scenario 08 (weight: 0 lbs)
+    Scenario 09 (weight: 5000 lbs)
+    Scenario 10 (weight: null)
+    Scenario 11-1 (2 pallets)
+    Scenario 11-2 (3 cartons)
+    Scenario 12-1 (package type: BAG)
+    Scenario 12-2 (package type: BOX)
+    Scenario 12-3 (package type: PLT)
+    Scenario 13-1 (unit type: SKID)
+    Scenario 13-2 (unit type: CARTON)
+    Scenario 14-1 (accessorial code: HAZM)
+    Scenario 14-2 (accessorial code: POISON)
+    Scenario 15-1 (service level: CNVPU)
+    Scenario 15-2 (service level: INPU)
+    Scenario 16-1 (accessorial code: LTDPU)
+    Scenario 16-2 (accessorial code: LTDDEL)
+    Scenario 17-1 (1 line item)
+    Scenario 17-2 (5 line items)
+    Scenario 17-3 (10 line items)
+    Scenario 18-1 (stackable: true)
+    Scenario 18-2 (stackable: false)
+    Scenario 18-3 (stackable: mixed)
+    Scenario 19 (description: null)
+EOL
+)
+# Tracking scenarios
+tracking_scenarios_list=$(cat <<EOL
+    
+Tracking scenarios:
+
+    Scenario 01 (PRO number)
+    Scenario 02 (BOL number)
+    Scenario 03 (PO number)
+    Scenario 04 (date: valid)
+    Scenario 05 (date: future)
+    Scenario 06 (date: past)
+    Scenario 07 (status codes)
+    Scenario 08 (event status descriptions)
+    Scenario 09 (status discrepancies)
+    Scenario 10 (tracking accuracy)
 EOL
 )
 
@@ -117,6 +234,7 @@ bol_num="003381632"
 #ref_po_num
 po_num="003381632"
 helper_doc_file_name=helper_doc.txt
+helper_sheet_file_name=helper_sheet.csv
 
 scenarios_to_run=()
 scenarios_to_exclude=()
@@ -160,54 +278,59 @@ if [ -e ".env_e2etest" ]; then
         flg_generate_output="$GENERATE_OUTPUT"
     fi
 
-	# Load token value
+    # Load token value
     if [ ! -z "$TOKEN" ]; then
         token="$TOKEN"
     fi
 
-	# Load scac value
+    # Load scac value
     if [ ! -z "$SCAC" ]; then
         scac="$SCAC"
     fi
 
-	# Load account group value
+    # Load account group value
     if [ ! -z "$ACCOUNT_GROUP" ]; then
         account_group="$ACCOUNT_GROUP"
     fi
 
-	# Load unit supported value
+    # Load unit supported value
     if [ ! -z "$UNIT_SUPPORTED" ]; then
         flg_unit_supported="$UNIT_SUPPORTED"
     fi
 
-	# Load acc code value
+    # Load acc code value
     if [ ! -z "$ACC_CODE" ]; then
         acc_code="$ACC_CODE"
     fi
 
-	# Load identifier type value
+    # Load identifier type value
     if [ ! -z "$IDENTIFIER_TYPE" ]; then
         identifier_type="$IDENTIFIER_TYPE"
     fi
 
-	# Load pro num value
+    # Load pro num value
     if [ ! -z "$PRO_NUM" ]; then
         pro_num="$PRO_NUM"
     fi
 
-	# Load bol num value
+    # Load bol num value
     if [ ! -z "$BOL_NUM" ]; then
         bol_num="$BOL_NUM"
     fi
 
-	# Load po num value
+    # Load po num value
     if [ ! -z "$PO_NUM" ]; then
         po_num="$PO_NUM"
     fi
 
-	# Load helper doc file name value
+    # Load helper doc file name value
     if [ ! -z "$HELPER_DOC_FILE_NAME" ]; then
         helper_doc_file_name="$HELPER_DOC_FILE_NAME"
+    fi
+
+    # Load helper sheet file name value
+    if [ ! -z "$HELPER_SHEET_FILE_NAME" ]; then
+        helper_sheet_file_name="$HELPER_SHEET_FILE_NAME"
     fi
 
 fi
@@ -235,10 +358,10 @@ print_error() {
 
 # Check if any args are passed to the script
 if [ -z "$1" ]; then
-	print_error "No arguments passed!"
-	exit 0
+    print_error "No arguments passed!"
+    exit 0
 else
-	flg_args_passed=true
+    flg_args_passed=true
 fi
 
 
@@ -247,7 +370,7 @@ fi
 while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
 
     case "$1" in
-		-v | --version)
+        -v | --version)
             echo "e2etest version: $version"
             echo "author: $author"
             echo "last updated: $last_updated"
@@ -258,7 +381,7 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
             echo "$help_text"
             exit 0
             ;;
-		--install)
+        --install)
             do_install=true
             ;;
         --install-y)
@@ -270,7 +393,7 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
         --chk-install)
             do_chk_install=true
             ;;
-		--chk-for-updates)
+        --chk-for-updates)
             flg_chk_for_updates=true
             ;;
         --auto-chk-for-updates-off)
@@ -291,7 +414,7 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
             fi
             exit 0
             ;;
-		--generate-env-file)
+        --generate-env-file)
             flg_generate_env_file=true
             ;;
         -t | --token)
@@ -300,7 +423,7 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
             if [ "$((line_number - ref_line_number))" -eq 1 ]; then
                 sed -i "${line_number}s/^token=.*/token=\"$2\"/" "$0"
                 echo "Info: Token updated."	
-			shift 1
+            shift 1
             fi
             ;;
         -s | --scac)
@@ -309,7 +432,7 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
             if [ "$((line_number - ref_line_number))" -eq 1 ]; then
                 sed -i "${line_number}s/^scac=.*/scac=\"${2^^}\"/" "$0"
                 echo "Info: Scac updated."	
-			shift 1
+            shift 1
             fi
             ;;
         -g | --group)
@@ -318,7 +441,7 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
             if [ "$((line_number - ref_line_number))" -eq 1 ]; then
                 sed -i "${line_number}s/^account_group=.*/account_group=\"$2\"/" "$0"
                 echo "Info: Account group updated."	
-			shift 1
+            shift 1
             fi
             ;;
         --unit)
@@ -327,45 +450,45 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
             if [[ $((line_number - ref_line_number)) -eq 1 && "$2" == "true" || "$2" == "false" ]]; then
                 sed -i "${line_number}s/^flg_unit_supported=.*/flg_unit_supported=$2/" "$0"
                 echo "Info: Unit handling updated."
-			shift 1
+            shift 1
             fi
-          	;;
+              ;;
         --acc-code)
             ref_line_number=$(grep -n "ref_acc_code*" "$0" | head -n1 | cut -d':' -f1)
             line_number=$(grep -n "acc_code=" "$0" | head -n1 | cut -d':' -f1)
             if [ "$((line_number - ref_line_number))" -eq 1 ]; then
                 sed -i "${line_number}s/^acc_code=.*/acc_code=\"$2\"/" "$0"
                 echo "Info: Accessorial code updated."	
-			shift 1
+            shift 1
             fi
-          	;;
+              ;;
         --pronum)
             ref_line_number=$(grep -n "ref_pro_num*" "$0" | head -n1 | cut -d':' -f1)
             line_number=$(grep -n "pro_num=" "$0" | head -n1 | cut -d':' -f1)
             if [ "$((line_number - ref_line_number))" -eq 1 ]; then
                 sed -i "${line_number}s/^pro_num=.*/pro_num=\"$2\"/" "$0"
                 echo "Info: Pro number updated."	
-			shift 1
+            shift 1
             fi
-          	;;
+              ;;
         --bolnum)
             ref_line_number=$(grep -n "ref_bol_num*" "$0" | head -n1 | cut -d':' -f1)
             line_number=$(grep -n "bol_num=" "$0" | head -n1 | cut -d':' -f1)
             if [ "$((line_number - ref_line_number))" -eq 1 ]; then
                 sed -i "${line_number}s/^bol_num=.*/bol_num=\"$2\"/" "$0"
                 echo "Info: Bill of lading number updated."	
-			shift 1
+            shift 1
             fi
-          	;;
+              ;;
         --ponum)
             ref_line_number=$(grep -n "ref_po_num*" "$0" | head -n1 | cut -d':' -f1)
             line_number=$(grep -n "po_num=" "$0" | head -n1 | cut -d':' -f1)
             if [ "$((line_number - ref_line_number))" -eq 1 ]; then
                 sed -i "${line_number}s/^po_num=.*/po_num=\"$2\"/" "$0"
                 echo "Info: Purchase order number updated."	
-			shift 1
+            shift 1
             fi
-          	;;
+              ;;
         --pro)
             ref_line_number=$(grep -n "ref_identifier_type*" "$0" | head -n1 | cut -d':' -f1)
             line_number=$(grep -n "identifier_type=" "$0" | head -n1 | cut -d':' -f1)
@@ -383,55 +506,67 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
             fi
             ;;
         -c | --config)
-			echo "Token ------------------- $token"
-			echo "Scac -------------------- $scac"
-			echo "Account group ----------- $account_group"
-			echo "Unit handling ----------- $flg_unit_supported"
-			echo "Accessorial code -------- $acc_code"
-			echo "Identifier type --------- $identifier_type"
-			echo "Pro number -------------- $pro_num"
-			echo "Bill of lading number --- $bol_num"
-			echo "Purchase order number --- $po_num"
-			echo "Logs url ---------------- $logs_url"
+            echo "Token ------------------- $token"
+            echo "Scac -------------------- $scac"
+            echo "Account group ----------- $account_group"
+            echo "Unit handling ----------- $flg_unit_supported"
+            echo "Accessorial code -------- $acc_code"
+            echo "Identifier type --------- $identifier_type"
+            echo "Pro number -------------- $pro_num"
+            echo "Bill of lading number --- $bol_num"
+            echo "Purchase order number --- $po_num"
+            echo "Logs url ---------------- $logs_url"
             exit 0
             ;;
         -q | --quiet)
-        	flg_use_quiet_mode=true
-        	;;
+            flg_use_quiet_mode=true
+            ;;
         -a | --all)
-        	flg_all=true
-        	;;
-		-r)
-			shift  # Move to the next argument (first scenario number)
-			while [[ $# -gt 0 && "$1" != -* ]]; do
-				scenarios_to_run+=("$1")  # Add each scenario to the array
-				shift
-			done
-			continue  # Skip automatic shift below, we already moved the pointer
-			;;
-		-x)
-			shift  # Move to the next argument (first scenario number)
-			while [[ $# -gt 0 && "$1" != -* ]]; do
-				scenarios_to_exclude+=("$1")  # Add each scenario to the array
-				shift
-			done
-			continue  # Skip automatic shift below, we already moved the pointer
-			;;
-		-o)
-			flg_generate_output=true
-			;;
+            flg_all=true
+            ;;
+        -r)
+            shift  # Move to the next argument (first scenario number)
+            while [[ $# -gt 0 && "$1" != -* ]]; do
+                scenarios_to_run+=("$1")  # Add each scenario to the array
+                shift
+            done
+            continue  # Skip automatic shift below, we already moved the pointer
+            ;;
+        -x)
+            shift  # Move to the next argument (first scenario number)
+            while [[ $# -gt 0 && "$1" != -* ]]; do
+                scenarios_to_exclude+=("$1")  # Add each scenario to the array
+                shift
+            done
+            continue  # Skip automatic shift below, we already moved the pointer
+            ;;
+        -o)
+            flg_generate_output=true
+            ;;
         --rating)
-        	flg_run_rating=true
-        	;;
+            flg_run_rating=true
+            ;;
         --dispatch)
-        	flg_run_dispatch=true
-        	;;
+            flg_run_dispatch=true
+            ;;
         --tracking)
-        	flg_run_tracking=true
-        	;;
-		*)
-			echo "Error: Unknown argument '$1'!"
-			;;
+            flg_run_tracking=true
+            ;;
+        --list-rating-scenarios)
+            echo "$rating_scenarios_list"
+            exit 0
+            ;;
+        --list-dispatch-scenarios)
+            echo "$dispatch_scenarios_list"
+            exit 0
+            ;;
+        --list-tracking-scenarios)
+            echo "$tracking_scenarios_list"
+            exit 0
+            ;;
+        *)
+            echo "Error: Unknown argument '$1'!"
+            ;;
     esac
     # Since this default shift exists, all flag handling shifts are decreased by 1
     shift
@@ -702,11 +837,11 @@ install_dependencies() {
 # Cleans up existing installation and leftover files/changes
 clean_up_installation() {
     echo "Info: Cleaning up existing files/changes..."
-	if [ -d "$HOME/e2etest" ]; then
-		rm -rf "$HOME/e2etest/main"
-		rm -rf "$HOME/e2etest/util"
-		rmdir "$HOME/e2etest" 2>/dev/null || true  # Ignore error if non-empty
-	fi
+    if [ -d "$HOME/e2etest" ]; then
+        rm -rf "$HOME/e2etest/main"
+        rm -rf "$HOME/e2etest/util"
+        rmdir "$HOME/e2etest" 2>/dev/null || true  # Ignore error if non-empty
+    fi
     if [ -f ~/.bashrc.bak ]; then
         rm ~/.bashrc.bak
         cp ~/.bashrc ~/.bashrc.bak
@@ -768,7 +903,8 @@ autocomplete_e2etest() {
     options+="--help -h --install --install-y --uninstall "
     options+="--chk-install --generate-env-file "
     options+="-t --token -s --scac -g --group -n --unit --acc-code --pronum --bolnum --ponum --pro --bol "
-    options+="-c --config -q --quiet -a --all -r -x -o --rating --dispatch --tracking"
+    options+="-c --config -q --quiet -a --all -r -x -o --rating --dispatch --tracking "
+    options+="--list-rating-scenarios --list-dispatch-scenarios --list-tracking-scenarios"
 
     if [[ "\${COMP_WORDS[*]}" =~ " --unit " ]]; then
         local unit_options=("true" "false")
@@ -876,6 +1012,7 @@ PRO_NUM=""
 BOL_NUM=""
 PO_NUM=""
 HELPER_DOC_FILE_NAME=helper_doc.txt
+HELPER_SHEET_FILE_NAME=helper_sheet.csv
 
 EOL
 )
@@ -973,4680 +1110,5256 @@ fi
 # Start of: run rating
 if [ "$flg_run_rating" == "true" ]; then
 
-	# Set up logs
-	logs_url="https://140271604703.observeinc.com/workspace/41124764/log-explorer?datasetId=41414971&time-preset=PAST_15_MINUTES&fv=41425674&s=21846-1oa7lvej"
-
-	# Set up output folder
-	if [ "$flg_generate_output" == "true" ]; then
-		output_folder="curl_calls_${scac}_rating_$(date +'%Y-%m-%d_%H-%M-%S')"
-		if [ -d "$output_folder" ]; then
-			rm -r "$output_folder"
-			mkdir "$output_folder"
-		else
-			mkdir "$output_folder"
-		fi
-	fi
-
-	curl_template=$(cat <<-EOF
-		curl $curl_opts --location 'https://na12.api.qa-integration.p-44.com/api/v4/ltl/quotes/rates/query' \
-			--header "Authorization: Bearer $token" \
-			--header "Content-Type: application/json" \
-			--data
-	EOF
-	)
-
-	
-
-	scenario_number="01-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(weight: 100 lbs, dimensions: 12x12x12)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 01-1 (weight: 100 lbs, dimensions: 12x12x12)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="01-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(weight: 5000 lbs, dimensions: 96x48x48)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 01-2 (weight: 5000 lbs, dimensions: 96x48x48)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "5000",
-						"packageDimensions": {
-							"length": "96",
-							"width": "48",
-							"height": "48"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="01-3"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(weight: 0 lbs, dimensions: 0x0x0)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 01-3 (weight: 0 lbs, dimensions: 0x0x0)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "0",
-						"packageDimensions": {
-							"length": "0",
-							"width": "0",
-							"height": "0"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-	scenario_number="02-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(dimensions: 10x10x10)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 02-1 (dimensions: 10x10x10)		
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "10",
-							"width": "10",
-							"height": "10"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="02-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(dimensions: 0x0x0)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 02-2 (dimensions: 0x0x0)	
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "0",
-							"width": "0",
-							"height": "0"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-	scenario_number="02-3"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(dimensions: 500x500x500)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 02-3 (dimensions: 500x500x500)		
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "500",
-							"width": "500",
-							"height": "500"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="02-4"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(dimensions: null)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 02-4 (dimensions: null)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": null,
-							"width": null,
-							"height": null
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-	scenario_number="03-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(weight: 1000 lbs)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 03-1 (weight: 1000 lbs)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "1000",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-	scenario_number="03-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(weight: 0 lbs)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 03-2 (weight: 0 lbs)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "0",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-	scenario_number="03-3"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(weight: 5000 lbs)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 03-3 (weight: 5000 lbs)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "5000",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="03-4"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(weight: null)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 03-4 (weight: null)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": null,
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="04-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(2 pallets)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 04-1 (2 pallets)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 2,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="04-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(3 cartons)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 04-2 (3 cartons)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "CARTON",
-						"totalPackages": 3,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-	scenario_number="04-3"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(1 skid)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 04-3 (1 skid)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 2,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="05-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(1 package)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 05-1 (1 package)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-	scenario_number="05-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(5 packages)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 05-2 (5 packages)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 5,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="05-3"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(10 packages)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 05-3 (10 packages)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 10,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="06-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(package type: BAG)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 06-1 (package type: BAG)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "BAG",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-	scenario_number="06-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(package type: BOX)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 06-2 (package type: BOX)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "BOX",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-	scenario_number="06-3"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(package type: SKID)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 06-3 (package type: SKID)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "SKID",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="06-4"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(package type: null)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 06-4 (package type: null)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": null,
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="07-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(unit type: PLT)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 07-1 (unit type: PLT)
-		if [ "$flg_unit_supported" == "true" ]; then
-			request_data=$(cat <<-EOF
-				{
-					"originAddress": {
-						"postalCode": "60010",
-						"addressLines": [],
-						"city": "BARRINGTON $scenario_name",
-						"state": "IL",
-						"country": "US"
-					},
-					"destinationAddress": {
-						"postalCode": "90210",
-						"addressLines": [],
-						"city": "BEVERLY HILLS $scenario_name",
-						"state": "CA",
-						"country": "US"
-					},
-					"enhancedHandlingUnits": [
-						{
-						"commodityType": "string",
-						"contact": {
-						"companyName": "string",
-						"contactName": "string",
-						"email": "string",
-						"faxNumber": "string",
-						"faxNumberCountryCode": "string",
-						"phoneNumber": "string",
-						"phoneNumber2": "string",
-						"phoneNumber2CountryCode": "string",
-						"phoneNumberCountryCode": "string"
-						},
-						"deliveryStopNumber": 0,
-						"description": "string",
-						"freightClasses": [
-						"50"
-						],
-						"handlingUnitDimensions": {
-						"height": 0,
-						"length": 0,
-						"width": 0
-						},
-						"handlingUnitQuantity": 0,
-						"handlingUnitType": "PLT",
-						"harmonizedCode": "string",
-						"nmfcCodes": [
-						{
-							"code": "string"
-						}
-						],
-						"packages": [
-						{
-							"contact": {
-							"companyName": "string",
-							"contactName": "string",
-							"email": "string",
-							"faxNumber": "string",
-							"faxNumberCountryCode": "string",
-							"phoneNumber": "string",
-							"phoneNumber2": "string",
-							"phoneNumber2CountryCode": "string",
-							"phoneNumberCountryCode": "string"
-							},
-							"description": "string",
-							"freightClass": "50",
-							"involvedParties": [
-							{
-								"partyIdentifiers": [
-								null
-								]
-							}
-							],
-							"nmfcCodes": [
-							{
-								"code": "string"
-							}
-							],
-							"packageContainerType": "BAG",
-							"packageContents": [
-							{
-								"countryOfManufacture": "US",
-								"description": "string",
-								"hazmatDetails": [
-								null
-								],
-								"packageContentIdentifiers": [
-								null
-								],
-								"packageContentQuantity": 0
-							}
-							],
-							"packageDimensions": {
-							"height": 0,
-							"length": 0,
-							"width": 0
-							},
-							"packageQuantity": 0,
-							"weightPerPackage": 0
-						}
-						],
-						"pickupStopNumber": 0,
-						"stackable": true,
-						"totalValue": {
-						"amount": 0,
-						"currency": "USD"
-						},
-						"weightPerHandlingUnit": 0
-					}
-					],
-					"lineItems": [
-						{
-							"totalWeight": "100",
-							"packageDimensions": {
-								"length": "12",
-								"width": "12",
-								"height": "12"
-							},
-							"packageType": "PLT",
-							"totalPackages": 1,
-							"totalPieces": 1,
-							"freightClass": "50",
-							"description": "$scenario_name"
-						}
-					],
-					"capacityProviderAccountGroup": {
-						"code": "$account_group",
-						"accounts": [
-							{
-								"code": "$scac"
-							}
-						]
-					},
-					"accessorialServices": [],
-					"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-					},
-					"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-					"totalLinearFeet": null,
-					"linearFeetVisualizationIdentifier": null,
-					"weightUnit": "LB",
-					"lengthUnit": "IN",
-					"apiConfiguration": {
-						"enableUnitConversion": true,
-						"accessorialServiceConfiguration": {
-							"fetchAllServiceLevels": true,
-							"allowUnacceptedAccessorials": false
-						}
-					}
-				}
-			EOF
-			)
-
-			curl_call=$(cat <<-EOF
-				$curl_template '$request_data'
-			EOF
-			)
-			
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-			response=$(eval "$curl_call" | jq)
-			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		else
-			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-			echo "$scenario_name $scenario_desc $dashes $(print_error "Handling unit not supported!")"
-		fi
-	fi
-
-
-
-
-	scenario_number="07-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(unit type: CARTON)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 07-2 (unit type: CARTON)
-		if [ "$flg_unit_supported" == "true" ]; then
-			request_data=$(cat <<-EOF
-				{
-					"originAddress": {
-						"postalCode": "60010",
-						"addressLines": [],
-						"city": "BARRINGTON $scenario_name",
-						"state": "IL",
-						"country": "US"
-					},
-					"destinationAddress": {
-						"postalCode": "90210",
-						"addressLines": [],
-						"city": "BEVERLY HILLS $scenario_name",
-						"state": "CA",
-						"country": "US"
-					},
-					"enhancedHandlingUnits": [
-						{
-						"commodityType": "string",
-						"contact": {
-						"companyName": "string",
-						"contactName": "string",
-						"email": "string",
-						"faxNumber": "string",
-						"faxNumberCountryCode": "string",
-						"phoneNumber": "string",
-						"phoneNumber2": "string",
-						"phoneNumber2CountryCode": "string",
-						"phoneNumberCountryCode": "string"
-						},
-						"deliveryStopNumber": 0,
-						"description": "string",
-						"freightClasses": [
-						"50"
-						],
-						"handlingUnitDimensions": {
-						"height": 0,
-						"length": 0,
-						"width": 0
-						},
-						"handlingUnitQuantity": 0,
-						"handlingUnitType": "CARTON",
-						"harmonizedCode": "string",
-						"nmfcCodes": [
-						{
-							"code": "string"
-						}
-						],
-						"packages": [
-						{
-							"contact": {
-							"companyName": "string",
-							"contactName": "string",
-							"email": "string",
-							"faxNumber": "string",
-							"faxNumberCountryCode": "string",
-							"phoneNumber": "string",
-							"phoneNumber2": "string",
-							"phoneNumber2CountryCode": "string",
-							"phoneNumberCountryCode": "string"
-							},
-							"description": "string",
-							"freightClass": "50",
-							"involvedParties": [
-							{
-								"partyIdentifiers": [
-								null
-								]
-							}
-							],
-							"nmfcCodes": [
-							{
-								"code": "string"
-							}
-							],
-							"packageContainerType": "BAG",
-							"packageContents": [
-							{
-								"countryOfManufacture": "US",
-								"description": "string",
-								"hazmatDetails": [
-								null
-								],
-								"packageContentIdentifiers": [
-								null
-								],
-								"packageContentQuantity": 0
-							}
-							],
-							"packageDimensions": {
-							"height": 0,
-							"length": 0,
-							"width": 0
-							},
-							"packageQuantity": 0,
-							"weightPerPackage": 0
-						}
-						],
-						"pickupStopNumber": 0,
-						"stackable": true,
-						"totalValue": {
-						"amount": 0,
-						"currency": "USD"
-						},
-						"weightPerHandlingUnit": 0
-					}
-					],
-					"lineItems": [
-						{
-							"totalWeight": "100",
-							"packageDimensions": {
-								"length": "12",
-								"width": "12",
-								"height": "12"
-							},
-							"packageType": "PLT",
-							"totalPackages": 1,
-							"totalPieces": 1,
-							"freightClass": "50",
-							"description": "$scenario_name"
-						}
-					],
-					"capacityProviderAccountGroup": {
-						"code": "$account_group",
-						"accounts": [
-							{
-								"code": "$scac"
-							}
-						]
-					},
-					"accessorialServices": [],
-					"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-					},
-					"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-					"totalLinearFeet": null,
-					"linearFeetVisualizationIdentifier": null,
-					"weightUnit": "LB",
-					"lengthUnit": "IN",
-					"apiConfiguration": {
-						"enableUnitConversion": true,
-						"accessorialServiceConfiguration": {
-							"fetchAllServiceLevels": true,
-							"allowUnacceptedAccessorials": false
-						}
-					}
-				}
-			EOF
-			)
-
-			curl_call=$(cat <<-EOF
-				$curl_template '$request_data'
-			EOF
-			)
-			
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-			response=$(eval "$curl_call" | jq)
-			echo "$scenario_name $scenario_desc ---- Status code: $(print_status_code "$response")"
-		else
-			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-			echo "$scenario_name $scenario_desc $dashes $(print_error "Handling unit not supported!")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="07-3"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(unit type: TOTE)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 07-3 (unit type: TOTE)		
-		if [ "$flg_unit_supported" == "true" ]; then
-			request_data=$(cat <<-EOF
-				{
-					"originAddress": {
-						"postalCode": "60010",
-						"addressLines": [],
-						"city": "BARRINGTON $scenario_name",
-						"state": "IL",
-						"country": "US"
-					},
-					"destinationAddress": {
-						"postalCode": "90210",
-						"addressLines": [],
-						"city": "BEVERLY HILLS $scenario_name",
-						"state": "CA",
-						"country": "US"
-					},
-					"enhancedHandlingUnits": [
-						{
-						"commodityType": "string",
-						"contact": {
-						"companyName": "string",
-						"contactName": "string",
-						"email": "string",
-						"faxNumber": "string",
-						"faxNumberCountryCode": "string",
-						"phoneNumber": "string",
-						"phoneNumber2": "string",
-						"phoneNumber2CountryCode": "string",
-						"phoneNumberCountryCode": "string"
-						},
-						"deliveryStopNumber": 0,
-						"description": "string",
-						"freightClasses": [
-						"50"
-						],
-						"handlingUnitDimensions": {
-						"height": 0,
-						"length": 0,
-						"width": 0
-						},
-						"handlingUnitQuantity": 0,
-						"handlingUnitType": "TOTE",
-						"harmonizedCode": "string",
-						"nmfcCodes": [
-						{
-							"code": "string"
-						}
-						],
-						"packages": [
-						{
-							"contact": {
-							"companyName": "string",
-							"contactName": "string",
-							"email": "string",
-							"faxNumber": "string",
-							"faxNumberCountryCode": "string",
-							"phoneNumber": "string",
-							"phoneNumber2": "string",
-							"phoneNumber2CountryCode": "string",
-							"phoneNumberCountryCode": "string"
-							},
-							"description": "string",
-							"freightClass": "50",
-							"involvedParties": [
-							{
-								"partyIdentifiers": [
-								null
-								]
-							}
-							],
-							"nmfcCodes": [
-							{
-								"code": "string"
-							}
-							],
-							"packageContainerType": "BAG",
-							"packageContents": [
-							{
-								"countryOfManufacture": "US",
-								"description": "string",
-								"hazmatDetails": [
-								null
-								],
-								"packageContentIdentifiers": [
-								null
-								],
-								"packageContentQuantity": 0
-							}
-							],
-							"packageDimensions": {
-							"height": 0,
-							"length": 0,
-							"width": 0
-							},
-							"packageQuantity": 0,
-							"weightPerPackage": 0
-						}
-						],
-						"pickupStopNumber": 0,
-						"stackable": true,
-						"totalValue": {
-						"amount": 0,
-						"currency": "USD"
-						},
-						"weightPerHandlingUnit": 0
-					}
-					],
-					"lineItems": [
-						{
-							"totalWeight": "100",
-							"packageDimensions": {
-								"length": "12",
-								"width": "12",
-								"height": "12"
-							},
-							"packageType": "PLT",
-							"totalPackages": 1,
-							"totalPieces": 1,
-							"freightClass": "50",
-							"description": "$scenario_name"
-						}
-					],
-					"capacityProviderAccountGroup": {
-						"code": "$account_group",
-						"accounts": [
-							{
-								"code": "$scac"
-							}
-						]
-					},
-					"accessorialServices": [],
-					"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-					},
-					"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-					"totalLinearFeet": null,
-					"linearFeetVisualizationIdentifier": null,
-					"weightUnit": "LB",
-					"lengthUnit": "IN",
-					"apiConfiguration": {
-						"enableUnitConversion": true,
-						"accessorialServiceConfiguration": {
-							"fetchAllServiceLevels": true,
-							"allowUnacceptedAccessorials": false
-						}
-					}
-				}
-			EOF
-			)
-
-			curl_call=$(cat <<-EOF
-				$curl_template '$request_data'
-			EOF
-			)
-			
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-			response=$(eval "$curl_call" | jq)
-			echo "$scenario_name $scenario_desc ---- Status code: $(print_status_code "$response")"
-		else
-			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-			echo "$scenario_name $scenario_desc $dashes $(print_error "Handling unit not supported!")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="08-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(accessorial code: HAZM)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 08-1 (accessorial code: HAZM)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [
-					{
-						"code": "HAZM"
-					}
-				],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="08-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(accessorial code: POISON)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 08-2 (accessorial code: POISON)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [
-					{
-						"code": "POISON"
-					}
-				],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="09-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(service level: CNVPU)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 09-1 (service level: CNVPU)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [
-					{
-						"code": "CNVPU"
-					}
-				],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="09-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(service level: INPU)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 09-2 (service level: INPU)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [
-					{
-						"code": "INPU"
-					}
-				],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="10-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(accessorial code: LTDPU)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 10-1 (accessorial code: LTDPU)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [
-					{
-						"code": "LTDPU"
-					}
-				],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="10-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(accessorial code: LTDDEL)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 10-2 (accessorial code: LTDDEL)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [
-					{
-						"code": "LTDDEL"
-					}
-				],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="11-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(charge code: valid)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 11-1 (charge code: valid)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [
-					{
-						"code": "$acc_code"
-					}
-				],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-	scenario_number="11-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(charge code: invalid)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 11-2 (charge code: invalid)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="12-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(1 line item)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 12-1 (1 line item)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="12-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(5 line items)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 12-2 (5 line items)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					},
-									{
-						"totalWeight": "200",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					},
-									{
-						"totalWeight": "300",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					},
-									{
-						"totalWeight": "400",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					},
-									{
-						"totalWeight": "500",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-	scenario_number="12-3"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(10 line items)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 12-3 (10 line items)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					},
-									{
-						"totalWeight": "200",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					},
-									{
-						"totalWeight": "300",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					},
-									{
-						"totalWeight": "400",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					},
-									{
-						"totalWeight": "500",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					},
-					{
-						"totalWeight": "150",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					},
-									{
-						"totalWeight": "250",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					},
-									{
-						"totalWeight": "350",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					},
-									{
-						"totalWeight": "450",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					},
-									{
-						"totalWeight": "550",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="13-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(stackable: true)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 13-1 (stackable: true)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name",
-						"stackable": true
-					},
-									{
-						"totalWeight": "200",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name",
-						"stackable": true
-					},
-					{
-						"totalWeight": "300",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name",
-						"stackable": true
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="13-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(stackable: false)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 13-2 (stackable false)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name",
-						"stackable": false
-					},
-									{
-						"totalWeight": "200",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name",
-						"stackable": false
-					},
-									{
-						"totalWeight": "300",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name",
-						"stackable": false
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-	scenario_number="14"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(item description: null)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 14 (item description: null)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": null
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-
-
-	scenario_number="15-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(payment terms: SHIPPER/PREPAID)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 15-1 (payment terms: SHIPPER/PREPAID)
-		request_data=$(cat <<-EOF
-			{
-				"directionOverride": "SHIPPER",
-				"paymentTermsOverride": "PREPAID",
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-	scenario_number="15-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(payment terms: CONSIGNEE/COLLECT)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 15-2 (payment terms: CONSIGNEE/COLLECT)
-		request_data=$(cat <<-EOF
-			{
-				"directionOverride": "CONSIGNEE",
-				"paymentTermsOverride": "COLLECT",
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-	scenario_number="16-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(pickup date: past)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 16-1 (pickup date: past)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-					"date": "$(date -d 'yesterday' +'%Y-%m-%d')",
-					"startTime": "$(date -d 'yesterday' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="16-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(pickup date: future)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 16-2 (pickup date: future)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="17"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(zip codes valid: 90210 to 10001)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 17 (zip codes valid: 90210 to 10001)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "90211",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "10000",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="18-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(weight: 20000)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 18-1 (weight: 20000)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "20000",
-						"packageDimensions": {
-							"length": "12",
-							"width": "12",
-							"height": "12"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "IN",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="18-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(dimensions: 29 ft)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 18-2 (dimensions: 29 ft)
-		request_data=$(cat <<-EOF
-			{
-				"originAddress": {
-					"postalCode": "60010",
-					"addressLines": [],
-					"city": "BARRINGTON $scenario_name",
-					"state": "IL",
-					"country": "US"
-				},
-				"destinationAddress": {
-					"postalCode": "90210",
-					"addressLines": [],
-					"city": "BEVERLY HILLS $scenario_name",
-					"state": "CA",
-					"country": "US"
-				},
-				"lineItems": [
-					{
-						"totalWeight": "100",
-						"packageDimensions": {
-							"length": "29",
-							"width": "29",
-							"height": "29"
-						},
-						"packageType": "PLT",
-						"totalPackages": 1,
-						"totalPieces": 1,
-						"freightClass": "50",
-						"description": "$scenario_name"
-					}
-				],
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"accessorialServices": [],
-				"pickupWindow": {
-						"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-						"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-						"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-				},
-				"deliveryWindow":{
-					"date": "$(date -d '2 days' +'%Y-%m-%d')",
-					"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-				},
-				"preferredCurrency": "USD",
-				"totalLinearFeet": null,
-				"linearFeetVisualizationIdentifier": null,
-				"weightUnit": "LB",
-				"lengthUnit": "FT",
-				"apiConfiguration": {
-					"enableUnitConversion": true,
-					"accessorialServiceConfiguration": {
-						"fetchAllServiceLevels": true,
-						"allowUnacceptedAccessorials": false
-					}
-				}
-			}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	# Create helper doc
-	if [ "$flg_generate_output" == "true" ]; then
-		grep -R -E 'type|value' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
-		grep -R -E 'startDate|endDate' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
-	fi
-
-	echo "Logs: $logs_url"
+    # Set up logs
+    logs_url="https://140271604703.observeinc.com/workspace/41124764/log-explorer?datasetId=41414971&time-preset=PAST_15_MINUTES&fv=41425674&s=21846-1oa7lvej"
+
+    # Set up output folder
+    if [ "$flg_generate_output" == "true" ]; then
+        output_folder="curl_calls_${scac}_rating_$(date +'%Y-%m-%d_%H-%M-%S')"
+        if [ -d "$output_folder" ]; then
+            rm -r "$output_folder"
+            mkdir "$output_folder"
+        else
+            mkdir "$output_folder"
+        fi
+    fi
+
+    curl_template=$(cat <<-EOF
+        curl $curl_opts --location 'https://na12.api.qa-integration.p-44.com/api/v4/ltl/quotes/rates/query' \
+            --header "Authorization: Bearer $token" \
+            --header "Content-Type: application/json" \
+            --data
+    EOF
+    )
+
+    
+
+    scenario_number="01-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(weight: 100 lbs, dimensions: 12x12x12)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 01-1 (weight: 100 lbs, dimensions: 12x12x12)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            details+="Weight = ${weight:-null}${weight:+ lbs}"
+            details+=$'\n'
+            if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+                details+="Dimensions = ${length}x${width}x${height}"
+            else
+                details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+            fi
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="01-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(weight: 5000 lbs, dimensions: 96x48x48)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 01-2 (weight: 5000 lbs, dimensions: 96x48x48)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "5000",
+                        "packageDimensions": {
+                            "length": "96",
+                            "width": "48",
+                            "height": "48"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            details+="Weight = ${weight:-null}${weight:+ lbs}"
+            details+=$'\n'
+            if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+                details+="Dimensions = ${length}x${width}x${height}"
+            else
+                details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+            fi
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="01-3"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(weight: 0 lbs, dimensions: 0x0x0)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 01-3 (weight: 0 lbs, dimensions: 0x0x0)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "0",
+                        "packageDimensions": {
+                            "length": "0",
+                            "width": "0",
+                            "height": "0"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            details+="Weight = ${weight:-null}${weight:+ lbs}"
+            details+=$'\n'
+            if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+                details+="Dimensions = ${length}x${width}x${height}"
+            else
+                details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+            fi
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+    scenario_number="02-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(dimensions: 10x10x10)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 02-1 (dimensions: 10x10x10)		
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "10",
+                            "width": "10",
+                            "height": "10"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+                details+="Dimensions = ${length}x${width}x${height}"
+            else
+                details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+            fi
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="02-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(dimensions: 0x0x0)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 02-2 (dimensions: 0x0x0)	
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "0",
+                            "width": "0",
+                            "height": "0"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+                details+="Dimensions = ${length}x${width}x${height}"
+            else
+                details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+            fi
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+    scenario_number="02-3"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(dimensions: 500x500x500)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 02-3 (dimensions: 500x500x500)		
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "500",
+                            "width": "500",
+                            "height": "500"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+                details+="Dimensions = ${length}x${width}x${height}"
+            else
+                details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+            fi
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="02-4"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(dimensions: null)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 02-4 (dimensions: null)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": null,
+                            "width": null,
+                            "height": null
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+                details+="Dimensions = ${length}x${width}x${height}"
+            else
+                details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+            fi
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+    scenario_number="03-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(weight: 1000 lbs)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 03-1 (weight: 1000 lbs)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "1000",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            details+="Weight = ${weight:-null}${weight:+ lbs}"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+    scenario_number="03-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(weight: 0 lbs)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 03-2 (weight: 0 lbs)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "0",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            details+="Weight = ${weight:-null}${weight:+ lbs}"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+    scenario_number="03-3"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(weight: 5000 lbs)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 03-3 (weight: 5000 lbs)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "5000",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            details+="Weight = ${weight:-null}${weight:+ lbs}"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="03-4"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(weight: null)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 03-4 (weight: null)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": null,
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "Weight = ${weight:-null}${weight:+ lbs}" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+        fi
+    fi
+
+
+    scenario_number="04-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(2 pallets)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 04-1 (2 pallets)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 2,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="2 Pallets"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="04-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(3 cartons)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 04-2 (3 cartons)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "CARTON",
+                        "totalPackages": 3,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="3 Cartons"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+    scenario_number="04-3"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(1 skid)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 04-3 (1 skid)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 2,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="1 Skid"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="05-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(1 package)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 05-1 (1 package)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="1 Package"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+    scenario_number="05-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(5 packages)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 05-2 (5 packages)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 5,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="5 Packages"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="05-3"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(10 packages)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 05-3 (10 packages)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 10,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="10 Packages"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="06-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(package type: BAG)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 06-1 (package type: BAG)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "BAG",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Package Type = Bag"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+    scenario_number="06-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(package type: BOX)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 06-2 (package type: BOX)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "BOX",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Package Type = Box"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+    scenario_number="06-3"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(package type: SKID)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 06-3 (package type: SKID)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "SKID",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Package Type = Skid"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="06-4"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(package type: null)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 06-4 (package type: null)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": null,
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Package Type = null"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="07-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(unit type: PLT)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 07-1 (unit type: PLT)
+        if [ "$flg_unit_supported" == "true" ]; then
+            request_data=$(cat <<-EOF
+                {
+                    "originAddress": {
+                        "postalCode": "60010",
+                        "addressLines": [],
+                        "city": "BARRINGTON $scenario_name",
+                        "state": "IL",
+                        "country": "US"
+                    },
+                    "destinationAddress": {
+                        "postalCode": "90210",
+                        "addressLines": [],
+                        "city": "BEVERLY HILLS $scenario_name",
+                        "state": "CA",
+                        "country": "US"
+                    },
+                    "enhancedHandlingUnits": [
+                        {
+                        "commodityType": "string",
+                        "contact": {
+                        "companyName": "string",
+                        "contactName": "string",
+                        "email": "string",
+                        "faxNumber": "string",
+                        "faxNumberCountryCode": "string",
+                        "phoneNumber": "string",
+                        "phoneNumber2": "string",
+                        "phoneNumber2CountryCode": "string",
+                        "phoneNumberCountryCode": "string"
+                        },
+                        "deliveryStopNumber": 0,
+                        "description": "string",
+                        "freightClasses": [
+                        "50"
+                        ],
+                        "handlingUnitDimensions": {
+                        "height": 0,
+                        "length": 0,
+                        "width": 0
+                        },
+                        "handlingUnitQuantity": 0,
+                        "handlingUnitType": "PLT",
+                        "harmonizedCode": "string",
+                        "nmfcCodes": [
+                        {
+                            "code": "string"
+                        }
+                        ],
+                        "packages": [
+                        {
+                            "contact": {
+                            "companyName": "string",
+                            "contactName": "string",
+                            "email": "string",
+                            "faxNumber": "string",
+                            "faxNumberCountryCode": "string",
+                            "phoneNumber": "string",
+                            "phoneNumber2": "string",
+                            "phoneNumber2CountryCode": "string",
+                            "phoneNumberCountryCode": "string"
+                            },
+                            "description": "string",
+                            "freightClass": "50",
+                            "involvedParties": [
+                            {
+                                "partyIdentifiers": [
+                                null
+                                ]
+                            }
+                            ],
+                            "nmfcCodes": [
+                            {
+                                "code": "string"
+                            }
+                            ],
+                            "packageContainerType": "BAG",
+                            "packageContents": [
+                            {
+                                "countryOfManufacture": "US",
+                                "description": "string",
+                                "hazmatDetails": [
+                                null
+                                ],
+                                "packageContentIdentifiers": [
+                                null
+                                ],
+                                "packageContentQuantity": 0
+                            }
+                            ],
+                            "packageDimensions": {
+                            "height": 0,
+                            "length": 0,
+                            "width": 0
+                            },
+                            "packageQuantity": 0,
+                            "weightPerPackage": 0
+                        }
+                        ],
+                        "pickupStopNumber": 0,
+                        "stackable": true,
+                        "totalValue": {
+                        "amount": 0,
+                        "currency": "USD"
+                        },
+                        "weightPerHandlingUnit": 0
+                    }
+                    ],
+                    "lineItems": [
+                        {
+                            "totalWeight": "100",
+                            "packageDimensions": {
+                                "length": "12",
+                                "width": "12",
+                                "height": "12"
+                            },
+                            "packageType": "PLT",
+                            "totalPackages": 1,
+                            "totalPieces": 1,
+                            "freightClass": "50",
+                            "description": "$scenario_name"
+                        }
+                    ],
+                    "capacityProviderAccountGroup": {
+                        "code": "$account_group",
+                        "accounts": [
+                            {
+                                "code": "$scac"
+                            }
+                        ]
+                    },
+                    "accessorialServices": [],
+                    "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                    },
+                    "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                    "totalLinearFeet": null,
+                    "linearFeetVisualizationIdentifier": null,
+                    "weightUnit": "LB",
+                    "lengthUnit": "IN",
+                    "apiConfiguration": {
+                        "enableUnitConversion": true,
+                        "accessorialServiceConfiguration": {
+                            "fetchAllServiceLevels": true,
+                            "allowUnacceptedAccessorials": false
+                        }
+                    }
+                }
+            EOF
+            )
+
+            curl_call=$(cat <<-EOF
+                $curl_template '$request_data'
+            EOF
+            )
+            
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+            response=$(eval "$curl_call" | jq)
+            dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+            dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        else
+            dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+            dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+            echo "$scenario_name $scenario_desc $dashes $(print_error "Handling unit not supported!")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Handling Unit = Pallet"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+    scenario_number="07-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(unit type: CARTON)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 07-2 (unit type: CARTON)
+        if [ "$flg_unit_supported" == "true" ]; then
+            request_data=$(cat <<-EOF
+                {
+                    "originAddress": {
+                        "postalCode": "60010",
+                        "addressLines": [],
+                        "city": "BARRINGTON $scenario_name",
+                        "state": "IL",
+                        "country": "US"
+                    },
+                    "destinationAddress": {
+                        "postalCode": "90210",
+                        "addressLines": [],
+                        "city": "BEVERLY HILLS $scenario_name",
+                        "state": "CA",
+                        "country": "US"
+                    },
+                    "enhancedHandlingUnits": [
+                        {
+                        "commodityType": "string",
+                        "contact": {
+                        "companyName": "string",
+                        "contactName": "string",
+                        "email": "string",
+                        "faxNumber": "string",
+                        "faxNumberCountryCode": "string",
+                        "phoneNumber": "string",
+                        "phoneNumber2": "string",
+                        "phoneNumber2CountryCode": "string",
+                        "phoneNumberCountryCode": "string"
+                        },
+                        "deliveryStopNumber": 0,
+                        "description": "string",
+                        "freightClasses": [
+                        "50"
+                        ],
+                        "handlingUnitDimensions": {
+                        "height": 0,
+                        "length": 0,
+                        "width": 0
+                        },
+                        "handlingUnitQuantity": 0,
+                        "handlingUnitType": "CARTON",
+                        "harmonizedCode": "string",
+                        "nmfcCodes": [
+                        {
+                            "code": "string"
+                        }
+                        ],
+                        "packages": [
+                        {
+                            "contact": {
+                            "companyName": "string",
+                            "contactName": "string",
+                            "email": "string",
+                            "faxNumber": "string",
+                            "faxNumberCountryCode": "string",
+                            "phoneNumber": "string",
+                            "phoneNumber2": "string",
+                            "phoneNumber2CountryCode": "string",
+                            "phoneNumberCountryCode": "string"
+                            },
+                            "description": "string",
+                            "freightClass": "50",
+                            "involvedParties": [
+                            {
+                                "partyIdentifiers": [
+                                null
+                                ]
+                            }
+                            ],
+                            "nmfcCodes": [
+                            {
+                                "code": "string"
+                            }
+                            ],
+                            "packageContainerType": "BAG",
+                            "packageContents": [
+                            {
+                                "countryOfManufacture": "US",
+                                "description": "string",
+                                "hazmatDetails": [
+                                null
+                                ],
+                                "packageContentIdentifiers": [
+                                null
+                                ],
+                                "packageContentQuantity": 0
+                            }
+                            ],
+                            "packageDimensions": {
+                            "height": 0,
+                            "length": 0,
+                            "width": 0
+                            },
+                            "packageQuantity": 0,
+                            "weightPerPackage": 0
+                        }
+                        ],
+                        "pickupStopNumber": 0,
+                        "stackable": true,
+                        "totalValue": {
+                        "amount": 0,
+                        "currency": "USD"
+                        },
+                        "weightPerHandlingUnit": 0
+                    }
+                    ],
+                    "lineItems": [
+                        {
+                            "totalWeight": "100",
+                            "packageDimensions": {
+                                "length": "12",
+                                "width": "12",
+                                "height": "12"
+                            },
+                            "packageType": "PLT",
+                            "totalPackages": 1,
+                            "totalPieces": 1,
+                            "freightClass": "50",
+                            "description": "$scenario_name"
+                        }
+                    ],
+                    "capacityProviderAccountGroup": {
+                        "code": "$account_group",
+                        "accounts": [
+                            {
+                                "code": "$scac"
+                            }
+                        ]
+                    },
+                    "accessorialServices": [],
+                    "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                    },
+                    "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                    "totalLinearFeet": null,
+                    "linearFeetVisualizationIdentifier": null,
+                    "weightUnit": "LB",
+                    "lengthUnit": "IN",
+                    "apiConfiguration": {
+                        "enableUnitConversion": true,
+                        "accessorialServiceConfiguration": {
+                            "fetchAllServiceLevels": true,
+                            "allowUnacceptedAccessorials": false
+                        }
+                    }
+                }
+            EOF
+            )
+
+            curl_call=$(cat <<-EOF
+                $curl_template '$request_data'
+            EOF
+            )
+            
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+            response=$(eval "$curl_call" | jq)
+            echo "$scenario_name $scenario_desc ---- Status code: $(print_status_code "$response")"
+        else
+            dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+            dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+            echo "$scenario_name $scenario_desc $dashes $(print_error "Handling unit not supported!")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Handling Unit = Carton"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="07-3"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(unit type: TOTE)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 07-3 (unit type: TOTE)		
+        if [ "$flg_unit_supported" == "true" ]; then
+            request_data=$(cat <<-EOF
+                {
+                    "originAddress": {
+                        "postalCode": "60010",
+                        "addressLines": [],
+                        "city": "BARRINGTON $scenario_name",
+                        "state": "IL",
+                        "country": "US"
+                    },
+                    "destinationAddress": {
+                        "postalCode": "90210",
+                        "addressLines": [],
+                        "city": "BEVERLY HILLS $scenario_name",
+                        "state": "CA",
+                        "country": "US"
+                    },
+                    "enhancedHandlingUnits": [
+                        {
+                        "commodityType": "string",
+                        "contact": {
+                        "companyName": "string",
+                        "contactName": "string",
+                        "email": "string",
+                        "faxNumber": "string",
+                        "faxNumberCountryCode": "string",
+                        "phoneNumber": "string",
+                        "phoneNumber2": "string",
+                        "phoneNumber2CountryCode": "string",
+                        "phoneNumberCountryCode": "string"
+                        },
+                        "deliveryStopNumber": 0,
+                        "description": "string",
+                        "freightClasses": [
+                        "50"
+                        ],
+                        "handlingUnitDimensions": {
+                        "height": 0,
+                        "length": 0,
+                        "width": 0
+                        },
+                        "handlingUnitQuantity": 0,
+                        "handlingUnitType": "TOTE",
+                        "harmonizedCode": "string",
+                        "nmfcCodes": [
+                        {
+                            "code": "string"
+                        }
+                        ],
+                        "packages": [
+                        {
+                            "contact": {
+                            "companyName": "string",
+                            "contactName": "string",
+                            "email": "string",
+                            "faxNumber": "string",
+                            "faxNumberCountryCode": "string",
+                            "phoneNumber": "string",
+                            "phoneNumber2": "string",
+                            "phoneNumber2CountryCode": "string",
+                            "phoneNumberCountryCode": "string"
+                            },
+                            "description": "string",
+                            "freightClass": "50",
+                            "involvedParties": [
+                            {
+                                "partyIdentifiers": [
+                                null
+                                ]
+                            }
+                            ],
+                            "nmfcCodes": [
+                            {
+                                "code": "string"
+                            }
+                            ],
+                            "packageContainerType": "BAG",
+                            "packageContents": [
+                            {
+                                "countryOfManufacture": "US",
+                                "description": "string",
+                                "hazmatDetails": [
+                                null
+                                ],
+                                "packageContentIdentifiers": [
+                                null
+                                ],
+                                "packageContentQuantity": 0
+                            }
+                            ],
+                            "packageDimensions": {
+                            "height": 0,
+                            "length": 0,
+                            "width": 0
+                            },
+                            "packageQuantity": 0,
+                            "weightPerPackage": 0
+                        }
+                        ],
+                        "pickupStopNumber": 0,
+                        "stackable": true,
+                        "totalValue": {
+                        "amount": 0,
+                        "currency": "USD"
+                        },
+                        "weightPerHandlingUnit": 0
+                    }
+                    ],
+                    "lineItems": [
+                        {
+                            "totalWeight": "100",
+                            "packageDimensions": {
+                                "length": "12",
+                                "width": "12",
+                                "height": "12"
+                            },
+                            "packageType": "PLT",
+                            "totalPackages": 1,
+                            "totalPieces": 1,
+                            "freightClass": "50",
+                            "description": "$scenario_name"
+                        }
+                    ],
+                    "capacityProviderAccountGroup": {
+                        "code": "$account_group",
+                        "accounts": [
+                            {
+                                "code": "$scac"
+                            }
+                        ]
+                    },
+                    "accessorialServices": [],
+                    "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                    },
+                    "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                    "totalLinearFeet": null,
+                    "linearFeetVisualizationIdentifier": null,
+                    "weightUnit": "LB",
+                    "lengthUnit": "IN",
+                    "apiConfiguration": {
+                        "enableUnitConversion": true,
+                        "accessorialServiceConfiguration": {
+                            "fetchAllServiceLevels": true,
+                            "allowUnacceptedAccessorials": false
+                        }
+                    }
+                }
+            EOF
+            )
+
+            curl_call=$(cat <<-EOF
+                $curl_template '$request_data'
+            EOF
+            )
+            
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+            response=$(eval "$curl_call" | jq)
+            echo "$scenario_name $scenario_desc ---- Status code: $(print_status_code "$response")"
+        else
+            dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+            dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+            echo "$scenario_name $scenario_desc $dashes $(print_error "Handling unit not supported!")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Handling Unit = Tote"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="08-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(hazmat material: HAZM)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 08-1 (accessorial code: HAZM)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [
+                    {
+                        "code": "HAZM"
+                    }
+                ],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Accessorial Code = HAZM"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="08-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(accessorial code: POISON)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 08-2 (accessorial code: POISON)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [
+                    {
+                        "code": "POISON"
+                    }
+                ],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Accessorial Code = POISON"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="09-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(service level: CNVPU)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 09-1 (service level: CNVPU)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [
+                    {
+                        "code": "CNVPU"
+                    }
+                ],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Service Level = CNVPU"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="09-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(service level: INPU)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 09-2 (service level: INPU)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [
+                    {
+                        "code": "INPU"
+                    }
+                ],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Service Level = INPU"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="10-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(accessorial code: LTDPU)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 10-1 (accessorial code: LTDPU)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [
+                    {
+                        "code": "LTDPU"
+                    }
+                ],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Accessorial Code = LTDPU"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="10-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(accessorial code: LTDDEL)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 10-2 (accessorial code: LTDDEL)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [
+                    {
+                        "code": "LTDDEL"
+                    }
+                ],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Accessorial Code = LTDDEL"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="11-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(charge code: valid)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 11-1 (charge code: valid)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [
+                    {
+                        "code": "$acc_code"
+                    }
+                ],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            charge_code=$(grep -o '"accessorialServices": *\[[^]]*\]' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | grep -o '"[^"]*"' | tr -d '"' | paste -sd, -)
+            # Set details
+            details="Charge Code = ${charge_code:-null}"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+    scenario_number="11-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(charge code: invalid)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 11-2 (charge code: invalid)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            charge_code=$(grep -o '"accessorialServices": *\[[^]]*\]' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | grep -o '"[^"]*"' | tr -d '"' | paste -sd, -)
+            # Set details
+            details="Charge Code = ${charge_code:-null}"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="12-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(1 line item)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 12-1 (1 line item)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="1 Line Item"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="12-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(5 line items)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 12-2 (5 line items)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    },
+                                    {
+                        "totalWeight": "200",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    },
+                                    {
+                        "totalWeight": "300",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    },
+                                    {
+                        "totalWeight": "400",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    },
+                                    {
+                        "totalWeight": "500",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="5 Line Items"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+    scenario_number="12-3"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(10 line items)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 12-3 (10 line items)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    },
+                                    {
+                        "totalWeight": "200",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    },
+                                    {
+                        "totalWeight": "300",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    },
+                                    {
+                        "totalWeight": "400",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    },
+                                    {
+                        "totalWeight": "500",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    },
+                    {
+                        "totalWeight": "150",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    },
+                                    {
+                        "totalWeight": "250",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    },
+                                    {
+                        "totalWeight": "350",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    },
+                                    {
+                        "totalWeight": "450",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    },
+                                    {
+                        "totalWeight": "550",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="10 Line Items"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="13-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(stackable: true)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 13-1 (stackable: true)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name",
+                        "stackable": true
+                    },
+                                    {
+                        "totalWeight": "200",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name",
+                        "stackable": true
+                    },
+                    {
+                        "totalWeight": "300",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name",
+                        "stackable": true
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Stackable = true"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="13-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(stackable: false)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 13-2 (stackable false)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name",
+                        "stackable": false
+                    },
+                                    {
+                        "totalWeight": "200",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name",
+                        "stackable": false
+                    },
+                                    {
+                        "totalWeight": "300",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name",
+                        "stackable": false
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Stackable = false"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+    scenario_number="14"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(item description: null)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 14 (item description: null)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": null
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Item Description = null"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+
+
+    scenario_number="15-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(payment terms: SHIPPER/PREPAID)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 15-1 (payment terms: SHIPPER/PREPAID)
+        request_data=$(cat <<-EOF
+            {
+                "directionOverride": "SHIPPER",
+                "paymentTermsOverride": "PREPAID",
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Payment Terms = Shipper/Prepaid"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+    scenario_number="15-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(payment terms: CONSIGNEE/COLLECT)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 15-2 (payment terms: CONSIGNEE/COLLECT)
+        request_data=$(cat <<-EOF
+            {
+                "directionOverride": "CONSIGNEE",
+                "paymentTermsOverride": "COLLECT",
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Payment Terms = Consignee/Collect"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+    scenario_number="16-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(pickup date: past)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 16-1 (pickup date: past)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                    "date": "$(date -d 'yesterday' +'%Y-%m-%d')",
+                    "startTime": "$(date -d 'yesterday' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Pickup Date = Past Date"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="16-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(pickup date: future)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 16-2 (pickup date: future)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Pickup Date = Future Date"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="17"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(zip codes valid: 90210 to 10001)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 17 (zip codes valid: 90210 to 10001)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "90211",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "10000",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Zip Code Pair = 90210 to 10001"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi		
+    fi
+
+
+    scenario_number="18-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(weight: 20000)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 18-1 (weight: 20000)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "20000",
+                        "packageDimensions": {
+                            "length": "12",
+                            "width": "12",
+                            "height": "12"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "IN",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Weight = 20000 lbs"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="18-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(dimensions: 29 ft)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 18-2 (dimensions: 29 ft)
+        request_data=$(cat <<-EOF
+            {
+                "originAddress": {
+                    "postalCode": "60010",
+                    "addressLines": [],
+                    "city": "BARRINGTON $scenario_name",
+                    "state": "IL",
+                    "country": "US"
+                },
+                "destinationAddress": {
+                    "postalCode": "90210",
+                    "addressLines": [],
+                    "city": "BEVERLY HILLS $scenario_name",
+                    "state": "CA",
+                    "country": "US"
+                },
+                "lineItems": [
+                    {
+                        "totalWeight": "100",
+                        "packageDimensions": {
+                            "length": "29",
+                            "width": "29",
+                            "height": "29"
+                        },
+                        "packageType": "PLT",
+                        "totalPackages": 1,
+                        "totalPieces": 1,
+                        "freightClass": "50",
+                        "description": "$scenario_name"
+                    }
+                ],
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "accessorialServices": [],
+                "pickupWindow": {
+                        "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                        "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                        "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+                },
+                "deliveryWindow":{
+                    "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                    "startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+                    "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+                },
+                "preferredCurrency": "USD",
+                "totalLinearFeet": null,
+                "linearFeetVisualizationIdentifier": null,
+                "weightUnit": "LB",
+                "lengthUnit": "FT",
+                "apiConfiguration": {
+                    "enableUnitConversion": true,
+                    "accessorialServiceConfiguration": {
+                        "fetchAllServiceLevels": true,
+                        "allowUnacceptedAccessorials": false
+                    }
+                }
+            }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Length = 19 feet"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    # Create helper doc
+    # if [ "$flg_generate_output" == "true" ]; then
+    # 	grep -R -E 'type|value' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
+    # 	grep -R -E 'startDate|endDate' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
+    # fi
+
+    echo "Logs: $logs_url"
 fi
 # End of: run rating
 
@@ -5664,5436 +6377,5854 @@ fi
 # Start of: run dispatch
 if [ "$flg_run_dispatch" == "true" ]; then
 
-	# Set up logs
-	logs_url="https://140271604703.observeinc.com/workspace/41124764/log-explorer?datasetId=41414971&time-preset=PAST_15_MINUTES&fv=41425674&s=21846-1oa7lvej"
-
-	# Set up output folder
-	if [ "$flg_generate_output" == "true" ]; then
-		output_folder="curl_calls_${scac}_dispatch_$(date +'%Y-%m-%d_%H-%M-%S')"
-		if [ -d "$output_folder" ]; then
-			rm -r "$output_folder"
-			mkdir "$output_folder"
-		else
-			mkdir "$output_folder"
-		fi
-	fi
-
-	curl_template=$(cat <<-EOF
-	    curl $curl_opts --location 'https://na12.api.qa-integration.p-44.com/api/v4/ltl/dispatchedshipments' \
-	        --header "Authorization: Bearer $token" \
-	        --header "Content-Type: application/json" \
-	        --data
-	EOF
-	)
-
-
-
-
-	scenario_number="01-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(payment terms: SHIPPER/PREPAID)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 180.0,
-					"packageDimensions": {
-						"length": 24.0,
-						"width": 24.0,
-						"height": 12.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="01-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(payment terms: CONSIGNEE/COLLECT)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "COLLECT",
-			"directionOverride": "CONSIGNEE",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 180.0,
-					"packageDimensions": {
-						"length": 24.0,
-						"width": 24.0,
-						"height": 12.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="01-3"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(payment terms: PREPAID/THIRD_PARTY)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "THIRD_PARTY",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 180.0,
-					"packageDimensions": {
-						"length": 24.0,
-						"width": 24.0,
-						"height": 12.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-	scenario_number="02-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(date: past)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 180.0,
-					"packageDimensions": {
-						"length": 24.0,
-						"width": 24.0,
-						"height": 12.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d '2 days ago' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days ago' +'%H:%M')",
-				"endTime": "$(date -d '2 days ago 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d 'yesterday' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'yesterday' +'%H:%M')",
-				"endTime": "$(date -d 'yesterday 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-	scenario_number="02-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(date: future)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 180.0,
-					"packageDimensions": {
-						"length": 24.0,
-						"width": 24.0,
-						"height": 12.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="02-3"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(date: same day)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 180.0,
-					"packageDimensions": {
-						"length": 24.0,
-						"width": 24.0,
-						"height": 12.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'today' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'today' +'%H:%M')",
-				"endTime": "$(date -d 'today 2 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d 'today 3 hours' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'today 3 hours' +'%H:%M')",
-				"endTime": "$(date -d 'today 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-	scenario_number="03"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(dimensions: 10x10x10)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 180.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-	scenario_number="04"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(dimensions: 0x0x0)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 180.0,
-					"packageDimensions": {
-						"length": 0,
-						"width": 0,
-						"height": 0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-	scenario_number="05"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(dimensions: 500x500x500)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 180.0,
-					"packageDimensions": {
-						"length": 500.0,
-						"width": 500.0,
-						"height": 500.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-	scenario_number="06"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(dimensions: null)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 180.0,
-					"packageDimensions": {
-						"length": null,
-						"width": null,
-						"height": null
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-	scenario_number="07"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(weight: 1000 lbs)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="08"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(weight: 0 lbs)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-	scenario_number="09"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(weight: 5000 lbs)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 5000,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="10"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(weight: null)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": null,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="11-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(2 pallets)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 2,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="11-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(3 cartons)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 3,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-	scenario_number="12-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(package type: BAG)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "BAG",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-
-	scenario_number="12-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(package type: BOX)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "BOX",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="12-3"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(package type: PLT)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "PLT",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="13-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(unit type: SKID)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "SKID",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="13-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(unit type: CARTON)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="14-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(accessorial code: HAZM)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [
-				{
-					"code": "HAZM"
-				}
-			],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-	scenario_number="14-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(accessorial code: POISON)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [
-				{
-					"code": "POISON"
-				}
-			],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="15-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(service level: CNVPU)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [
-				{
-					"code": "CNVPU"
-				}
-			],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="15-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(service level: INPU)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [
-				{
-					"code": "INPU"
-				}
-			],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="16-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(accessorial code: LTDPU)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [
-				{
-					"code": "LTDPU"
-				}
-			],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="16-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(accessorial code: LTDDEL)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [
-				{
-					"code": "LTDDEL"
-				}
-			],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="17-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(1 line item)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="17-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(5 line items)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="17-3"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(10 line items)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="18-1"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(stackable: true)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": true
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": true
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": true
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": true
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": true
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": true
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="18-2"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(stackable: false)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="18-3"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(stackable: mixed)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": true
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": false
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": true
-				},
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": "$scenario_name",
-					"stackable": true
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
-
-
-	scenario_number="19"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(description: null)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-	
-		request_data=$(cat <<-EOF
-		{
-			"weightUnit": "LB",
-			"lengthUnit": "IN",
-			"paymentTermsOverride": "PREPAID",
-			"directionOverride": "SHIPPER",
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"originLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"destinationLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
-					"addressLines": [
-						"16116  -111 Avenue Northwest"
-					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
-				},
-				"contact": {
-					"companyName": "SMS Equipment Inc.",
-					"contactName": "AARON RYAN",
-					"phoneNumber": "7804512630"
-				}
-			},
-			"requesterLocation": {
-				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
-					"addressLines": [
-						"1270 Geddes St"
-					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
-				},
-				"contact": {
-					"companyName": "A M I ATTACHMENTS INC",
-					"contactName": "Darlene Ward",
-					"phoneNumber": "5196993923",
-					"email": "darlene.w@amiattachments.com"
-				}
-			},
-			"lineItems": [
-				{
-					"freightClass": "70",
-					"packageType": "CARTON",
-					"totalWeight": 1000.0,
-					"packageDimensions": {
-						"length": 10.0,
-						"width": 10.0,
-						"height": 10.0
-					},
-					"totalPackages": 1,
-					"totalPieces": 1,
-					"description": null,
-					"stackable": false
-				}
-			],
-			"pickupWindow": {
-				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-			},
-			"deliveryWindow": {
-				"date": "$(date -d '2 days' +'%Y-%m-%d')",
-				"startTime": "$(date -d '2 days' +'%H:%M')",
-				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-			},
-			"carrierCode": "$scac",
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "BILL_OF_LADING",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "CUSTOMER_REFERENCE",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				},
-				{
-					"type": "PURCHASE_ORDER",
-					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
-				}
-			],
-			"accessorialServices": [],
-			"pickupNote": "TOTAL 1 H/U",
-			"emergencyContact": {},
-			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
-			"apiConfiguration": {
-				"noteConfiguration": {
-					"enableTruncation": true
-				},
-				"allowUnsupportedAccessorials": true,
-				"pickupOnly": false
-			}
-		}
-		EOF
-		)
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-		
-		if [ "$flg_generate_output" == "true" ]; then	
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-	fi
+    # Set up logs
+    logs_url="https://140271604703.observeinc.com/workspace/41124764/log-explorer?datasetId=41414971&time-preset=PAST_15_MINUTES&fv=41425674&s=21846-1oa7lvej"
+
+    # Set up output folder
+    if [ "$flg_generate_output" == "true" ]; then
+        output_folder="curl_calls_${scac}_dispatch_$(date +'%Y-%m-%d_%H-%M-%S')"
+        if [ -d "$output_folder" ]; then
+            rm -r "$output_folder"
+            mkdir "$output_folder"
+        else
+            mkdir "$output_folder"
+        fi
+    fi
+
+    curl_template=$(cat <<-EOF
+        curl $curl_opts --location 'https://na12.api.qa-integration.p-44.com/api/v4/ltl/dispatchedshipments' \
+            --header "Authorization: Bearer $token" \
+            --header "Content-Type: application/json" \
+            --data
+    EOF
+    )
+
+
+
+
+    scenario_number="01-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(payment terms: SHIPPER/PREPAID)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 180.0,
+                    "packageDimensions": {
+                        "length": 24.0,
+                        "width": 24.0,
+                        "height": 12.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Payment Terms = Shipper/Prepaid"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="01-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(payment terms: CONSIGNEE/COLLECT)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "COLLECT",
+            "directionOverride": "CONSIGNEE",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 180.0,
+                    "packageDimensions": {
+                        "length": 24.0,
+                        "width": 24.0,
+                        "height": 12.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Payment Terms = Consignee/Collect"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="01-3"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(payment terms: PREPAID/THIRD_PARTY)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "THIRD_PARTY",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 180.0,
+                    "packageDimensions": {
+                        "length": 24.0,
+                        "width": 24.0,
+                        "height": 12.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Payment Terms = Prepaid/ThirdParty"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+    scenario_number="02-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(date: past)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 180.0,
+                    "packageDimensions": {
+                        "length": 24.0,
+                        "width": 24.0,
+                        "height": 12.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d '2 days ago' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days ago' +'%H:%M')",
+                "endTime": "$(date -d '2 days ago 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d 'yesterday' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'yesterday' +'%H:%M')",
+                "endTime": "$(date -d 'yesterday 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Date = Past Date"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+    scenario_number="02-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(date: future)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 180.0,
+                    "packageDimensions": {
+                        "length": 24.0,
+                        "width": 24.0,
+                        "height": 12.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Date = Future Date"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="02-3"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(date: same day)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 180.0,
+                    "packageDimensions": {
+                        "length": 24.0,
+                        "width": 24.0,
+                        "height": 12.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'today' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'today' +'%H:%M')",
+                "endTime": "$(date -d 'today 2 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d 'today 3 hours' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'today 3 hours' +'%H:%M')",
+                "endTime": "$(date -d 'today 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Date = Same Day"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+    scenario_number="03"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(dimensions: 10x10x10)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 180.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+                details+="Dimensions = ${length}x${width}x${height}"
+            else
+                details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+            fi
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+        fi
+    fi
+
+    scenario_number="04"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(dimensions: 0x0x0)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 180.0,
+                    "packageDimensions": {
+                        "length": 0,
+                        "width": 0,
+                        "height": 0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+                details+="Dimensions = ${length}x${width}x${height}"
+            else
+                details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+            fi
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+        fi
+    fi
+
+    scenario_number="05"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(dimensions: 500x500x500)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 180.0,
+                    "packageDimensions": {
+                        "length": 500.0,
+                        "width": 500.0,
+                        "height": 500.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+                details+="Dimensions = ${length}x${width}x${height}"
+            else
+                details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+            fi
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+        fi
+    fi
+
+    scenario_number="06"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(dimensions: null)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 180.0,
+                    "packageDimensions": {
+                        "length": null,
+                        "width": null,
+                        "height": null
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            length=$(grep -o '"length": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            width=$(grep -o '"width": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            height=$(grep -o '"height": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            if [[ -n "$length" && -n "$width" && -n "$height" ]]; then
+                details+="Dimensions = ${length}x${width}x${height}"
+            else
+                details+="Dimensions = null" >> "$output_folder/$helper_doc_file_name"
+            fi
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+        fi
+    fi
+
+
+
+    scenario_number="07"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(weight: 1000 lbs)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details+="Weight = ${weight:-null}${weight:+ lbs}"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+        fi
+    fi
+
+
+    scenario_number="08"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(weight: 0 lbs)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details+="Weight = ${weight:-null}${weight:+ lbs}"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+        fi
+    fi
+
+    scenario_number="09"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(weight: 5000 lbs)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 5000,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details+="Weight = ${weight:-null}${weight:+ lbs}"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+        fi
+    fi
+
+
+    scenario_number="10"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(weight: null)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": null,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            weight=$(grep -o '"totalWeight": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details+="Weight = ${weight:-null}${weight:+ lbs}"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+        fi
+    fi
+
+
+    scenario_number="11-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(2 pallets)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 2,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="2 Pallets"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="11-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(3 cartons)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 3,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="3 Cartons"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+    scenario_number="12-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(package type: BAG)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "BAG",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Package Type = Bag"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+    scenario_number="12-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(package type: BOX)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "BOX",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Package Type = Box"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="12-3"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(package type: PLT)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "PLT",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Package Type = Pallet"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="13-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(unit type: SKID)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "SKID",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Handling Unit = Skid"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="13-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(unit type: CARTON)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Handling Unit = Carton"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="14-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(accessorial code: HAZM)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [
+                {
+                    "code": "HAZM"
+                }
+            ],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Accessorial Code = HAZM"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+    scenario_number="14-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(accessorial code: POISON)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [
+                {
+                    "code": "POISON"
+                }
+            ],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Accessorial Code = POISON"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="15-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(service level: CNVPU)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [
+                {
+                    "code": "CNVPU"
+                }
+            ],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Service Level = CNVPU"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="15-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(service level: INPU)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [
+                {
+                    "code": "INPU"
+                }
+            ],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Service Level = INPU"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="16-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(accessorial code: LTDPU)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [
+                {
+                    "code": "LTDPU"
+                }
+            ],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Accessorial Code = LTDPU"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="16-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(accessorial code: LTDDEL)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [
+                {
+                    "code": "LTDDEL"
+                }
+            ],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Accessorial Code = LTDDEL"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="17-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(1 line item)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="1 Line Item"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="17-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(5 line items)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="5 Line Items"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="17-3"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(10 line items)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="10 Line Items"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="18-1"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(stackable: true)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": true
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": true
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": true
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": true
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": true
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": true
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Stackable = true"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="18-2"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(stackable: false)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Stackable = false"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="18-3"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(stackable: mixed)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": true
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": false
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": true
+                },
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": "$scenario_name",
+                    "stackable": true
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Stackable = Mixed"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="19"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(description: null)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+    
+        request_data=$(cat <<-EOF
+        {
+            "weightUnit": "LB",
+            "lengthUnit": "IN",
+            "paymentTermsOverride": "PREPAID",
+            "directionOverride": "SHIPPER",
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "originLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "destinationLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "T5M 2S1",
+                    "addressLines": [
+                        "16116  -111 Avenue Northwest"
+                    ],
+                    "city": "Edmonton $scenario_name",
+                    "state": "AB"
+                },
+                "contact": {
+                    "companyName": "SMS Equipment Inc.",
+                    "contactName": "AARON RYAN",
+                    "phoneNumber": "7804512630"
+                }
+            },
+            "requesterLocation": {
+                "address": {
+                    "country": "CA",
+                    "postalCode": "N0B1X0",
+                    "addressLines": [
+                        "1270 Geddes St"
+                    ],
+                    "city": "Hawkesville $scenario_name",
+                    "state": "ON"
+                },
+                "contact": {
+                    "companyName": "A M I ATTACHMENTS INC",
+                    "contactName": "Darlene Ward",
+                    "phoneNumber": "5196993923",
+                    "email": "darlene.w@amiattachments.com"
+                }
+            },
+            "lineItems": [
+                {
+                    "freightClass": "70",
+                    "packageType": "CARTON",
+                    "totalWeight": 1000.0,
+                    "packageDimensions": {
+                        "length": 10.0,
+                        "width": 10.0,
+                        "height": 10.0
+                    },
+                    "totalPackages": 1,
+                    "totalPieces": 1,
+                    "description": null,
+                    "stackable": false
+                }
+            ],
+            "pickupWindow": {
+                "date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+                "startTime": "$(date -d 'tomorrow' +'%H:%M')",
+                "endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+            },
+            "deliveryWindow": {
+                "date": "$(date -d '2 days' +'%Y-%m-%d')",
+                "startTime": "$(date -d '2 days' +'%H:%M')",
+                "endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+            },
+            "carrierCode": "$scac",
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "BILL_OF_LADING",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "CUSTOMER_REFERENCE",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                },
+                {
+                    "type": "PURCHASE_ORDER",
+                    "value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+                }
+            ],
+            "accessorialServices": [],
+            "pickupNote": "TOTAL 1 H/U",
+            "emergencyContact": {},
+            "capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+            "apiConfiguration": {
+                "noteConfiguration": {
+                    "enableTruncation": true
+                },
+                "allowUnsupportedAccessorials": true,
+                "pickupOnly": false
+            }
+        }
+        EOF
+        )
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+        
+        if [ "$flg_generate_output" == "true" ]; then	
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Description = null"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
 
 
 
@@ -11112,1148 +12243,1212 @@ fi
 # Start of: run tracking
 if [ "$flg_run_tracking" == "true" ]; then
 
-	# Set up logs
-	logs_url="https://140271604703.observeinc.com/workspace/41124764/log-explorer?datasetId=41414971&time-preset=PAST_15_MINUTES&fv=41425674&s=21846-h6a5w00z"
+    # Set up logs
+    logs_url="https://140271604703.observeinc.com/workspace/41124764/log-explorer?datasetId=41414971&time-preset=PAST_15_MINUTES&fv=41425674&s=21846-h6a5w00z"
 
-	# Set up output folder
-	if [ "$flg_generate_output" == "true" ]; then
-		output_folder="curl_calls_${scac}_tracking_$(date +'%Y-%m-%d_%H-%M-%S')"
-		if [ -d "$output_folder" ]; then
-			rm -r "$output_folder"
-			mkdir "$output_folder"
-		else
-			mkdir "$output_folder"
-		fi
-	fi
-	
-	
-	curl_template=$(cat <<-EOF
-	curl $curl_opts --location 'https://na12.api.qa-integration.p-44.com/api/v4/ltl/trackedshipments' \
-		--header "Authorization: Bearer $token" \
-		--header "Content-Type: application/json" \
-		--data
-	EOF
-	)
-
-
-
-	scenario_number="01"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(PRO number)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 01 (PRO number)
-		if [ -z "$pro_num" ]; then
-			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-			echo "$scenario_name $scenario_desc $dashes $(print_error "PRO number not set!")"
-		else
-			request_data=$(cat <<-EOF
-				{
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"shipmentIdentifiers": [
-					{
-						"type": "PRO",
-						"value": "$pro_num"
-					}
-				],
-				"shipmentStops": [
-					{
-						"stopType": "ORIGIN",
-						"location": {
-							"address": {
-								"postalCode": "60555",
-								"addressLines": [
-									"29W600 Winchester Cir $scenario_name"
-								],
-								"city": "Warrenville $scenario_name",
-								"state": "IL",
-								"country": "US"
-							},
-							"contact": {
-								"companyName": "Test Company $scenario_name"
-							}
-						},
-						"appointmentWindow": {
-							"startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
-							"endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
-						}
-					},
-
-					{
-						"stopType": "DESTINATION",
-						"location": {
-							"address": {
-								"postalCode": "08831",
-								"addressLines": [
-									"2 Hitching Post Place $scenario_name"
-								],
-								"city": "Monroe Township $scenario_name",
-								"state": "NJ",
-								"country": "US"
-							},
-							"contact": {
-								"companyName": "Test Company $scenario_name"
-							}
-						},
-						"appointmentWindow": {
-							"startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
-							"endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
-						}
-					}
-				],
-				"apiConfiguration": {
-					"fallBackToDefaultAccountGroup": false
-				},
-				"shipmentAttributes": [
-					{
-						"name": "SyntheticLTLTest",
-						"values": [
-							"12345",
-							"56789"
-						]
-					}
-				]
-			}
-			EOF
-			)
-
-			curl_call=$(cat <<-EOF
-				$curl_template '$request_data'
-			EOF
-			)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-		fi
-		# Create helper doc
-		if [ "$flg_generate_output" == "true" ]; then
-			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
-			echo "" >> "$output_folder/$helper_doc_file_name"
-		fi
-	fi
-
-
-	scenario_number="02"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(BOL number)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 02 (BOL number)
-		if [ -z "$bol_num" ]; then
-			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-			echo "$scenario_name $scenario_desc $dashes $(print_error "BOL number not set!")"
-		else
-			request_data=$(cat <<-EOF
-				{
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"shipmentIdentifiers": [
-					{
-						"type": "BILL_OF_LADING",
-						"value": "$bol_num"
-					}
-				],
-				"shipmentStops": [
-					{
-						"stopType": "ORIGIN",
-						"location": {
-							"address": {
-								"postalCode": "60555",
-								"addressLines": [
-									"29W600 Winchester Cir $scenario_name"
-								],
-								"city": "Warrenville $scenario_name",
-								"state": "IL",
-								"country": "US"
-							},
-							"contact": {
-								"companyName": "Test Company $scenario_name"
-							}
-						},
-						"appointmentWindow": {
-							"startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
-							"endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
-						}
-					},
-
-					{
-						"stopType": "DESTINATION",
-						"location": {
-							"address": {
-								"postalCode": "08831",
-								"addressLines": [
-									"2 Hitching Post Place $scenario_name"
-								],
-								"city": "Monroe Township $scenario_name",
-								"state": "NJ",
-								"country": "US"
-							},
-							"contact": {
-								"companyName": "Test Company $scenario_name"
-							}
-						},
-						"appointmentWindow": {
-							"startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
-							"endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
-						}
-					}
-				],
-				"apiConfiguration": {
-					"fallBackToDefaultAccountGroup": false
-				},
-				"shipmentAttributes": [
-					{
-						"name": "SyntheticLTLTest",
-						"values": [
-							"12345",
-							"56789"
-						]
-					}
-				]
-			}
-			EOF
-			)
-
-			curl_call=$(cat <<-EOF
-				$curl_template '$request_data'
-			EOF
-			)
-
-			if [ "$flg_generate_output" == "true" ]; then
-				echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-			fi
-			response=$(eval "$curl_call" | jq)
-			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-			if [ "$flg_use_quiet_mode" == "false" ]; then
-				echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-			else
-				echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-			fi	
-		fi
-		# Create helper doc
-		if [ "$flg_generate_output" == "true" ]; then
-			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
-			echo "" >> "$output_folder/$helper_doc_file_name"
-		fi
-	fi
-
-
-	scenario_number="03"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(PO number)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 03 (PO number)
-		if [ -z "$po_num" ]; then
-			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-			echo "$scenario_name $scenario_desc $dashes $(print_error "PO number not set!")"
-		else
-			request_data=$(cat <<-EOF
-				{
-				"capacityProviderAccountGroup": {
-					"code": "$account_group",
-					"accounts": [
-						{
-							"code": "$scac"
-						}
-					]
-				},
-				"shipmentIdentifiers": [
-					{
-						"type": "PURCHASE_ORDER",
-						"value": "$po_num"
-					}
-				],
-				"shipmentStops": [
-					{
-						"stopType": "ORIGIN",
-						"location": {
-							"address": {
-								"postalCode": "60555",
-								"addressLines": [
-									"29W600 Winchester Cir $scenario_name"
-								],
-								"city": "Warrenville $scenario_name",
-								"state": "IL",
-								"country": "US"
-							},
-							"contact": {
-								"companyName": "Test Company $scenario_name"
-							}
-						},
-						"appointmentWindow": {
-							"startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
-							"endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
-						}
-					},
-
-					{
-						"stopType": "DESTINATION",
-						"location": {
-							"address": {
-								"postalCode": "08831",
-								"addressLines": [
-									"2 Hitching Post Place $scenario_name"
-								],
-								"city": "Monroe Township $scenario_name",
-								"state": "NJ",
-								"country": "US"
-							},
-							"contact": {
-								"companyName": "Test Company $scenario_name"
-							}
-						},
-						"appointmentWindow": {
-							"startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
-							"endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
-						}
-					}
-				],
-				"apiConfiguration": {
-					"fallBackToDefaultAccountGroup": false
-				},
-				"shipmentAttributes": [
-					{
-						"name": "SyntheticLTLTest",
-						"values": [
-							"12345",
-							"56789"
-						]
-					}
-				]
-			}
-			EOF
-			)
-
-			curl_call=$(cat <<-EOF
-				$curl_template '$request_data'
-			EOF
-			)
-		
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-		fi
-		# Create helper doc
-		if [ "$flg_generate_output" == "true" ]; then
-			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
-			echo "" >> "$output_folder/$helper_doc_file_name"
-		fi
-	fi
-
-	scenario_number="04"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(date: valid)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 04 (date: valid)
-		request_data=$(cat <<-EOF
-			{
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "$pro_num"
-				}
-			],
-			"shipmentStops": [
-				{
-					"stopType": "ORIGIN",
-					"location": {
-						"address": {
-							"postalCode": "60555",
-							"addressLines": [
-								"29W600 Winchester Cir $scenario_name"
-							],
-							"city": "Warrenville $scenario_name",
-							"state": "IL",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				},
-
-				{
-					"stopType": "DESTINATION",
-					"location": {
-						"address": {
-							"postalCode": "08831",
-							"addressLines": [
-								"2 Hitching Post Place $scenario_name"
-							],
-							"city": "Monroe Township $scenario_name",
-							"state": "NJ",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				}
-			],
-			"apiConfiguration": {
-				"fallBackToDefaultAccountGroup": false
-			},
-			"shipmentAttributes": [
-				{
-					"name": "SyntheticLTLTest",
-					"values": [
-						"12345",
-						"56789"
-					]
-				}
-			]
-		}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-		# Create helper doc
-		if [ "$flg_generate_output" == "true" ]; then
-			startDate=$(grep -o '"startDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			endDate=$(grep -o '"endDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | tail -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "startDate: $startDate" >> "$output_folder/$helper_doc_file_name"
-			echo "endDate: $endDate" >> "$output_folder/$helper_doc_file_name"
-			echo "" >> "$output_folder/$helper_doc_file_name"
-		fi
-	fi
-
-
-	scenario_number="05"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(date: future)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 05 (date: future)
-		request_data=$(cat <<-EOF
-			{
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "$pro_num"
-				}
-			],
-			"shipmentStops": [
-				{
-					"stopType": "ORIGIN",
-					"location": {
-						"address": {
-							"postalCode": "60555",
-							"addressLines": [
-								"29W600 Winchester Cir $scenario_name"
-							],
-							"city": "Warrenville $scenario_name",
-							"state": "IL",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d '1 hour' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d '1 hour' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				},
-
-				{
-					"stopType": "DESTINATION",
-					"location": {
-						"address": {
-							"postalCode": "08831",
-							"addressLines": [
-								"2 Hitching Post Place $scenario_name"
-							],
-							"city": "Monroe Township $scenario_name",
-							"state": "NJ",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				}
-			],
-			"apiConfiguration": {
-				"fallBackToDefaultAccountGroup": false
-			},
-			"shipmentAttributes": [
-				{
-					"name": "SyntheticLTLTest",
-					"values": [
-						"12345",
-						"56789"
-					]
-				}
-			]
-		}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-		# Create helper doc
-		if [ "$flg_generate_output" == "true" ]; then
-			startDate=$(grep -o '"startDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			endDate=$(grep -o '"endDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | tail -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "startDate: $startDate" >> "$output_folder/$helper_doc_file_name"
-			echo "endDate: $endDate" >> "$output_folder/$helper_doc_file_name"
-			echo "" >> "$output_folder/$helper_doc_file_name"
-		fi
-	fi
-	
-
-	scenario_number="06"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(date: past)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 06 (date: past)
-		request_data=$(cat <<-EOF
-			{
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "$pro_num"
-				}
-			],
-			"shipmentStops": [
-				{
-					"stopType": "ORIGIN",
-					"location": {
-						"address": {
-							"postalCode": "60555",
-							"addressLines": [
-								"29W600 Winchester Cir $scenario_name"
-							],
-							"city": "Warrenville $scenario_name",
-							"state": "IL",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				},
-
-				{
-					"stopType": "DESTINATION",
-					"location": {
-						"address": {
-							"postalCode": "08831",
-							"addressLines": [
-								"2 Hitching Post Place $scenario_name"
-							],
-							"city": "Monroe Township $scenario_name",
-							"state": "NJ",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d '2 hours ago' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d '1 hour ago' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				}
-			],
-			"apiConfiguration": {
-				"fallBackToDefaultAccountGroup": false
-			},
-			"shipmentAttributes": [
-				{
-					"name": "SyntheticLTLTest",
-					"values": [
-						"12345",
-						"56789"
-					]
-				}
-			]
-		}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-		# Create helper doc
-		if [ "$flg_generate_output" == "true" ]; then
-			startDate=$(grep -o '"startDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			endDate=$(grep -o '"endDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | tail -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "startDate: $startDate" >> "$output_folder/$helper_doc_file_name"
-			echo "endDate: $endDate" >> "$output_folder/$helper_doc_file_name"
-			echo "" >> "$output_folder/$helper_doc_file_name"
-		fi
-	fi
+    # Set up output folder
+    if [ "$flg_generate_output" == "true" ]; then
+        output_folder="curl_calls_${scac}_tracking_$(date +'%Y-%m-%d_%H-%M-%S')"
+        if [ -d "$output_folder" ]; then
+            rm -r "$output_folder"
+            mkdir "$output_folder"
+        else
+            mkdir "$output_folder"
+        fi
+    fi
+    
+    
+    curl_template=$(cat <<-EOF
+    curl $curl_opts --location 'https://na12.api.qa-integration.p-44.com/api/v4/ltl/trackedshipments' \
+        --header "Authorization: Bearer $token" \
+        --header "Content-Type: application/json" \
+        --data
+    EOF
+    )
 
 
 
-	scenario_number="07"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(status codes)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 07 (status codes)
-		request_data=$(cat <<-EOF
-			{
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "$pro_num"
-				}
-			],
-			"shipmentStops": [
-				{
-					"stopType": "ORIGIN",
-					"location": {
-						"address": {
-							"postalCode": "60555",
-							"addressLines": [
-								"29W600 Winchester Cir $scenario_name"
-							],
-							"city": "Warrenville $scenario_name",
-							"state": "IL",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				},
+    scenario_number="01"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(PRO number)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 01 (PRO number)
+        if [ -z "$pro_num" ]; then
+            dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+            dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+            echo "$scenario_name $scenario_desc $dashes $(print_error "PRO number not set!")"
+        else
+            request_data=$(cat <<-EOF
+                {
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "shipmentIdentifiers": [
+                    {
+                        "type": "PRO",
+                        "value": "$pro_num"
+                    }
+                ],
+                "shipmentStops": [
+                    {
+                        "stopType": "ORIGIN",
+                        "location": {
+                            "address": {
+                                "postalCode": "60555",
+                                "addressLines": [
+                                    "29W600 Winchester Cir $scenario_name"
+                                ],
+                                "city": "Warrenville $scenario_name",
+                                "state": "IL",
+                                "country": "US"
+                            },
+                            "contact": {
+                                "companyName": "Test Company $scenario_name"
+                            }
+                        },
+                        "appointmentWindow": {
+                            "startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
+                            "endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
+                        }
+                    },
 
-				{
-					"stopType": "DESTINATION",
-					"location": {
-						"address": {
-							"postalCode": "08831",
-							"addressLines": [
-								"2 Hitching Post Place $scenario_name"
-							],
-							"city": "Monroe Township $scenario_name",
-							"state": "NJ",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				}
-			],
-			"apiConfiguration": {
-				"fallBackToDefaultAccountGroup": false
-			},
-			"shipmentAttributes": [
-				{
-					"name": "SyntheticLTLTest",
-					"values": [
-						"12345",
-						"56789"
-					]
-				}
-			]
-		}
-		EOF
-		)
+                    {
+                        "stopType": "DESTINATION",
+                        "location": {
+                            "address": {
+                                "postalCode": "08831",
+                                "addressLines": [
+                                    "2 Hitching Post Place $scenario_name"
+                                ],
+                                "city": "Monroe Township $scenario_name",
+                                "state": "NJ",
+                                "country": "US"
+                            },
+                            "contact": {
+                                "companyName": "Test Company $scenario_name"
+                            }
+                        },
+                        "appointmentWindow": {
+                            "startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
+                            "endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
+                        }
+                    }
+                ],
+                "apiConfiguration": {
+                    "fallBackToDefaultAccountGroup": false
+                },
+                "shipmentAttributes": [
+                    {
+                        "name": "SyntheticLTLTest",
+                        "values": [
+                            "12345",
+                            "56789"
+                        ]
+                    }
+                ]
+            }
+            EOF
+            )
 
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
+            curl_call=$(cat <<-EOF
+                $curl_template '$request_data'
+            EOF
+            )
 
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-		# Create helper doc
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Status codes: Check movement" >> "$output_folder/$helper_doc_file_name"
-			echo "" >> "$output_folder/$helper_doc_file_name"
-		fi
-	fi
-
-
-
-	scenario_number="08"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(event status descriptions)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 08 (event status descriptions)
-		request_data=$(cat <<-EOF
-			{
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "$pro_num"
-				}
-			],
-			"shipmentStops": [
-				{
-					"stopType": "ORIGIN",
-					"location": {
-						"address": {
-							"postalCode": "60555",
-							"addressLines": [
-								"29W600 Winchester Cir $scenario_name"
-							],
-							"city": "Warrenville $scenario_name",
-							"state": "IL",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				},
-
-				{
-					"stopType": "DESTINATION",
-					"location": {
-						"address": {
-							"postalCode": "08831",
-							"addressLines": [
-								"2 Hitching Post Place $scenario_name"
-							],
-							"city": "Monroe Township $scenario_name",
-							"state": "NJ",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				}
-			],
-			"apiConfiguration": {
-				"fallBackToDefaultAccountGroup": false
-			},
-			"shipmentAttributes": [
-				{
-					"name": "SyntheticLTLTest",
-					"values": [
-						"12345",
-						"56789"
-					]
-				}
-			]
-		}
-		EOF
-		)
-
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-		# Create helper doc
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo "Status descriptions: Check movement" >> "$output_folder/$helper_doc_file_name"
-			echo "" >> "$output_folder/$helper_doc_file_name"
-		fi
-	fi
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details="Reference Number = $type $value"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
 
 
+    scenario_number="02"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(BOL number)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 02 (BOL number)
+        if [ -z "$bol_num" ]; then
+            dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+            dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+            echo "$scenario_name $scenario_desc $dashes $(print_error "BOL number not set!")"
+        else
+            request_data=$(cat <<-EOF
+                {
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "shipmentIdentifiers": [
+                    {
+                        "type": "BILL_OF_LADING",
+                        "value": "$bol_num"
+                    }
+                ],
+                "shipmentStops": [
+                    {
+                        "stopType": "ORIGIN",
+                        "location": {
+                            "address": {
+                                "postalCode": "60555",
+                                "addressLines": [
+                                    "29W600 Winchester Cir $scenario_name"
+                                ],
+                                "city": "Warrenville $scenario_name",
+                                "state": "IL",
+                                "country": "US"
+                            },
+                            "contact": {
+                                "companyName": "Test Company $scenario_name"
+                            }
+                        },
+                        "appointmentWindow": {
+                            "startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
+                            "endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
+                        }
+                    },
 
-	scenario_number="09"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(status discrepancies)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 09 (status discrepancies)
-		request_data=$(cat <<-EOF
-			{
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "$pro_num"
-				}
-			],
-			"shipmentStops": [
-				{
-					"stopType": "ORIGIN",
-					"location": {
-						"address": {
-							"postalCode": "60555",
-							"addressLines": [
-								"29W600 Winchester Cir $scenario_name"
-							],
-							"city": "Warrenville $scenario_name",
-							"state": "IL",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				},
+                    {
+                        "stopType": "DESTINATION",
+                        "location": {
+                            "address": {
+                                "postalCode": "08831",
+                                "addressLines": [
+                                    "2 Hitching Post Place $scenario_name"
+                                ],
+                                "city": "Monroe Township $scenario_name",
+                                "state": "NJ",
+                                "country": "US"
+                            },
+                            "contact": {
+                                "companyName": "Test Company $scenario_name"
+                            }
+                        },
+                        "appointmentWindow": {
+                            "startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
+                            "endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
+                        }
+                    }
+                ],
+                "apiConfiguration": {
+                    "fallBackToDefaultAccountGroup": false
+                },
+                "shipmentAttributes": [
+                    {
+                        "name": "SyntheticLTLTest",
+                        "values": [
+                            "12345",
+                            "56789"
+                        ]
+                    }
+                ]
+            }
+            EOF
+            )
 
-				{
-					"stopType": "DESTINATION",
-					"location": {
-						"address": {
-							"postalCode": "08831",
-							"addressLines": [
-								"2 Hitching Post Place $scenario_name"
-							],
-							"city": "Monroe Township $scenario_name",
-							"state": "NJ",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				}
-			],
-			"apiConfiguration": {
-				"fallBackToDefaultAccountGroup": false
-			},
-			"shipmentAttributes": [
-				{
-					"name": "SyntheticLTLTest",
-					"values": [
-						"12345",
-						"56789"
-					]
-				}
-			]
-		}
-		EOF
-		)
+            curl_call=$(cat <<-EOF
+                $curl_template '$request_data'
+            EOF
+            )
 
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
-
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-		# Create helper doc
-		if [ "$flg_generate_output" == "true" ]; then
-			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
-			echo "" >> "$output_folder/$helper_doc_file_name"
-		fi
-	fi
+            if [ "$flg_generate_output" == "true" ]; then
+                echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+            fi
+            response=$(eval "$curl_call" | jq)
+            dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+            dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+            if [ "$flg_use_quiet_mode" == "false" ]; then
+                echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+            else
+                echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+            fi	
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details="Reference Number = $type $value"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
 
 
+    scenario_number="03"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(PO number)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 03 (PO number)
+        if [ -z "$po_num" ]; then
+            dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+            dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+            echo "$scenario_name $scenario_desc $dashes $(print_error "PO number not set!")"
+        else
+            request_data=$(cat <<-EOF
+                {
+                "capacityProviderAccountGroup": {
+                    "code": "$account_group",
+                    "accounts": [
+                        {
+                            "code": "$scac"
+                        }
+                    ]
+                },
+                "shipmentIdentifiers": [
+                    {
+                        "type": "PURCHASE_ORDER",
+                        "value": "$po_num"
+                    }
+                ],
+                "shipmentStops": [
+                    {
+                        "stopType": "ORIGIN",
+                        "location": {
+                            "address": {
+                                "postalCode": "60555",
+                                "addressLines": [
+                                    "29W600 Winchester Cir $scenario_name"
+                                ],
+                                "city": "Warrenville $scenario_name",
+                                "state": "IL",
+                                "country": "US"
+                            },
+                            "contact": {
+                                "companyName": "Test Company $scenario_name"
+                            }
+                        },
+                        "appointmentWindow": {
+                            "startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
+                            "endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
+                        }
+                    },
 
-	scenario_number="10"
-	scenario_name="Scenario $scenario_number"
-	scenario_desc="(tracking accuracy)"
-	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 10 (tracking accuracy)
-		request_data=$(cat <<-EOF
-			{
-			"capacityProviderAccountGroup": {
-				"code": "$account_group",
-				"accounts": [
-					{
-						"code": "$scac"
-					}
-				]
-			},
-			"shipmentIdentifiers": [
-				{
-					"type": "PRO",
-					"value": "$pro_num"
-				}
-			],
-			"shipmentStops": [
-				{
-					"stopType": "ORIGIN",
-					"location": {
-						"address": {
-							"postalCode": "60555",
-							"addressLines": [
-								"29W600 Winchester Cir $scenario_name"
-							],
-							"city": "Warrenville $scenario_name",
-							"state": "IL",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				},
+                    {
+                        "stopType": "DESTINATION",
+                        "location": {
+                            "address": {
+                                "postalCode": "08831",
+                                "addressLines": [
+                                    "2 Hitching Post Place $scenario_name"
+                                ],
+                                "city": "Monroe Township $scenario_name",
+                                "state": "NJ",
+                                "country": "US"
+                            },
+                            "contact": {
+                                "companyName": "Test Company $scenario_name"
+                            }
+                        },
+                        "appointmentWindow": {
+                            "startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
+                            "endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
+                        }
+                    }
+                ],
+                "apiConfiguration": {
+                    "fallBackToDefaultAccountGroup": false
+                },
+                "shipmentAttributes": [
+                    {
+                        "name": "SyntheticLTLTest",
+                        "values": [
+                            "12345",
+                            "56789"
+                        ]
+                    }
+                ]
+            }
+            EOF
+            )
 
-				{
-					"stopType": "DESTINATION",
-					"location": {
-						"address": {
-							"postalCode": "08831",
-							"addressLines": [
-								"2 Hitching Post Place $scenario_name"
-							],
-							"city": "Monroe Township $scenario_name",
-							"state": "NJ",
-							"country": "US"
-						},
-						"contact": {
-							"companyName": "Test Company $scenario_name"
-						}
-					},
-					"appointmentWindow": {
-						"startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
-						"endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
-					}
-				}
-			],
-			"apiConfiguration": {
-				"fallBackToDefaultAccountGroup": false
-			},
-			"shipmentAttributes": [
-				{
-					"name": "SyntheticLTLTest",
-					"values": [
-						"12345",
-						"56789"
-					]
-				}
-			]
-		}
-		EOF
-		)
+            curl_call=$(cat <<-EOF
+                $curl_template '$request_data'
+            EOF
+            )
+        
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details="Reference Number = $type $value"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
 
-		curl_call=$(cat <<-EOF
-			$curl_template '$request_data'
-		EOF
-		)
+    scenario_number="04"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(date: valid)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 04 (date: valid)
+        request_data=$(cat <<-EOF
+            {
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "$pro_num"
+                }
+            ],
+            "shipmentStops": [
+                {
+                    "stopType": "ORIGIN",
+                    "location": {
+                        "address": {
+                            "postalCode": "60555",
+                            "addressLines": [
+                                "29W600 Winchester Cir $scenario_name"
+                            ],
+                            "city": "Warrenville $scenario_name",
+                            "state": "IL",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                },
 
-		if [ "$flg_generate_output" == "true" ]; then
-			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
-		fi
-		response=$(eval "$curl_call" | jq)
-		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
-		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
-		if [ "$flg_use_quiet_mode" == "false" ]; then
-			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
-		else
-			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
-		fi
-		# Create helper doc
-		if [ "$flg_generate_output" == "true" ]; then
-			type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
-			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
-			echo Reference number: "$type $value" >> "$output_folder/$helper_doc_file_name"
-			echo "" >> "$output_folder/$helper_doc_file_name"
-		fi
-	fi
+                {
+                    "stopType": "DESTINATION",
+                    "location": {
+                        "address": {
+                            "postalCode": "08831",
+                            "addressLines": [
+                                "2 Hitching Post Place $scenario_name"
+                            ],
+                            "city": "Monroe Township $scenario_name",
+                            "state": "NJ",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                }
+            ],
+            "apiConfiguration": {
+                "fallBackToDefaultAccountGroup": false
+            },
+            "shipmentAttributes": [
+                {
+                    "name": "SyntheticLTLTest",
+                    "values": [
+                        "12345",
+                        "56789"
+                    ]
+                }
+            ]
+        }
+        EOF
+        )
 
-	# Create helper doc
-	# if [ "$flg_generate_output" == "true" ]; then
-	# 	grep -R -E 'type|value' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
-	# 	grep -R -E 'startDate|endDate' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
-	# fi
-	
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
 
-	echo "Logs: $logs_url"
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            startDate=$(grep -o '"startDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            endDate=$(grep -o '"endDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | tail -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            details+="Start Date = $startDate"
+            details+=$'\n'
+            details+="End Date = $endDate"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+    scenario_number="05"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(date: future)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 05 (date: future)
+        request_data=$(cat <<-EOF
+            {
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "$pro_num"
+                }
+            ],
+            "shipmentStops": [
+                {
+                    "stopType": "ORIGIN",
+                    "location": {
+                        "address": {
+                            "postalCode": "60555",
+                            "addressLines": [
+                                "29W600 Winchester Cir $scenario_name"
+                            ],
+                            "city": "Warrenville $scenario_name",
+                            "state": "IL",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d '1 hour' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d '1 hour' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                },
+
+                {
+                    "stopType": "DESTINATION",
+                    "location": {
+                        "address": {
+                            "postalCode": "08831",
+                            "addressLines": [
+                                "2 Hitching Post Place $scenario_name"
+                            ],
+                            "city": "Monroe Township $scenario_name",
+                            "state": "NJ",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                }
+            ],
+            "apiConfiguration": {
+                "fallBackToDefaultAccountGroup": false
+            },
+            "shipmentAttributes": [
+                {
+                    "name": "SyntheticLTLTest",
+                    "values": [
+                        "12345",
+                        "56789"
+                    ]
+                }
+            ]
+        }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            startDate=$(grep -o '"startDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            endDate=$(grep -o '"endDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | tail -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            details+="Start Date = $startDate"
+            details+=$'\n'
+            details+="End Date = $endDate"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+    
+
+    scenario_number="06"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(date: past)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 06 (date: past)
+        request_data=$(cat <<-EOF
+            {
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "$pro_num"
+                }
+            ],
+            "shipmentStops": [
+                {
+                    "stopType": "ORIGIN",
+                    "location": {
+                        "address": {
+                            "postalCode": "60555",
+                            "addressLines": [
+                                "29W600 Winchester Cir $scenario_name"
+                            ],
+                            "city": "Warrenville $scenario_name",
+                            "state": "IL",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                },
+
+                {
+                    "stopType": "DESTINATION",
+                    "location": {
+                        "address": {
+                            "postalCode": "08831",
+                            "addressLines": [
+                                "2 Hitching Post Place $scenario_name"
+                            ],
+                            "city": "Monroe Township $scenario_name",
+                            "state": "NJ",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d '2 hours ago' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d '1 hour ago' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                }
+            ],
+            "apiConfiguration": {
+                "fallBackToDefaultAccountGroup": false
+            },
+            "shipmentAttributes": [
+                {
+                    "name": "SyntheticLTLTest",
+                    "values": [
+                        "12345",
+                        "56789"
+                    ]
+                }
+            ]
+        }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            startDate=$(grep -o '"startDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            endDate=$(grep -o '"endDateTime": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | tail -1 | cut -d'"' -f4)
+            # Set details
+            details=""
+            details+="Start Date = $startDate"
+            details+=$'\n'
+            details+="End Date = $endDate"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+    scenario_number="07"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(status codes)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 07 (status codes)
+        request_data=$(cat <<-EOF
+            {
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "$pro_num"
+                }
+            ],
+            "shipmentStops": [
+                {
+                    "stopType": "ORIGIN",
+                    "location": {
+                        "address": {
+                            "postalCode": "60555",
+                            "addressLines": [
+                                "29W600 Winchester Cir $scenario_name"
+                            ],
+                            "city": "Warrenville $scenario_name",
+                            "state": "IL",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                },
+
+                {
+                    "stopType": "DESTINATION",
+                    "location": {
+                        "address": {
+                            "postalCode": "08831",
+                            "addressLines": [
+                                "2 Hitching Post Place $scenario_name"
+                            ],
+                            "city": "Monroe Township $scenario_name",
+                            "state": "NJ",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                }
+            ],
+            "apiConfiguration": {
+                "fallBackToDefaultAccountGroup": false
+            },
+            "shipmentAttributes": [
+                {
+                    "name": "SyntheticLTLTest",
+                    "values": [
+                        "12345",
+                        "56789"
+                    ]
+                }
+            ]
+        }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Status Codes = Check Movement"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+    scenario_number="08"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(event status descriptions)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 08 (event status descriptions)
+        request_data=$(cat <<-EOF
+            {
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "$pro_num"
+                }
+            ],
+            "shipmentStops": [
+                {
+                    "stopType": "ORIGIN",
+                    "location": {
+                        "address": {
+                            "postalCode": "60555",
+                            "addressLines": [
+                                "29W600 Winchester Cir $scenario_name"
+                            ],
+                            "city": "Warrenville $scenario_name",
+                            "state": "IL",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                },
+
+                {
+                    "stopType": "DESTINATION",
+                    "location": {
+                        "address": {
+                            "postalCode": "08831",
+                            "addressLines": [
+                                "2 Hitching Post Place $scenario_name"
+                            ],
+                            "city": "Monroe Township $scenario_name",
+                            "state": "NJ",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                }
+            ],
+            "apiConfiguration": {
+                "fallBackToDefaultAccountGroup": false
+            },
+            "shipmentAttributes": [
+                {
+                    "name": "SyntheticLTLTest",
+                    "values": [
+                        "12345",
+                        "56789"
+                    ]
+                }
+            ]
+        }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Set details
+            details="Status Descriptions = Check Movement"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+    scenario_number="09"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(status discrepancies)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 09 (status discrepancies)
+        request_data=$(cat <<-EOF
+            {
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "$pro_num"
+                }
+            ],
+            "shipmentStops": [
+                {
+                    "stopType": "ORIGIN",
+                    "location": {
+                        "address": {
+                            "postalCode": "60555",
+                            "addressLines": [
+                                "29W600 Winchester Cir $scenario_name"
+                            ],
+                            "city": "Warrenville $scenario_name",
+                            "state": "IL",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                },
+
+                {
+                    "stopType": "DESTINATION",
+                    "location": {
+                        "address": {
+                            "postalCode": "08831",
+                            "addressLines": [
+                                "2 Hitching Post Place $scenario_name"
+                            ],
+                            "city": "Monroe Township $scenario_name",
+                            "state": "NJ",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                }
+            ],
+            "apiConfiguration": {
+                "fallBackToDefaultAccountGroup": false
+            },
+            "shipmentAttributes": [
+                {
+                    "name": "SyntheticLTLTest",
+                    "values": [
+                        "12345",
+                        "56789"
+                    ]
+                }
+            ]
+        }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details="Reference Number = $type $value"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+
+
+    scenario_number="10"
+    scenario_name="Scenario $scenario_number"
+    scenario_desc="(tracking accuracy)"
+    if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+        # Scenario 10 (tracking accuracy)
+        request_data=$(cat <<-EOF
+            {
+            "capacityProviderAccountGroup": {
+                "code": "$account_group",
+                "accounts": [
+                    {
+                        "code": "$scac"
+                    }
+                ]
+            },
+            "shipmentIdentifiers": [
+                {
+                    "type": "PRO",
+                    "value": "$pro_num"
+                }
+            ],
+            "shipmentStops": [
+                {
+                    "stopType": "ORIGIN",
+                    "location": {
+                        "address": {
+                            "postalCode": "60555",
+                            "addressLines": [
+                                "29W600 Winchester Cir $scenario_name"
+                            ],
+                            "city": "Warrenville $scenario_name",
+                            "state": "IL",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d 'yesterday' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                },
+
+                {
+                    "stopType": "DESTINATION",
+                    "location": {
+                        "address": {
+                            "postalCode": "08831",
+                            "addressLines": [
+                                "2 Hitching Post Place $scenario_name"
+                            ],
+                            "city": "Monroe Township $scenario_name",
+                            "state": "NJ",
+                            "country": "US"
+                        },
+                        "contact": {
+                            "companyName": "Test Company $scenario_name"
+                        }
+                    },
+                    "appointmentWindow": {
+                        "startDateTime": "$(date -d '2 days' +'%Y-%m-%dT%H:%M:%S')",
+                        "endDateTime": "$(date -d '3 days' +'%Y-%m-%dT%H:%M:%S')"
+                    }
+                }
+            ],
+            "apiConfiguration": {
+                "fallBackToDefaultAccountGroup": false
+            },
+            "shipmentAttributes": [
+                {
+                    "name": "SyntheticLTLTest",
+                    "values": [
+                        "12345",
+                        "56789"
+                    ]
+                }
+            ]
+        }
+        EOF
+        )
+
+        curl_call=$(cat <<-EOF
+            $curl_template '$request_data'
+        EOF
+        )
+
+        if [ "$flg_generate_output" == "true" ]; then
+            echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+        fi
+        response=$(eval "$curl_call" | jq)
+        dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+        dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+        if [ "$flg_use_quiet_mode" == "false" ]; then
+            echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+        else
+            echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+        fi
+        # Create helper doc
+        if [ "$flg_generate_output" == "true" ]; then
+            # Get values
+            type=$(grep -o '"type": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            value=$(grep -o '"value": *"[^"]*"' "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt" | head -1 | cut -d'"' -f4)
+            # Set details
+            details="Reference Number = $type $value"
+            # Append to helper doc and sheet
+            echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+            echo "$details" >> "$output_folder/$helper_doc_file_name"
+            echo "" >> "$output_folder/$helper_doc_file_name"
+            escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+            echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+        fi
+    fi
+
+    # Create helper doc
+    # if [ "$flg_generate_output" == "true" ]; then
+    # 	grep -R -E 'type|value' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
+    # 	grep -R -E 'startDate|endDate' "$output_folder/${curl_call_scenario_file_prefix}"* >> "$output_folder/$helper_doc_file_name"
+    # fi
+    
+
+    echo "Logs: $logs_url"
 fi
 # End of: run tracking
 
