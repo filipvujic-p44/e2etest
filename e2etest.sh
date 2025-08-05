@@ -1,8 +1,8 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.4.2"
+version="v1.4.3"
 author="Filip Vujic"
-last_updated="16-May-2025"
+last_updated="5-Aug-2025"
 repo_owner="filipvujic-p44"
 repo_name="e2etest"
 repo="https://github.com/$repo_owner/$repo_name"
@@ -233,6 +233,7 @@ pro_num="003381632"
 bol_num="003381632"
 #ref_po_num
 po_num="003381632"
+timeout=60
 helper_doc_file_name=helper_doc.txt
 helper_sheet_file_name=helper_sheet.csv
 
@@ -321,6 +322,11 @@ if [ -e ".env_e2etest" ]; then
 	# Load po num value
 	if [ ! -z "$PO_NUM" ]; then
 		po_num="$PO_NUM"
+	fi
+
+	# Load timeout value
+	if [ ! -z "$TIMEOUT" ]; then
+		timeout="$TIMEOUT"
 	fi
 
 	# Load helper doc file name value
@@ -515,6 +521,7 @@ while [ "$1" != "" ] || [ "$#" -gt 0 ]; do
 			echo "Pro number -------------- $pro_num"
 			echo "Bill of lading number --- $bol_num"
 			echo "Purchase order number --- $po_num"
+			echo "Timeout ----------------- $timeout"
 			echo "Logs url ---------------- $logs_url"
 			exit 0
 			;;
@@ -1011,6 +1018,7 @@ IDENTIFIER_TYPE="PRO"
 PRO_NUM=""
 BOL_NUM=""
 PO_NUM=""
+TIMEOUT=60
 HELPER_DOC_FILE_NAME=helper_doc.txt
 HELPER_SHEET_FILE_NAME=helper_sheet.csv
 
@@ -1195,6 +1203,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1307,6 +1316,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1420,6 +1430,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1534,6 +1545,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1644,6 +1656,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1753,6 +1766,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1863,6 +1877,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1972,6 +1987,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2077,6 +2093,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2180,6 +2197,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2284,6 +2302,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2381,6 +2400,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2482,6 +2502,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2584,6 +2605,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2685,6 +2707,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2787,6 +2810,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2888,6 +2912,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2992,6 +3017,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -3095,6 +3121,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -3198,6 +3225,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -3302,6 +3330,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -3498,6 +3527,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"weightUnit": "LB",
 					"lengthUnit": "IN",
 					"apiConfiguration": {
+					"timeout": $timeout,
 						"enableUnitConversion": true,
 						"accessorialServiceConfiguration": {
 							"fetchAllServiceLevels": true,
@@ -3694,6 +3724,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"weightUnit": "LB",
 					"lengthUnit": "IN",
 					"apiConfiguration": {
+					"timeout": $timeout,
 						"enableUnitConversion": true,
 						"accessorialServiceConfiguration": {
 							"fetchAllServiceLevels": true,
@@ -3889,6 +3920,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"weightUnit": "LB",
 					"lengthUnit": "IN",
 					"apiConfiguration": {
+					"timeout": $timeout,
 						"enableUnitConversion": true,
 						"accessorialServiceConfiguration": {
 							"fetchAllServiceLevels": true,
@@ -3996,6 +4028,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4104,6 +4137,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4212,6 +4246,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4320,6 +4355,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4428,6 +4464,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4536,6 +4573,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4644,6 +4682,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4749,6 +4788,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4855,6 +4895,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5011,6 +5052,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5230,6 +5272,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5363,6 +5406,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5496,6 +5540,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5598,6 +5643,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5704,6 +5750,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5808,6 +5855,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5909,6 +5957,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -6010,6 +6059,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -6111,6 +6161,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -6212,6 +6263,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -6313,6 +6365,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "FT",
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -6521,6 +6574,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -6679,6 +6733,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -6837,6 +6892,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -6994,6 +7050,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -7151,6 +7208,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -7309,6 +7367,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -7466,6 +7525,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -7632,6 +7692,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -7798,6 +7859,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -7964,6 +8026,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -8132,6 +8195,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -8292,6 +8356,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -8451,6 +8516,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -8611,6 +8677,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -8771,6 +8838,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -8929,6 +8997,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -9086,6 +9155,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -9245,6 +9315,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -9403,6 +9474,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -9561,6 +9633,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -9719,6 +9792,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -9881,6 +9955,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -10042,6 +10117,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -10204,6 +10280,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -10366,6 +10443,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -10528,6 +10606,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -10690,6 +10769,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -10848,6 +10928,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -11062,6 +11143,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -11346,6 +11428,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -11574,6 +11657,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -11802,6 +11886,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -12030,6 +12115,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -12188,6 +12274,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -12340,6 +12427,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 					}
 				],
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"fallBackToDefaultAccountGroup": false
 				},
 				"shipmentAttributes": [
@@ -12461,6 +12549,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 					}
 				],
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"fallBackToDefaultAccountGroup": false
 				},
 				"shipmentAttributes": [
@@ -12582,6 +12671,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 					}
 				],
 				"apiConfiguration": {
+					"timeout": $timeout,
 					"fallBackToDefaultAccountGroup": false
 				},
 				"shipmentAttributes": [
@@ -12697,6 +12787,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -12815,6 +12906,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -12933,6 +13025,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -13052,6 +13145,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -13165,6 +13259,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -13278,6 +13373,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -13394,6 +13490,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
+					"timeout": $timeout,
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
