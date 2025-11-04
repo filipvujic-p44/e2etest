@@ -1,6 +1,6 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.4.5"
+version="v1.4.6"
 author="Filip Vujic"
 last_updated="4-Nov-2025"
 repo_owner="filipvujic-p44"
@@ -15798,7 +15798,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 					}
 				],
 				"apiConfiguration": {
-					"timeout": $timeout,
+					                      
 					"fallBackToDefaultAccountGroup": false
 				},
 				"shipmentAttributes": [
@@ -15920,7 +15920,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 					}
 				],
 				"apiConfiguration": {
-					"timeout": $timeout,
+					                      
 					"fallBackToDefaultAccountGroup": false
 				},
 				"shipmentAttributes": [
@@ -16042,7 +16042,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 					}
 				],
 				"apiConfiguration": {
-					"timeout": $timeout,
+					                      
 					"fallBackToDefaultAccountGroup": false
 				},
 				"shipmentAttributes": [
@@ -16158,7 +16158,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-				"timeout": $timeout,
+				                      
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -16277,7 +16277,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-				"timeout": $timeout,
+				                      
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -16396,7 +16396,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-				"timeout": $timeout,
+				                      
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -16516,7 +16516,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-				"timeout": $timeout,
+				                      
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -16630,7 +16630,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-				"timeout": $timeout,
+				                      
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -16744,7 +16744,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-				"timeout": $timeout,
+				                      
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -16861,7 +16861,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-				"timeout": $timeout,
+				                      
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
