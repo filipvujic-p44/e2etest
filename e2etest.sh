@@ -1,6 +1,6 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.4.7"
+version="v1.4.8"
 author="Filip Vujic"
 last_updated="4-Nov-2025"
 repo_owner="filipvujic-p44"
@@ -7640,7 +7640,8 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
 			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
-			echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+			escaped_curl=$(echo -e "$curl_call" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\",\"$escaped_curl\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -7807,7 +7808,8 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
 			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
-			echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+			escaped_curl=$(echo -e "$curl_call" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\",\"$escaped_curl\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -7974,7 +7976,8 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
 			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
-			echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+			escaped_curl=$(echo -e "$curl_call" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\",\"$escaped_curl\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -8141,7 +8144,8 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
 			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
-			echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+			escaped_curl=$(echo -e "$curl_call" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\",\"$escaped_curl\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -8303,7 +8307,8 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
 			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
-			echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+			escaped_curl=$(echo -e "$curl_call" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\",\"$escaped_curl\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -8464,7 +8469,8 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
 			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
-			echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+			escaped_curl=$(echo -e "$curl_call" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\",\"$escaped_curl\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -8624,7 +8630,8 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
 			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
-			echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+			escaped_curl=$(echo -e "$curl_call" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\",\"$escaped_curl\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
@@ -8785,7 +8792,8 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
 			echo "" >> "$output_folder/$helper_doc_file_name"
 			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
-			echo "\"$scenario_name\",\"$escaped_details\"" >> "output.csv"
+			escaped_curl=$(echo -e "$curl_call" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\",\"$escaped_curl\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
 
