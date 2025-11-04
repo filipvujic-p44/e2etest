@@ -1,8 +1,8 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.4.3"
+version="v1.4.4"
 author="Filip Vujic"
-last_updated="5-Aug-2025"
+last_updated="4-Nov-2025"
 repo_owner="filipvujic-p44"
 repo_name="e2etest"
 repo="https://github.com/$repo_owner/$repo_name"
@@ -124,7 +124,7 @@ Rating scenarios:
 	Scenario 15-2 (payment terms: CONSIGNEE/COLLECT)
 	Scenario 16-1 (pickup date: past)
 	Scenario 16-2 (pickup date: future)
-	Scenario 17 (zip codes valid: 90210 to 10001)
+	Scenario 17 (zip codes valid: 90058 to 10001)
 	Scenario 18-1 (weight: 20000)
 	Scenario 18-2 (dimensions: 29 ft)
 EOL
@@ -169,6 +169,27 @@ Dispatch scenarios:
 	Scenario 18-2 (stackable: false)
 	Scenario 18-3 (stackable: mixed)
 	Scenario 19 (description: null)
+	Scenario 20 (cancelation request)
+	Scenario 21-1 (error: correct code)
+	Scenario 21-2 (error: returned message)
+	Scenario 22-1 (ebol image returned)
+	Scenario 22-2 (pro number assigned)
+	Scenario 22-3 (case when bol not available)
+	Scenario 22-4 (case when pro assignment fails)
+	Scenario 23-1 (freight class: 50)
+	Scenario 23-2 (freight class: 500)
+	Scenario 23-3 (freight class: 999)
+	Scenario 23-4 (freight class: null)
+	Scenario 23-5 (multiple freight classes)
+	Scenario 24-1 (weight: 20.000 lbs)
+	Scenario 24-2 (length: 29 ft)
+	Scenario 25-1 (quote number: passed)
+	Scenario 25-2 (quote number: missing but required)
+	Scenario 25-3 (prepro: passed)
+	Scenario 25-4 (pickup and delivery notes)
+	Scenario 25-5 (customer reference: passed)
+	Scenario 25-6 (purchase order: passed)
+	Scenario 25-7 (multiple metadata fields)
 EOL
 )
 # Tracking scenarios
@@ -216,7 +237,7 @@ flg_run_tracking=false
 total_status_output_length=75
 flg_generate_output=false
 #ref_token
-token="token"
+token="eyJraWQiOiJZVnhpTDBrVThRZGdSOWN5TjZDeCIsImFsZyI6IlJTMjU2In0.eyJjdXN0b21lcklkcFJvbGVzIjpbIkxlYWQiLCJCYXNpYyIsImx0bC1hZG1pbiIsImNhcnJpZXItdGVuYW50LWRlbGV0ZXIiLCJzaGlwcGVyLXRlbmFudC1kZWxldGVyIiwidGVuYW50LW5ldHdvcmstcm9sZS11cGRhdGVyIl0sImdpdmVuTmFtZSI6IkZpbGlwIiwiZmFtaWx5TmFtZSI6IlZ1amljIiwidGVuYW50SWQiOiIyNTYiLCJjb21wYW55VWlkIjoiZWVmZmZmNmEtNTQ3Ny00ZGI2LWI1ZGMtYTVkYTQ1M2Q3OGFmIiwibGFrZUlkIjoiMTY4MDYwNDQ2MzU3NSIsImF1dGhJZHBzIjpbIjBvYXc5NGpudXJ1ZHpnbjU4MGg3Il0sImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3NjEyOTk4OTIsImlzcyI6Imh0dHBzOi8vbmExMi5hcGkucWEtaW50ZWdyYXRpb24ucC00NC5jb20iLCJzdWIiOiJmaWxpcC52dWppY0Bwcm9qZWN0NDQuY29tIiwiZXhwIjoxNzYxMzQzMDkxLCJqdGkiOiJmY2Q0MzU1NC0zYzIxLTQxODMtYjRlYy01NTk0MWEzN2QxYmMifQ.cvMGNJTGYDljO8QSlvch96EA2zOPf0Na-iWhODGazMMd5oshaql92k9l4TpBoOfWXC5sinGRGvMcnF-3Psu9Tc2MqIWWD_8Y2hI9oz8eB-XrWzbJdavs628lLiE1dTCU4yfuziM4DaYFXn8jyPD-mc5j5qlWrQB_Sn0I2w0Bu2-hxWSe2y-ava1ZtQmECUWnnMuWvq3exPmrgP_rN09WSFyUjJLU2H75z0Tj2Q3lIEHeTI6K3JnrT7KW8wJxZqGLgFBGpOUomojpcWTnJdWG6Gs6sV6XhHNBIMw9pLibNZM89u3RqlCO1uTmJFOy5M-8LVnaEoSjVAXpCcK-adrmkg"
 #ref_scac
 scac=""
 #ref_account_group
@@ -1157,7 +1178,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -1203,7 +1224,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1270,7 +1291,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -1316,7 +1337,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1384,7 +1405,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -1430,7 +1451,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1499,7 +1520,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -1545,7 +1566,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1610,7 +1631,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -1656,7 +1677,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1720,7 +1741,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -1766,7 +1787,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1831,7 +1852,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -1877,7 +1898,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -1941,7 +1962,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -1987,7 +2008,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2047,7 +2068,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -2093,7 +2114,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2151,7 +2172,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -2197,7 +2218,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2256,7 +2277,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -2302,7 +2323,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2354,7 +2375,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -2400,7 +2421,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2456,7 +2477,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -2502,7 +2523,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2559,7 +2580,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -2605,7 +2626,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2661,7 +2682,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -2707,7 +2728,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2764,7 +2785,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -2810,7 +2831,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2866,7 +2887,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -2912,7 +2933,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -2971,7 +2992,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -3017,7 +3038,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -3075,7 +3096,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -3121,7 +3142,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -3179,7 +3200,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -3225,7 +3246,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -3284,7 +3305,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -3330,7 +3351,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -3390,7 +3411,7 @@ if [ "$flg_run_rating" == "true" ]; then
 						"country": "US"
 					},
 					"destinationAddress": {
-						"postalCode": "90210",
+						"postalCode": "90058",
 						"addressLines": [],
 						"city": "BEVERLY HILLS $scenario_name",
 						"state": "CA",
@@ -3527,7 +3548,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"weightUnit": "LB",
 					"lengthUnit": "IN",
 					"apiConfiguration": {
-					"timeout": $timeout,
+					            
 						"enableUnitConversion": true,
 						"accessorialServiceConfiguration": {
 							"fetchAllServiceLevels": true,
@@ -3587,7 +3608,7 @@ if [ "$flg_run_rating" == "true" ]; then
 						"country": "US"
 					},
 					"destinationAddress": {
-						"postalCode": "90210",
+						"postalCode": "90058",
 						"addressLines": [],
 						"city": "BEVERLY HILLS $scenario_name",
 						"state": "CA",
@@ -3724,7 +3745,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"weightUnit": "LB",
 					"lengthUnit": "IN",
 					"apiConfiguration": {
-					"timeout": $timeout,
+					            
 						"enableUnitConversion": true,
 						"accessorialServiceConfiguration": {
 							"fetchAllServiceLevels": true,
@@ -3783,7 +3804,7 @@ if [ "$flg_run_rating" == "true" ]; then
 						"country": "US"
 					},
 					"destinationAddress": {
-						"postalCode": "90210",
+						"postalCode": "90058",
 						"addressLines": [],
 						"city": "BEVERLY HILLS $scenario_name",
 						"state": "CA",
@@ -3920,7 +3941,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"weightUnit": "LB",
 					"lengthUnit": "IN",
 					"apiConfiguration": {
-					"timeout": $timeout,
+					            
 						"enableUnitConversion": true,
 						"accessorialServiceConfiguration": {
 							"fetchAllServiceLevels": true,
@@ -3978,7 +3999,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -4028,7 +4049,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4087,7 +4108,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -4137,7 +4158,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4196,7 +4217,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -4246,7 +4267,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4305,7 +4326,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -4355,7 +4376,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4414,7 +4435,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -4464,7 +4485,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4523,7 +4544,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -4573,7 +4594,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4632,7 +4653,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -4682,7 +4703,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4742,7 +4763,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -4788,7 +4809,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4849,7 +4870,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -4895,7 +4916,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -4954,7 +4975,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -5052,7 +5073,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5109,7 +5130,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -5272,7 +5293,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5331,7 +5352,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -5406,7 +5427,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5465,7 +5486,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -5540,7 +5561,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5597,7 +5618,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -5643,7 +5664,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5704,7 +5725,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -5750,7 +5771,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5809,7 +5830,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -5855,7 +5876,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -5912,7 +5933,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -5957,7 +5978,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -6013,7 +6034,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -6059,7 +6080,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -6102,13 +6123,13 @@ if [ "$flg_run_rating" == "true" ]; then
 
 	scenario_number="17"
 	scenario_name="Scenario $scenario_number"
-	scenario_desc="(zip codes valid: 90210 to 10001)"
+	scenario_desc="(zip codes valid: 90058 to 10001)"
 	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
-		# Scenario 17 (zip codes valid: 90210 to 10001)
+		# Scenario 17 (zip codes valid: 90058 to 10001)
 		request_data=$(cat <<-EOF
 			{
 				"originAddress": {
-					"postalCode": "90211",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BARRINGTON $scenario_name",
 					"state": "IL",
@@ -6161,7 +6182,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -6191,7 +6212,7 @@ if [ "$flg_run_rating" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Zip Code Pair = 90210 to 10001"
+			details="Zip Code Pair = 90058 to 10001"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -6217,7 +6238,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -6263,7 +6284,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "IN",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -6319,7 +6340,7 @@ if [ "$flg_run_rating" == "true" ]; then
 					"country": "US"
 				},
 				"destinationAddress": {
-					"postalCode": "90210",
+					"postalCode": "90058",
 					"addressLines": [],
 					"city": "BEVERLY HILLS $scenario_name",
 					"state": "CA",
@@ -6365,7 +6386,7 @@ if [ "$flg_run_rating" == "true" ]; then
 				"weightUnit": "LB",
 				"lengthUnit": "FT",
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"enableUnitConversion": true,
 					"accessorialServiceConfiguration": {
 						"fetchAllServiceLevels": true,
@@ -6476,13 +6497,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -6493,13 +6514,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -6509,13 +6530,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Hawkesville",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -6574,7 +6595,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -6635,13 +6656,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -6652,13 +6673,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -6668,13 +6689,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -6733,7 +6754,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -6794,13 +6815,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -6811,13 +6832,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -6827,13 +6848,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -6892,7 +6913,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -6952,13 +6973,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -6969,13 +6990,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -6985,13 +7006,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -7050,7 +7071,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -7110,13 +7131,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -7127,13 +7148,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -7143,13 +7164,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -7208,7 +7229,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -7269,13 +7290,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -7286,13 +7307,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -7302,13 +7323,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -7367,7 +7388,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -7427,13 +7448,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -7444,13 +7465,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -7460,13 +7481,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -7525,7 +7546,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -7594,13 +7615,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -7611,13 +7632,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -7627,13 +7648,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -7692,7 +7713,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -7761,13 +7782,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -7778,13 +7799,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -7794,13 +7815,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -7859,7 +7880,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -7928,13 +7949,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -7945,13 +7966,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -7961,13 +7982,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -8026,7 +8047,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -8097,13 +8118,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -8114,13 +8135,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -8130,13 +8151,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -8195,7 +8216,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -8258,13 +8279,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -8275,13 +8296,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -8291,13 +8312,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -8356,7 +8377,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -8418,13 +8439,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -8435,13 +8456,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -8451,13 +8472,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -8516,7 +8537,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -8579,13 +8600,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -8596,13 +8617,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -8612,13 +8633,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -8677,7 +8698,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -8740,13 +8761,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -8757,13 +8778,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -8773,13 +8794,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -8838,7 +8859,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -8899,13 +8920,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -8916,13 +8937,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -8932,13 +8953,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -8997,7 +9018,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -9057,13 +9078,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -9074,13 +9095,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -9090,13 +9111,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -9155,7 +9176,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -9217,13 +9238,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -9234,13 +9255,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -9250,13 +9271,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -9315,7 +9336,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -9376,13 +9397,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -9393,13 +9414,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -9409,13 +9430,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -9474,7 +9495,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -9535,13 +9556,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -9552,13 +9573,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -9568,13 +9589,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -9633,7 +9654,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -9694,13 +9715,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -9711,13 +9732,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -9727,13 +9748,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -9792,7 +9813,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -9853,13 +9874,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -9870,13 +9891,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -9886,13 +9907,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -9955,7 +9976,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -10015,13 +10036,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -10032,13 +10053,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -10048,13 +10069,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -10117,7 +10138,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -10178,13 +10199,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -10195,13 +10216,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -10211,13 +10232,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -10280,7 +10301,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -10341,13 +10362,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -10358,13 +10379,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -10374,13 +10395,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -10443,7 +10464,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -10504,13 +10525,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -10521,13 +10542,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -10537,13 +10558,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -10606,7 +10627,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -10667,13 +10688,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -10684,13 +10705,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -10700,13 +10721,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -10769,7 +10790,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -10830,13 +10851,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -10847,13 +10868,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -10863,13 +10884,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -10928,7 +10949,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -10989,13 +11010,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -11006,13 +11027,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -11022,13 +11043,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -11143,7 +11164,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -11204,13 +11225,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -11221,13 +11242,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -11237,13 +11258,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -11428,7 +11449,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -11489,13 +11510,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -11506,13 +11527,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -11522,13 +11543,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -11657,7 +11678,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -11718,13 +11739,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -11735,13 +11756,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -11751,13 +11772,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -11886,7 +11907,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -11947,13 +11968,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -11964,13 +11985,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -11980,13 +12001,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -12115,7 +12136,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -12176,13 +12197,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"originLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -12193,13 +12214,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"destinationLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "T5M 2S1",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"16116  -111 Avenue Northwest"
 					],
-					"city": "Edmonton $scenario_name",
-					"state": "AB"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "SMS Equipment Inc.",
@@ -12209,13 +12230,13 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			},
 			"requesterLocation": {
 				"address": {
-					"country": "CA",
-					"postalCode": "N0B1X0",
+					"country": "US",
+					"postalCode": "90058",
 					"addressLines": [
 						"1270 Geddes St"
 					],
-					"city": "Hawkesville $scenario_name",
-					"state": "ON"
+					"city": "Los Angeles",
+					"state": "CA"
 				},
 				"contact": {
 					"companyName": "A M I ATTACHMENTS INC",
@@ -12274,7 +12295,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			"emergencyContact": {},
 			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"noteConfiguration": {
 					"enableTruncation": true
 				},
@@ -12314,7 +12335,3357 @@ if [ "$flg_run_dispatch" == "true" ]; then
 	fi
 
 
+	scenario_number="20"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(cancelation request)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
 
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+	
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="21-1"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(error: correct code)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d '20 days ago' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="21-2"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(error: returned message)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d '20 days ago' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="22-1"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(ebol image returned)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="22-2"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(pro number assigned)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="22-3"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(case when bol not available)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="22-4"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(case when pro assignment fails)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="23-1"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(freight class: 50)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "50",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="23-2"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(freight class: 500)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "500",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="23-3"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(freight class: 999)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "999",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="23-4"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(freight class: null)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": null,
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="23-5"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(multiple freight classes)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				},
+				{
+					"freightClass": "100",
+					"packageType": "PLT",
+					"totalWeight": 120.0,
+					"packageDimensions": {
+						"length": 27.0,
+						"width": 27.0,
+						"height": 15.0
+					},
+					"totalPackages": 2,
+					"totalPieces": 3,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="24-1"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(weight: 20.000 lbs)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 20000.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="24-2"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(length: 29 ft)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 10000.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="25-1"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(quote number: passed)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="25-2"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(quote number: missing but required)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="25-3"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(prepro: passed)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="25-4"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(pickup and delivery notes)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="25-5"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(customer reference: passed)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="25-6"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(purchase order: passed)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="25-7"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(multiple metadata fields)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+
+		request_data=$(cat <<-EOF
+		{
+			"weightUnit": "LB",
+			"lengthUnit": "IN",
+			"paymentTermsOverride": "PREPAID",
+			"directionOverride": "SHIPPER",
+			"capacityProviderAccountGroup": {
+				"code": "$account_group",
+				"accounts": [
+					{
+						"code": "$scac"
+					}
+				]
+			},
+			"originLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"destinationLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"16116  -111 Avenue Northwest"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "SMS Equipment Inc.",
+					"contactName": "AARON RYAN",
+					"phoneNumber": "7804512630"
+				}
+			},
+			"requesterLocation": {
+				"address": {
+					"country": "US",
+					"postalCode": "90058",
+					"addressLines": [
+						"1270 Geddes St"
+					],
+					"city": "Los Angeles",
+					"state": "CA"
+				},
+				"contact": {
+					"companyName": "A M I ATTACHMENTS INC",
+					"contactName": "Darlene Ward",
+					"phoneNumber": "5196993923",
+					"email": "darlene.w@amiattachments.com"
+				}
+			},
+			"lineItems": [
+				{
+					"freightClass": "70",
+					"packageType": "PLT",
+					"totalWeight": 180.0,
+					"packageDimensions": {
+						"length": 24.0,
+						"width": 24.0,
+						"height": 12.0
+					},
+					"totalPackages": 1,
+					"totalPieces": 1,
+					"description": "$scenario_name",
+					"stackable": false
+				}
+			],
+			"pickupWindow": {
+				"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+				"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+				"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+			},
+			"deliveryWindow": {
+				"date": "$(date -d '2 days' +'%Y-%m-%d')",
+				"startTime": "$(date -d '2 days' +'%H:%M')",
+				"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+			},
+			"carrierCode": "$scac",
+			"shipmentIdentifiers": [
+				{
+					"type": "PRO",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "BILL_OF_LADING",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "CUSTOMER_REFERENCE",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				},
+				{
+					"type": "PURCHASE_ORDER",
+					"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+				}
+			],
+			"accessorialServices": [],
+			"pickupNote": "TOTAL 1 H/U",
+			"emergencyContact": {},
+			"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+			"apiConfiguration": {
+					            
+				"noteConfiguration": {
+					"enableTruncation": true
+				},
+				"allowUnsupportedAccessorials": true,
+				"pickupOnly": false
+			}
+		}
+		EOF
+		)
+		curl_call=$(cat <<-EOF
+			$curl_template '$request_data'
+		EOF
+		)
+		
+		if [ "$flg_generate_output" == "true" ]; then	
+			echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
+		response=$(eval "$curl_call" | jq)
+		dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - 1))
+		dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+		if [ "$flg_use_quiet_mode" == "false" ]; then
+			echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+		else
+			echo "$scenario_name $scenario_desc $dashes Status code: $(print_status_code "$response")"
+		fi
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="Payment Terms = Shipper/Prepaid"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
 
 fi
 # End of: run dispatch
@@ -12427,7 +15798,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 					}
 				],
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"fallBackToDefaultAccountGroup": false
 				},
 				"shipmentAttributes": [
@@ -12549,7 +15920,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 					}
 				],
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"fallBackToDefaultAccountGroup": false
 				},
 				"shipmentAttributes": [
@@ -12671,7 +16042,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 					}
 				],
 				"apiConfiguration": {
-					"timeout": $timeout,
+					            
 					"fallBackToDefaultAccountGroup": false
 				},
 				"shipmentAttributes": [
@@ -12787,7 +16158,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -12906,7 +16277,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -13025,7 +16396,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -13145,7 +16516,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -13259,7 +16630,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -13373,7 +16744,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
@@ -13490,7 +16861,7 @@ if [ "$flg_run_tracking" == "true" ]; then
 				}
 			],
 			"apiConfiguration": {
-					"timeout": $timeout,
+					            
 				"fallBackToDefaultAccountGroup": false
 			},
 			"shipmentAttributes": [
