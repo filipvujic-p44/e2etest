@@ -12784,7 +12784,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="cancelation request"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -12944,7 +12944,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="error: correct code"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -13104,7 +13104,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="error: returned message"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -13264,7 +13264,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="ebol image returned"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -13424,7 +13424,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="pro number assigned"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -13584,7 +13584,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="case when bol not available"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -13744,7 +13744,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="case when pro assignment fails"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -13904,7 +13904,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="freight class: 50"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -14064,7 +14064,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="freight class: 500"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -14224,7 +14224,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="freight class: 999"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -14384,7 +14384,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="freight class: null"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -14558,7 +14558,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="multiple freight classes"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -14718,7 +14718,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="weight: 20.000 lbs"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -14738,7 +14738,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		request_data=$(cat <<-EOF
 		{
 			"weightUnit": "LB",
-			"lengthUnit": "IN",
+			"lengthUnit": "FT",
 			"paymentTermsOverride": "PREPAID",
 			"directionOverride": "SHIPPER",
 			"capacityProviderAccountGroup": {
@@ -14878,7 +14878,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="length: 29 ft"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -15038,7 +15038,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="quote number: passed"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -15198,7 +15198,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="quote number: missing but required"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -15358,7 +15358,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="prepro: passed"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -15518,7 +15518,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="pickup and delivery notes"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -15678,7 +15678,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="customer reference: passed"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -15838,7 +15838,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="purchase order: passed"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
@@ -15998,7 +15998,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
-			details="Payment Terms = Shipper/Prepaid"
+			details="multiple metadata fields"
 			# Append to helper doc and sheet
 			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
 			echo "$details" >> "$output_folder/$helper_doc_file_name"
