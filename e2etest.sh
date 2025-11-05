@@ -1,8 +1,8 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.4.8"
+version="v1.4.9"
 author="Filip Vujic"
-last_updated="4-Nov-2025"
+last_updated="5-Nov-2025"
 repo_owner="filipvujic-p44"
 repo_name="e2etest"
 repo="https://github.com/$repo_owner/$repo_name"
@@ -9598,6 +9598,118 @@ if [ "$flg_run_dispatch" == "true" ]; then
 	fi
 
 
+	scenario_number="12-4"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(all package types)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+		# Scenario 12-4 (all package types)
+		package_types=(BAG BALE BOX BUCKET BUNDLE CAN CARTON CASE COIL CRATE CYLINDER DRUM PAIL PIECES PLT REEL ROLL SKID TOTE TUBE)
+		# Loop through each value
+		curl_calls=""
+		for pkg in "${package_types[@]}"; do
+			request_data=$(cat <<-EOF
+				{
+					"originAddress": {
+						"postalCode": "60010",
+						"addressLines": [],
+						"city": "BARRINGTON $scenario_name",
+						"state": "IL",
+						"country": "US"
+					},
+					"destinationAddress": {
+						"postalCode": "90058",
+						"addressLines": [],
+						"city": "BEVERLY HILLS $scenario_name",
+						"state": "CA",
+						"country": "US"
+					},
+					"lineItems": [
+						{
+							"totalWeight": "100",
+							"packageDimensions": {
+								"length": "12",
+								"width": "12",
+								"height": "12"
+							},
+							"packageType": "$pkg",
+							"totalPackages": 1,
+							"totalPieces": 1,
+							"freightClass": "50",
+							"description": "$scenario_name"
+						}
+					],
+					"capacityProviderAccountGroup": {
+						"code": "$account_group",
+						"accounts": [
+							{
+								"code": "$scac"
+							}
+						]
+					},
+					"accessorialServices": [],
+					"pickupWindow": {
+							"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+							"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+							"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+					},
+					"deliveryWindow":{
+						"date": "$(date -d '2 days' +'%Y-%m-%d')",
+						"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+						"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+					},
+					"preferredCurrency": "USD",
+					"totalLinearFeet": null,
+					"linearFeetVisualizationIdentifier": null,
+					"weightUnit": "LB",
+					"lengthUnit": "IN",
+					"apiConfiguration": {
+						"timeout": $timeout,    
+						"enableUnitConversion": true,
+						"accessorialServiceConfiguration": {
+							"fetchAllServiceLevels": true,
+							"allowUnacceptedAccessorials": false
+						}
+					}
+				}
+			EOF
+			)
+
+			curl_call=$(cat <<-EOF
+				$curl_template '$request_data'
+			EOF
+			)
+			if [ "$flg_generate_output" == "true" ]; then
+				echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number_pkg.txt"
+			fi
+			response=$(eval "$curl_call" | jq)
+			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - ${#pkg} - 1))
+			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+			if [ "$flg_use_quiet_mode" == "false" ]; then
+				echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+			else
+				echo "$scenario_name $scenario_desc $pkg $dashes Status code: $(print_status_code "$response")"
+			fi
+			curl_calls+="$curl_call"$'\n'$'\n'
+		done
+
+		
+		
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="all package types"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			escaped_curl=$(echo -e "$curl_calls" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\",\"$escaped_curl\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+
 	scenario_number="13-1"
 	scenario_name="Scenario $scenario_number"
 	scenario_desc="(unit type: SKID)"
@@ -10896,6 +11008,117 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			echo "" >> "$output_folder/$helper_doc_file_name"
 			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
 			escaped_curl=$(echo -e "$curl_call" | sed 's/"/""/g')
+			echo "\"$scenario_name\",\"$escaped_details\",\"$escaped_curl\"" >> "$output_folder/$helper_sheet_file_name"
+		fi
+	fi
+
+
+	scenario_number="16-3"
+	scenario_name="Scenario $scenario_number"
+	scenario_desc="(all accessorial codes)"
+	if [[ ("$flg_all" == "true" || " ${scenarios_to_run[@]} " =~ " $scenario_number ") && ! " ${scenarios_to_exclude[@]} " =~ " $scenario_number " ]]; then
+		# Scenario 16-3 (all accessorial codes)
+		accessorial_codes=(ACCELERATED ARCHR BLIND BOND CANFEE CAPLOAD CHNGBOL COD CREDEL DRAY ELS_10 ELS_11 ELS_12 ELS_13 ELS_14 ELS_15 ELS_16 ELS_17 ELS_18 ELS_19 ELS_20 ELS_21 ELS_22 ELS_23 ELS_24 ELS_25 ELS_26 ELS_27 ELS_28 ELS_29 ELS_30 ELS_6 ELS_7 ELS_8 ELS_9 EV EXPEDITE EXPEDITE17 EXPEDITEAM EXPORT FRZABLE GS10 GS11 GS14 GS15 GS1530 GS8 GS9 GSAM GSMUL GSSING GUR GURWIN HAWAII HAZM HOMEMOVE IMPORT INT IREG LUMPER MAINTEMP MARKING O750U6 OVDIM PFH PFZ POISON RECON REG SEADOC SECINS SINGSHIP WINSPC)
+		# Loop through each value
+		curl_calls=""
+		for acc in "${accessorial_codes[@]}"; do
+			request_data=$(cat <<-EOF
+				{
+					"originAddress": {
+						"postalCode": "60010",
+						"addressLines": [],
+						"city": "BARRINGTON $scenario_name",
+						"state": "IL",
+						"country": "US"
+					},
+					"destinationAddress": {
+						"postalCode": "90058",
+						"addressLines": [],
+						"city": "BEVERLY HILLS $scenario_name",
+						"state": "CA",
+						"country": "US"
+					},
+					"lineItems": [
+						{
+							"totalWeight": "100",
+							"packageDimensions": {
+								"length": "12",
+								"width": "12",
+								"height": "12"
+							},
+							"packageType": "PLT",
+							"totalPackages": 1,
+							"totalPieces": 1,
+							"freightClass": "50",
+							"description": "$scenario_name"
+						}
+					],
+					"capacityProviderAccountGroup": {
+						"code": "$account_group",
+						"accounts": [
+							{
+								"code": "$scac"
+							}
+						]
+					},
+					"accessorialServices": ["code": "$acc"],
+					"pickupWindow": {
+							"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+							"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+							"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+					},
+					"deliveryWindow":{
+						"date": "$(date -d '2 days' +'%Y-%m-%d')",
+						"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
+						"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+					},
+					"preferredCurrency": "USD",
+					"totalLinearFeet": null,
+					"linearFeetVisualizationIdentifier": null,
+					"weightUnit": "LB",
+					"lengthUnit": "IN",
+					"apiConfiguration": {
+						"timeout": $timeout,    
+						"enableUnitConversion": true,
+						"accessorialServiceConfiguration": {
+							"fetchAllServiceLevels": true,
+							"allowUnacceptedAccessorials": false
+						}
+					}
+				}
+			EOF
+			)
+
+			curl_call=$(cat <<-EOF
+				$curl_template '$request_data'
+			EOF
+			)
+			if [ "$flg_generate_output" == "true" ]; then
+				echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number_acc.txt"
+			fi
+			response=$(eval "$curl_call" | jq)
+			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - ${#acc} - 1))
+			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
+			if [ "$flg_use_quiet_mode" == "false" ]; then
+				echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
+			else
+				echo "$scenario_name $scenario_desc $acc $dashes Status code: $(print_status_code "$response")"
+			fi
+			curl_calls+="$curl_call"$'\n'$'\n'
+		done
+
+		
+		
+		# Create helper doc
+		if [ "$flg_generate_output" == "true" ]; then
+			# Set details
+			details="all accessorial codes"
+			# Append to helper doc and sheet
+			echo "$scenario_name:" >> "$output_folder/$helper_doc_file_name"
+			echo "$details" >> "$output_folder/$helper_doc_file_name"
+			echo "" >> "$output_folder/$helper_doc_file_name"
+			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
+			escaped_curl=$(echo -e "$curl_calls" | sed 's/"/""/g')
 			echo "\"$scenario_name\",\"$escaped_details\",\"$escaped_curl\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
