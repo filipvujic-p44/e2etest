@@ -1,6 +1,6 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.4.10"
+version="v1.4.11"
 author="Filip Vujic"
 last_updated="5-Nov-2025"
 repo_owner="filipvujic-p44"
@@ -9736,9 +9736,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 				$curl_template '$request_data'
 			EOF
 			)
-			if [ "$flg_generate_output" == "true" ]; then
-				echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number_pkg.txt"
-			fi
+			
 			response=$(eval "$curl_call" | jq)
 			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - ${#pkg} - 2))
 			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
@@ -9749,7 +9747,9 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			fi
 			curl_calls+="$curl_call"$'\n'$'\n'
 		done
-
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$curl_calls" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
 		
 		
 		# Create helper doc
@@ -11209,9 +11209,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 				$curl_template '$request_data'
 			EOF
 			)
-			if [ "$flg_generate_output" == "true" ]; then
-				echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number_acc.txt"
-			fi
+	
 			response=$(eval "$curl_call" | jq)
 			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - ${#acc} - 2))
 			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
@@ -11224,7 +11222,9 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		done
 
 		
-		
+		if [ "$flg_generate_output" == "true" ]; then
+			echo "$curl_calls" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number.txt"
+		fi
 		# Create helper doc
 		if [ "$flg_generate_output" == "true" ]; then
 			# Set details
