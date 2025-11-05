@@ -1,6 +1,6 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.4.9"
+version="v1.4.10"
 author="Filip Vujic"
 last_updated="5-Nov-2025"
 repo_owner="filipvujic-p44"
@@ -9609,68 +9609,126 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		for pkg in "${package_types[@]}"; do
 			request_data=$(cat <<-EOF
 				{
-					"originAddress": {
-						"postalCode": "60010",
-						"addressLines": [],
-						"city": "BARRINGTON $scenario_name",
-						"state": "IL",
-						"country": "US"
-					},
-					"destinationAddress": {
-						"postalCode": "90058",
-						"addressLines": [],
-						"city": "BEVERLY HILLS $scenario_name",
-						"state": "CA",
-						"country": "US"
-					},
-					"lineItems": [
+				"weightUnit": "LB",
+				"lengthUnit": "IN",
+				"paymentTermsOverride": "PREPAID",
+				"directionOverride": "SHIPPER",
+				"capacityProviderAccountGroup": {
+					"code": "$account_group",
+					"accounts": [
 						{
-							"totalWeight": "100",
-							"packageDimensions": {
-								"length": "12",
-								"width": "12",
-								"height": "12"
-							},
-							"packageType": "$pkg",
-							"totalPackages": 1,
-							"totalPieces": 1,
-							"freightClass": "50",
-							"description": "$scenario_name"
+							"code": "$scac"
 						}
-					],
-					"capacityProviderAccountGroup": {
-						"code": "$account_group",
-						"accounts": [
-							{
-								"code": "$scac"
-							}
-						]
+					]
+				},
+				"originLocation": {
+					"address": {
+						"country": "US",
+						"postalCode": "90058",
+						"addressLines": [
+							"1270 Geddes St"
+						],
+						"city": "Los Angeles",
+						"state": "CA"
 					},
-					"accessorialServices": [],
-					"pickupWindow": {
-							"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-							"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-							"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-					},
-					"deliveryWindow":{
-						"date": "$(date -d '2 days' +'%Y-%m-%d')",
-						"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-						"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-					},
-					"preferredCurrency": "USD",
-					"totalLinearFeet": null,
-					"linearFeetVisualizationIdentifier": null,
-					"weightUnit": "LB",
-					"lengthUnit": "IN",
-					"apiConfiguration": {
-						"timeout": $timeout,    
-						"enableUnitConversion": true,
-						"accessorialServiceConfiguration": {
-							"fetchAllServiceLevels": true,
-							"allowUnacceptedAccessorials": false
-						}
+					"contact": {
+						"companyName": "A M I ATTACHMENTS INC",
+						"contactName": "Darlene Ward",
+						"phoneNumber": "5196993923",
+						"email": "darlene.w@amiattachments.com"
 					}
+				},
+				"destinationLocation": {
+					"address": {
+						"country": "US",
+						"postalCode": "90058",
+						"addressLines": [
+							"16116  -111 Avenue Northwest"
+						],
+						"city": "Los Angeles",
+						"state": "CA"
+					},
+					"contact": {
+						"companyName": "SMS Equipment Inc.",
+						"contactName": "AARON RYAN",
+						"phoneNumber": "7804512630"
+					}
+				},
+				"requesterLocation": {
+					"address": {
+						"country": "US",
+						"postalCode": "90058",
+						"addressLines": [
+							"1270 Geddes St"
+						],
+						"city": "Los Angeles",
+						"state": "CA"
+					},
+					"contact": {
+						"companyName": "A M I ATTACHMENTS INC",
+						"contactName": "Darlene Ward",
+						"phoneNumber": "5196993923",
+						"email": "darlene.w@amiattachments.com"
+					}
+				},
+				"lineItems": [
+					{
+						"freightClass": "70",
+						"packageType": "$pkg",
+						"totalWeight": 1000.0,
+						"packageDimensions": {
+							"length": 10.0,
+							"width": 10.0,
+							"height": 10.0
+						},
+						"totalPackages": 1,
+						"totalPieces": 1,
+						"description": "$scenario_name",
+						"stackable": false
+					}
+				],
+				"pickupWindow": {
+					"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+					"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+					"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+				},
+				"deliveryWindow": {
+					"date": "$(date -d '2 days' +'%Y-%m-%d')",
+					"startTime": "$(date -d '2 days' +'%H:%M')",
+					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+				},
+				"carrierCode": "$scac",
+				"shipmentIdentifiers": [
+					{
+						"type": "PRO",
+						"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+					},
+					{
+						"type": "BILL_OF_LADING",
+						"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+					},
+					{
+						"type": "CUSTOMER_REFERENCE",
+						"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+					},
+					{
+						"type": "PURCHASE_ORDER",
+						"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+					}
+				],
+				"accessorialServices": [],
+				"pickupNote": "TOTAL 1 H/U",
+				"emergencyContact": {},
+				"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+				"apiConfiguration": {
+						
+					"noteConfiguration": {
+						"enableTruncation": true
+					},
+					"allowUnsupportedAccessorials": true,
+					"pickupOnly": false
 				}
+			}
 			EOF
 			)
 
@@ -11024,68 +11082,126 @@ if [ "$flg_run_dispatch" == "true" ]; then
 		for acc in "${accessorial_codes[@]}"; do
 			request_data=$(cat <<-EOF
 				{
-					"originAddress": {
-						"postalCode": "60010",
-						"addressLines": [],
-						"city": "BARRINGTON $scenario_name",
-						"state": "IL",
-						"country": "US"
-					},
-					"destinationAddress": {
-						"postalCode": "90058",
-						"addressLines": [],
-						"city": "BEVERLY HILLS $scenario_name",
-						"state": "CA",
-						"country": "US"
-					},
-					"lineItems": [
+				"weightUnit": "LB",
+				"lengthUnit": "IN",
+				"paymentTermsOverride": "PREPAID",
+				"directionOverride": "SHIPPER",
+				"capacityProviderAccountGroup": {
+					"code": "$account_group",
+					"accounts": [
 						{
-							"totalWeight": "100",
-							"packageDimensions": {
-								"length": "12",
-								"width": "12",
-								"height": "12"
-							},
-							"packageType": "PLT",
-							"totalPackages": 1,
-							"totalPieces": 1,
-							"freightClass": "50",
-							"description": "$scenario_name"
+							"code": "$scac"
 						}
-					],
-					"capacityProviderAccountGroup": {
-						"code": "$account_group",
-						"accounts": [
-							{
-								"code": "$scac"
-							}
-						]
+					]
+				},
+				"originLocation": {
+					"address": {
+						"country": "US",
+						"postalCode": "90058",
+						"addressLines": [
+							"1270 Geddes St"
+						],
+						"city": "Los Angeles",
+						"state": "CA"
 					},
-					"accessorialServices": ["code": "$acc"],
-					"pickupWindow": {
-							"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
-							"startTime": "$(date -d 'tomorrow' +'%H:%M')",
-							"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
-					},
-					"deliveryWindow":{
-						"date": "$(date -d '2 days' +'%Y-%m-%d')",
-						"startTime": "$(date -d '2 days 3 hours' +'%H:%M')",
-						"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
-					},
-					"preferredCurrency": "USD",
-					"totalLinearFeet": null,
-					"linearFeetVisualizationIdentifier": null,
-					"weightUnit": "LB",
-					"lengthUnit": "IN",
-					"apiConfiguration": {
-						"timeout": $timeout,    
-						"enableUnitConversion": true,
-						"accessorialServiceConfiguration": {
-							"fetchAllServiceLevels": true,
-							"allowUnacceptedAccessorials": false
-						}
+					"contact": {
+						"companyName": "A M I ATTACHMENTS INC",
+						"contactName": "Darlene Ward",
+						"phoneNumber": "5196993923",
+						"email": "darlene.w@amiattachments.com"
 					}
+				},
+				"destinationLocation": {
+					"address": {
+						"country": "US",
+						"postalCode": "90058",
+						"addressLines": [
+							"16116  -111 Avenue Northwest"
+						],
+						"city": "Los Angeles",
+						"state": "CA"
+					},
+					"contact": {
+						"companyName": "SMS Equipment Inc.",
+						"contactName": "AARON RYAN",
+						"phoneNumber": "7804512630"
+					}
+				},
+				"requesterLocation": {
+					"address": {
+						"country": "US",
+						"postalCode": "90058",
+						"addressLines": [
+							"1270 Geddes St"
+						],
+						"city": "Los Angeles",
+						"state": "CA"
+					},
+					"contact": {
+						"companyName": "A M I ATTACHMENTS INC",
+						"contactName": "Darlene Ward",
+						"phoneNumber": "5196993923",
+						"email": "darlene.w@amiattachments.com"
+					}
+				},
+				"lineItems": [
+					{
+						"freightClass": "70",
+						"packageType": "CARTON",
+						"totalWeight": 1000.0,
+						"packageDimensions": {
+							"length": 10.0,
+							"width": 10.0,
+							"height": 10.0
+						},
+						"totalPackages": 1,
+						"totalPieces": 1,
+						"description": "$scenario_name",
+						"stackable": false
+					}
+				],
+				"pickupWindow": {
+					"date": "$(date -d 'tomorrow' +'%Y-%m-%d')",
+					"startTime": "$(date -d 'tomorrow' +'%H:%M')",
+					"endTime": "$(date -d 'tomorrow 6 hours' +'%H:%M')"
+				},
+				"deliveryWindow": {
+					"date": "$(date -d '2 days' +'%Y-%m-%d')",
+					"startTime": "$(date -d '2 days' +'%H:%M')",
+					"endTime": "$(date -d '2 days 6 hours' +'%H:%M')"
+				},
+				"carrierCode": "$scac",
+				"shipmentIdentifiers": [
+					{
+						"type": "PRO",
+						"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+					},
+					{
+						"type": "BILL_OF_LADING",
+						"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+					},
+					{
+						"type": "CUSTOMER_REFERENCE",
+						"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+					},
+					{
+						"type": "PURCHASE_ORDER",
+						"value": "{$scac}_dispatch_test_{$scenario_number}_$(date +%s)"
+					}
+				],
+				"accessorialServices": [{"code": "$acc"}],
+				"pickupNote": "TOTAL 1 H/U",
+				"emergencyContact": {},
+				"capacityProviderQuoteNumber": "{$scac}_{$scenario_number}_$(date +%s)",
+				"apiConfiguration": {
+						
+					"noteConfiguration": {
+						"enableTruncation": true
+					},
+					"allowUnsupportedAccessorials": true,
+					"pickupOnly": false
 				}
+			}
 			EOF
 			)
 
