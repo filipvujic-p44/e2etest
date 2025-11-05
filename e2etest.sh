@@ -9682,7 +9682,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 				echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number_pkg.txt"
 			fi
 			response=$(eval "$curl_call" | jq)
-			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - ${#pkg} - 1))
+			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - ${#pkg} - 2))
 			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
 			if [ "$flg_use_quiet_mode" == "false" ]; then
 				echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
@@ -11097,7 +11097,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 				echo "$curl_call" > "$(pwd)/$output_folder/${curl_call_scenario_file_prefix}_$scenario_number_acc.txt"
 			fi
 			response=$(eval "$curl_call" | jq)
-			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - ${#acc} - 1))
+			dash_count=$(($total_status_output_length - ${#scenario_name} - ${#scenario_desc} - ${#acc} - 2))
 			dashes=$(printf '%*s' "$dash_count" | tr ' ' '-')
 			if [ "$flg_use_quiet_mode" == "false" ]; then
 				echo -e "$scenario_name $scenario_desc response:\n$(echo "$response" | jq)"
