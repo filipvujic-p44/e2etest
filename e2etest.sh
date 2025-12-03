@@ -1,8 +1,8 @@
 #!/bin/bash
 script_name="e2etest"
-version="v1.4.11"
+version="v1.4.12"
 author="Filip Vujic"
-last_updated="5-Nov-2025"
+last_updated="3-Dec-2025"
 repo_owner="filipvujic-p44"
 repo_name="e2etest"
 repo="https://github.com/$repo_owner/$repo_name"
@@ -9762,6 +9762,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			echo "" >> "$output_folder/$helper_doc_file_name"
 			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
 			escaped_curl=$(echo -e "$curl_calls" | sed 's/"/""/g')
+			escaped_curl="${escaped_curl:0:30000}..."
 			echo "\"$scenario_name\",\"$escaped_details\",\"$escaped_curl\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
@@ -11235,6 +11236,7 @@ if [ "$flg_run_dispatch" == "true" ]; then
 			echo "" >> "$output_folder/$helper_doc_file_name"
 			escaped_details=$(echo -e "$details" | sed 's/"/""/g')
 			escaped_curl=$(echo -e "$curl_calls" | sed 's/"/""/g')
+			escaped_curl="${escaped_curl:0:30000}..."
 			echo "\"$scenario_name\",\"$escaped_details\",\"$escaped_curl\"" >> "$output_folder/$helper_sheet_file_name"
 		fi
 	fi
